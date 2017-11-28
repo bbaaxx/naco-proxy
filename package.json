@@ -17,5 +17,8 @@
     "mitm"
   ],
   "author": "Eduardo M (bbaaxx)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.4.1"
+  }
 }
