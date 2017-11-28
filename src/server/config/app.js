@@ -1,56 +1,54 @@
 import Koa from 'koa';
-import convert from 'koa-convert';
-import bodyParser from 'koa-better-body';
-import cors from 'koa-cors';
+import bodyParser from 'koa-bodyparser';
+import cors from 'kcors';
+import logger from 'koa-logger';
 import helmet from 'koa-helmet';
 import error from 'koa-json-error';
+import _debug from 'debug';
+import { Serializer } from 'jsonapi-serializer';
 
 import configureRouter from './router';
-import logger from './logger';
-import { debugMiddleware, serializerMiddleware } from './middleware';
-import { getEnv } from './util';
 
-/**
- * Avoid showing the stacktrace in 'production' env
- * @type {{postFormat: (function(*, *=))}}
- */
-const errorOpts = {
-  postFormat: (e, errorObj) => {
-    const prodErrorObj = Object.assign({}, errorObj);
-    delete prodErrorObj.stack;
-    return getEnv('NODE_ENV') === 'production' ? prodErrorObj : errorObj;
-  },
-};
+const env = process.env.NODE_ENV || 'dev';
+const debug = _debug('naco-proxy');
 
-/**
- * Configure Koa App
- * @returns {*}
- */
 export default function() {
-  const router = configureRouter();
   const app = new Koa();
+  const router = configureRouter();
+  
+  if (env === 'dev') app.use(logger('dev'));
 
-  if (getEnv('NODE_ENV') === 'develop') {
-    app.use(logger('dev'));
-  }
-
-  // Exposed debug() to ctx
-  app.use(debugMiddleware());
+  // Expose debug() to ctx
+  app.use(async (ctx, next) => {
+    ctx.debug = debug;
+    await next(); 
+  });
 
   // Exposed JSONAPISerializer to ctx
-  app.use(serializerMiddleware());
+  app.use(async (ctx, next) => {
+    ctx.serializer = (type, opts) => {
+      return new Serializer(type, opts);
+    };
+    await next();
+  });
 
   // @see https://github.com/koajs/json-error
-  app.use(error(errorOpts));
+  app.use(error({
+    postFormat: (e, errorObj) => {
+      const prodErrorObj = Object.assign({}, errorObj);
+      delete prodErrorObj.stack;
+      return env === 'production' ? prodErrorObj : errorObj;
+    },
+  }));
 
-  // @see https://github.com/evert0n/koa-cors
-  app.use(convert(cors()));
+  app.use(cors());
 
   // @see https://github.com/helmetjs/helmet
   app.use(helmet());
 
   // @see https://github.com/tunnckoCore/koa-better-body
-  app.use(convert(bodyParser()));
+  // app.use(convert(bodyParser()));
+  app.use(bodyParser());
 
   // Use configured router
   app.use(router.middleware());

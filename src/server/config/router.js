@@ -1,5 +1,4 @@
 import Router from 'koa-better-router';
-
 import routes from '../routes';
 
 /**
@@ -7,10 +6,10 @@ import routes from '../routes';
  * @type {{notFound: (function(*, *))}}
  */
 const routerOpts = {
-  notFound: (ctx, next) => {
+  notFound: async (ctx, next) => {
     ctx.status = 404;
     ctx.body = { msg: `Endpoint ${ctx.originalUrl} not found!` };
-    return next();
+    await next();
   },
 };
 
@@ -21,6 +20,7 @@ const routerOpts = {
  */
 const configureRoutes = router => {
   return Object.keys(routes).map(routeKey => {
+    
     if (!routes[routeKey].hasOwnProperty('handler')) {
       throw new TypeError(`Route '${routeKey}' has to have a handler-method`);
     }

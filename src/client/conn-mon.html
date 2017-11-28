@@ -1,0 +1,33 @@
+<script src="/socket.io/socket.io.js"></script>
+<link rel="import" href="https://polygit.org/components/polymer/polymer-element.html">
+
+<dom-module id="conn-mon">
+  <template>
+    <h3>Welcome, conn-mon app user!</h3>
+    <p>Live Connections: [[liveConnections]]</p>
+    <p>Total Connections: [[totalConnections]]</p>
+  </template>
+  <script>
+    class ConnMon extends Polymer.Element {
+      static get is() {
+        return "conn-mon";
+      }
+      static get properties() {
+        return {
+          totalConnections: Number,
+          liveConnections: Number
+        };
+      }
+      connectedCallback() {
+        super.connectedCallback();
+        let socket = io();
+        socket.on('count', data => {
+          this.liveConnections = data.live;
+          this.totalConnections = data.total;
+        })
+      }
+    }
+    
+    customElements.define(ConnMon.is, ConnMon);
+  </script>
+</dom-module>
