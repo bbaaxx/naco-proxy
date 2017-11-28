@@ -1,0 +1,21 @@
+{
+  "name": "naco-proxy",
+  "version": "0.0.1",
+  "description": "A support and development tool to mock stuff from the backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "keywords": [
+    "proxy",
+    "mocks",
+    "support",
+    "development",
+    "fake",
+    "requests",
+    "mim",
+    "mitm"
+  ],
+  "author": "Eduardo M (bbaaxx)",
+  "license": "MIT"
+}
