@@ -1,12 +1,21 @@
 import dotenv from 'dotenv';
 import configureApp from './config/app';
-import { getEnv, debug } from './config/util';
+import bindSocket from './sockets';
 
-dotenv.config();
+if (dotenv && typeof dotenv.config === 'function') dotenv.config();
 
-const PORT = getEnv('PORT') || 3000;
+const PORT = process.env.PORT|| 3000;
 const app = configureApp();
 
-app.listen(PORT, () =>
-  debug(`Your awesome Koa API is running @ http://127.0.0.1:${PORT}`),
-);
+
+const server = app.listen(process.env.PORT, () => {
+  let addr;
+  try { 
+    addr = server.address();
+    bindSocket(server);
+  }
+  catch(err) { console.error(err); }
+  finally { console.log(`Koa server started at ${addr.address}:${addr.port}`); }
+});
+
+export default app;

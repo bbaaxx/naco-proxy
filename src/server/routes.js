@@ -1,10 +1,15 @@
+import staticServe from 'koa-static';
+
 export default {
-  'GET /': {
+  'GET /version': {
     handler: async ctx => {
       ctx.body = {
-        name: 'koa-api-boilerplate',
-        version: 'x.x.x',
+        name: 'naco-proxy',
+        version: '0.0.1',
       };
     },
+  },
+  'GET /*': {
+    handler: staticServe('src/client'),
   },
 };
