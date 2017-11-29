@@ -14,8 +14,12 @@
       }
       static get properties() {
         return {
-          totalConnections: Number,
-          liveConnections: Number
+          totalConnections: {
+            type: Number
+          },
+          liveConnections: {
+            type: Number
+          }
         };
       }
       connectedCallback() {
@@ -27,7 +31,7 @@
         })
       }
     }
-    
+
     customElements.define(ConnMon.is, ConnMon);
   </script>
 </dom-module>

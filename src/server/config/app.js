@@ -4,24 +4,24 @@ import cors from 'kcors';
 import logger from 'koa-logger';
 import helmet from 'koa-helmet';
 import error from 'koa-json-error';
-import _debug from 'debug';
+import debug from 'debug';
 import { Serializer } from 'jsonapi-serializer';
 
 import configureRouter from './router';
 
 const env = process.env.NODE_ENV || 'dev';
-const debug = _debug('naco-proxy');
+const _debug = debug('naco-proxy');
 
 export default function() {
   const app = new Koa();
   const router = configureRouter();
-  
+
   if (env === 'dev') app.use(logger('dev'));
 
   // Expose debug() to ctx
   app.use(async (ctx, next) => {
-    ctx.debug = debug;
-    await next(); 
+    ctx.debug = _debug;
+    await next();
   });
 
   // Exposed JSONAPISerializer to ctx
@@ -33,13 +33,15 @@ export default function() {
   });
 
   // @see https://github.com/koajs/json-error
-  app.use(error({
-    postFormat: (e, errorObj) => {
-      const prodErrorObj = Object.assign({}, errorObj);
-      delete prodErrorObj.stack;
-      return env === 'production' ? prodErrorObj : errorObj;
-    },
-  }));
+  app.use(
+    error({
+      postFormat: (e, errorObj) => {
+        const prodErrorObj = Object.assign({}, errorObj);
+        delete prodErrorObj.stack;
+        return env === 'production' ? prodErrorObj : errorObj;
+      },
+    }),
+  );
 
   app.use(cors());
 
