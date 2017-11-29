@@ -3,14 +3,17 @@ import configureApp from './config/app';
 import bindSocket from './sockets';
 
 if (dotenv && typeof dotenv.config === 'function') dotenv.config();
+const { FAVICON, PORT, NODE_ENV, APP_ID } = process.env;
 
-const PORT = process.env.PORT|| 3000;
-const app = configureApp();
+const app = configureApp({
+  favicon: FAVICON,
+  env: NODE_ENV,
+  appId: APP_ID,
+});
 
-
-const server = app.listen(process.env.PORT, () => {
+const server = app.listen(PORT || 3000, () => {
   let addr;
-  try { 
+  try {
     addr = server.address();
     bindSocket(server);
   }
