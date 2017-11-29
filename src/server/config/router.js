@@ -20,7 +20,6 @@ const routerOpts = {
  */
 const configureRoutes = router => {
   return Object.keys(routes).map(routeKey => {
-    
     if (!routes[routeKey].hasOwnProperty('handler')) {
       throw new TypeError(`Route '${routeKey}' has to have a handler-method`);
     }

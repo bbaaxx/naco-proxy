@@ -16,9 +16,11 @@ const server = app.listen(PORT || 3000, () => {
   try {
     addr = server.address();
     bindSocket(server);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    console.log(`Koa server started at ${addr.address}:${addr.port}`);
   }
-  catch(err) { console.error(err); }
-  finally { console.log(`Koa server started at ${addr.address}:${addr.port}`); }
 });
 
 export default app;
