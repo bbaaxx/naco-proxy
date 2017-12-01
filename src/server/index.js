@@ -3,6 +3,7 @@ import configureApp from './config/app';
 import bindSocket from './sockets';
 
 if (dotenv && typeof dotenv.config === 'function') dotenv.config();
+
 const { FAVICON, PORT, NODE_ENV, APP_ID } = process.env;
 
 const app = configureApp({
@@ -19,7 +20,7 @@ const server = app.listen(PORT || 3000, () => {
   } catch (err) {
     console.error(err);
   } finally {
-    console.log(`Koa server started at ${addr.address}:${addr.port}`);
+    console.log(`🚧 Koa server started at ${addr.address}:${addr.port} 🚧`);
   }
 });
 
