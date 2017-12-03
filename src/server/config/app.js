@@ -1,5 +1,4 @@
 import Koa from 'koa';
-import path from 'path';
 import kcors from 'kcors';
 import _debug from 'debug';
 import logger from 'koa-logger';
@@ -12,11 +11,12 @@ import { Serializer } from 'jsonapi-serializer';
 import getEnv from './getEnv';
 import configureRouter from './router';
 
-const requiredEnvVars = ['APP_ID', 'FAVICON', 'NODE_ENV', 'PORT'];
+const requiredEnvVars = ['APP_ID', 'NODE_ENV', 'PORT'];
 
-export default function(options) {
+export default function() {
   const _env = getEnv(requiredEnvVars);
-  const debug = _debug(_env.APP_ID);
+  const debug = _debug(_env.APP_ID || 'koa-app');
+
   const app = new Koa();
 
   const router = configureRouter();
@@ -26,6 +26,12 @@ export default function(options) {
   app.use(async (ctx, next) => {
     ctx.debug = debug;
     await next();
+  });
+
+  app.use(async (ctx, next) => {
+    ctx.debug('Start the party');
+    await next();
+    ctx.debug('End of the party');
   });
 
   // Expose JSONAPISerializer to ctx
@@ -39,16 +45,26 @@ export default function(options) {
     jsonError({
       postFormat: (_, errorObj) =>
         _env.NODE_ENV === 'production'
-          ? { ...errorObj, stack: 'stack is stripped off for production' }
+          ? { ...errorObj, stack: 'stripped off for production' }
           : errorObj,
     }),
   );
 
+  // Do CORS
   app.use(kcors());
-  app.use(helmet());
+
+  // Do safe headers
+  // app.use(helmet());
+
+  // Parse the body
   app.use(bodyParser());
-  app.use(favicon(_env.FAVICON));
-  app.use((ctx, next) => next());
+
+  // Serve a favicon if available
+  if (_env.FAVICON !== void 0) {
+    app.use(favicon(_env.FAVICON));
+  }
+
+  // route the routes
   app.use(router.middleware());
 
   return app;
