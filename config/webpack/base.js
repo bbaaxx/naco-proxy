@@ -1,17 +1,26 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackManifestPlugin = require('webpack-manifest-plugin');
-// const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
-
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const nodeModulesPath = path.resolve(__dirname, '../../node_modules');
-const distPath = path.resolve(__dirname, '/../../public');
+const getPath = to => path.join(path.resolve(__dirname, '../../'), to);
+
+const PATHS = {
+  // REVIEW: abs paths?
+  nodeModules: getPath('/node_modules'),
+  dist: getPath('/public'),
+  clientSrc: getPath('/src/client'),
+  serverSrc: getPath('/src/server'),
+  serviceWorker: getPath('/src/client/sw.js'),
+};
+
+const EXTS = ['.js', '.jsx', '.json', '.scss', '.sass', '.sss', '.css'];
 
 const baseConfig = {
   output: {
-    filename: 'js/[name].[hash].js',
-    path: distPath,
+    filename: '[name].[hash].js',
+    path: PATHS.dist,
     publicPath: '/',
   },
 
@@ -21,13 +30,13 @@ const baseConfig = {
         // shims
         test: /\.shim\.js$/,
         use: ['script-loader'],
-        exclude: nodeModulesPath,
+        exclude: PATHS.nodeModules,
       },
       {
         // eslint
         enforce: 'pre',
         test: /\.(js|jsx)$/,
-        exclude: nodeModulesPath,
+        exclude: PATHS.nodeModules,
         use: [
           {
             loader: 'eslint-loader',
@@ -40,13 +49,14 @@ const baseConfig = {
       {
         // es6 and jsx
         test: /\.(js|jsx)$/,
-        exclude: nodeModulesPath,
+        exclude: PATHS.nodeModules,
         use: [{ loader: 'babel-loader' }],
       },
-      // { // mdl
-      //   test: require.resolve('material-design-lite/material'),
-      //   loader: 'exports-loader?componentHandler',
-      // },
+      {
+        // mdl
+        test: require.resolve('material-design-lite/material'),
+        loader: 'exports-loader?componentHandler',
+      },
       {
         // SASS Style libs imports
         test: /src\/client\/styles\/libs\.scss/,
@@ -102,10 +112,10 @@ const baseConfig = {
   resolve: {
     modules: ['node_modules'],
     alias: {
-      client: path.join(__dirname, '../../src/client'), // REVIEW: abs path
-      server: path.join(__dirname, '../../src/server'), // REVIEW: abs path
+      client: PATHS.clientSrc,
+      server: PATHS.serverSrc,
     },
-    extensions: ['.js', '.json', '.scss', '.sass', '.sss', '.css'],
+    extensions: EXTS,
   },
 
   plugins: [
@@ -114,9 +124,9 @@ const baseConfig = {
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
     }),
-    // new ServiceWorkerWebpackPlugin({
-    //   entry: path.join(__dirname, '../../src/client/sw.js'),
-    // }),
+    new ServiceWorkerWebpackPlugin({
+      entry: PATHS.serviceWorker,
+    }),
     // why can't I use arrows ?
     function customPlugin() {
       // must I reference this ?

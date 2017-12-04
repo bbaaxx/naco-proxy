@@ -13,18 +13,18 @@ const GLOBALS = {
 module.exports = merge(baseConfig, {
   devtool: 'source-map',
   entry: {
-    jslibs: ['client/libs.js', 'webpack-hot-middleware/client'],
-    // styleLibs: ['client/styles/libs.scss', 'webpack-hot-middleware/client'],
+    jslibs: ['client/polyfills.shim.js', 'client/libs.js', 'webpack-hot-middleware/client'],
+    styleLibs: ['client/styles/libs.scss', 'webpack-hot-middleware/client'],
     application: [
       'babel-polyfill',
       __dirname + '/../../src/client/index.js',
       'webpack-hot-middleware/client',
     ],
-    // styles: [
-    //   'client/styles/sugarss.sss',
-    //   'client/styles/cssnext.css',
-    //   'webpack-hot-middleware/client',
-    // ],
+    styles: [
+      'client/styles/sugarss.sss',
+      'client/styles/cssnext.css',
+      'webpack-hot-middleware/client',
+    ],
   },
   plugins: [
     new webpack.LoaderOptionsPlugin({
