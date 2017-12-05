@@ -2,6 +2,7 @@
 import xs from 'xstream';
 import { div, p } from '@cycle/dom';
 import { isolateExplicit } from '../../redstone/helpers/cycle-components';
+
 import MasterLayout from '../master-layout';
 import SlidesPanel from '../../iron/slides-panel';
 
@@ -11,54 +12,66 @@ const INITIAL_STATE = {
 };
 
 function intent(sources) {
+  const masterLayout = isolateExplicit(MasterLayout, 'masterLayout', sources, {
+    content: div('helloo'),
+  });
   return {
     actions: {
-      state$: sources.onion.state$,
-      scrollUpdates$: sources.Scroll,
+      state$: sources.ONION.state$,
+      scroll$: sources.SCROLL,
     },
+    components: { masterLayout },
   };
 }
 
 function model({ actions, components }) {
-  const { state$, scrollUpdates$ } = actions;
+  const { state$, scroll$ } = actions;
+  const { masterLayout } = components;
   const initialReducer$ = xs.of(() => INITIAL_STATE);
-  const scrollReducer$ = scrollUpdates$.map(sp => prev => ({
+  const scrollReducer$ = scroll$.map(scrollPos => prev => ({
     ...prev,
-    scrollPos: sp,
+    scrollPos,
   }));
+
   const addOneReducer$ = xs
     .periodic(1000)
     .mapTo(prev => ({ ...prev, count: prev.count + 1 }));
   const reducers$ = xs.merge(initialReducer$, addOneReducer$, scrollReducer$);
-
   return {
     state$,
     reducers$,
-    // request$: upstream--->.HTTP,
-    // log$: upstream--->.Log,
-    // scroll$: upstream--->.Scroll,
+    components,
+    request$: masterLayout.HTTP,
+    log$: masterLayout.LOG,
+    scroll$: masterLayout.SCROLL,
   };
 }
 
-function view(state$) {
-  return state$.map(({ count, scrollPos }) =>
-    div('.app-container', [
-      div('.app-wrap', [p(`The times are ${'nigh'}`)]),
-      div('.console-wrap', [
-        p(`Count is: ${count}`),
-        p(`Scroll is at: ${scrollPos}`),
+function view(state$, components) {
+  const { masterLayout } = components;
+  const mlVdom$ = masterLayout.DOM;
+  return xs
+    .combine(state$, mlVdom$)
+    .map(([{ count, scrollPos }, mlVdom]) =>
+      div('.app-container', [
+        div('.app-wrap', [mlVdom]),
+        div('.console-wrap', [
+          p(`Count is: ${count}`),
+          p(`SCROLL is at: ${scrollPos}`),
+        ]),
       ]),
-    ]),
-  );
+    );
 }
 
 export default function(sources) {
-  const { state$, reducers$ } = model(intent(sources));
+  const { state$, scroll$, reducers$, log$, components } = model(
+    intent(sources),
+  );
   return {
-    DOM: view(state$),
-    // Scroll: state.scroll$,
-    // Log: state.log$,
-    // HTTP: state.request$,
-    onion: reducers$,
+    DOM: view(state$, components),
+    SCROLL: scroll$,
+    Log: log$,
+    // HTTP: request$,
+    ONION: reducers$,
   };
 }

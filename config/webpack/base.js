@@ -29,7 +29,7 @@ const baseConfig = {
       {
         // shims
         test: /\.shim\.js$/,
-        use: ['script-loader'],
+        use: ['imports-loader?this=>window'],
         exclude: PATHS.nodeModules,
       },
       {

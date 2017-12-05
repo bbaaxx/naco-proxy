@@ -1,5 +1,4 @@
 /** @jsx html */
-// @flow
 import { run } from '@cycle/run';
 import { makeDOMDriver } from '@cycle/dom';
 import { makeHTTPDriver } from '@cycle/http';
@@ -11,6 +10,7 @@ import AppContainer from './gold/app-container';
 import registerCustomElements from './registerCustomElements';
 import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
+window.addEventListener('WebComponentsReady', registerCustomElements);
 registerCustomElements();
 
 export default function App(selector) {
@@ -18,15 +18,15 @@ export default function App(selector) {
   const makeDrivers = () => ({
     DOM: makeDOMDriver(selector),
     HTTP: makeHTTPDriver(),
-    Scroll: makeScrollDriver({ duration: 400, element: scrollTarget }),
-    Gun: makeGunDriver({ root: 'root', peers: ['http://localhost:3838'] }),
-    Log: msg$ => {
+    SCROLL: makeScrollDriver({ duration: 400, element: scrollTarget }),
+    GUN: makeGunDriver({ root: 'root', peers: ['http://localhost:3838'] }),
+    LOG: msg$ => {
       msg$.addListener({ next: msg => console.info(msg) });
     },
   });
 
   return () => {
-    run(onionify(AppContainer), makeDrivers());
+    run(onionify(AppContainer, 'ONION'), makeDrivers());
   };
 }
 
@@ -41,7 +41,8 @@ function registerServiceWorker() {
   }
 }
 export function runApp(rootElement) {
-  const appInstance = App(`#${rootElement.id}`);
-  appInstance();
-  registerServiceWorker();
+  App(`#${rootElement.id}`)();
+  // const appInstance = App(`#${rootElement.id}`)();
+  // appInstance();
+  // registerServiceWorker();
 }

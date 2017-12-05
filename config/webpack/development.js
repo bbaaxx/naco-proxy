@@ -13,7 +13,8 @@ const GLOBALS = {
 module.exports = merge(baseConfig, {
   devtool: 'source-map',
   entry: {
-    jslibs: ['client/polyfills.shim.js', 'client/libs.js', 'webpack-hot-middleware/client'],
+    polyfills: ['client/polyfills.shim.js'],
+    jslibs: ['client/libs.js', 'webpack-hot-middleware/client'],
     styleLibs: ['client/styles/libs.scss', 'webpack-hot-middleware/client'],
     application: [
       'babel-polyfill',
