@@ -24,6 +24,7 @@ module.exports = merge(baseConfig, {
     styles: [
       'client/styles/sugarss.sss',
       'client/styles/cssnext.css',
+      'client/styles/sass.scss',
       'webpack-hot-middleware/client',
     ],
   },
