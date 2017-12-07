@@ -4,30 +4,36 @@ import { div, p } from '@cycle/dom';
 import { isolateExplicit } from '../../redstone/helpers/cycle-components';
 
 import MasterLayout from '../master-layout';
-import SlidesPanel from '../../iron/slides-panel';
+import CyInput from '../../wood/cy-input';
 
 const INITIAL_STATE = {
   count: 0,
   scrollPos: 0,
-  masterLayout: {
-    count: 0,
+  masterLayout: 0,
+  urlInput: {
+    placeholder: 'Please provide a URL',
+    className: 'urlInput',
+    inputValue: null,
   },
 };
 
 function intent(sources) {
-  const masterLayout = isolateExplicit(MasterLayout, 'masterLayout', sources);
+  const urlInput = isolateExplicit(CyInput, 'urlInput', sources);
+  const masterLayout = isolateExplicit(MasterLayout, 'masterLayout', sources, {
+    content: urlInput.DOM,
+  });
   return {
     actions: {
       state$: sources.ONION.state$,
       scroll$: sources.SCROLL,
     },
-    components: { masterLayout },
+    components: { masterLayout, urlInput },
   };
 }
 
 function model({ actions, components }) {
   const { state$, scroll$ } = actions;
-  const { masterLayout } = components;
+  const { masterLayout, urlInput } = components;
   const initialReducer$ = xs.of(() => INITIAL_STATE);
   const scrollReducer$ = scroll$.map(scrollPos => prev => ({
     ...prev,
@@ -43,7 +49,7 @@ function model({ actions, components }) {
     reducers$,
     components,
     request$: masterLayout.HTTP,
-    log$: masterLayout.LOG,
+    log$: xs.merge(masterLayout.LOG, urlInput.LOG),
     scroll$: masterLayout.SCROLL,
   };
 }

@@ -16,13 +16,13 @@ function intent(sources) {
   const scrollButton = getScrollButton(sources, 'scrollButton');
   return {
     actions: {
-      scrollPosition$: sources.ONION.state$.map(state => state.scrollPos),
+      scrollPosition$: sources.ONION.state$,
       newClick$: scrollButton.clicks$,
       newError$: sources.DOM.events('error'),
     },
     components: {
       scrollButton,
-      mainContent: sources.props.map(props => props.content),
+      mainContent: sources.props.map(props => props.content).flatten(),
     },
   };
 }
@@ -45,6 +45,7 @@ function model({ actions, components }) {
 function view({ mainContentVdom$, scrollPosition$, scrollButtonVdom$ }) {
   return xs
     .combine(mainContentVdom$, scrollPosition$, scrollButtonVdom$)
+    .debug(val => console.log(val))
     .map(getMarkup);
 }
 
