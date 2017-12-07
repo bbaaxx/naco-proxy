@@ -1,9 +1,7 @@
 /** @jsx html */
-// @flow-
 import { html } from 'snabbdom-jsx';
 
-export default function([scrollPosition, scrollButton]) {
-  console.log('yolo?');
+export default function([mainContent, scrollPosition, scrollButton]) {
   return (
     <div className="mainContainer">
       <header>
@@ -22,7 +20,7 @@ export default function([scrollPosition, scrollButton]) {
           </li>
         </ul>
       </nav>
-      {'mainContent'}
+      {mainContent}
       <aside>
         <section>aside</section>
       </aside>

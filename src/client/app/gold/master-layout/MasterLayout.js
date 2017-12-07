@@ -29,9 +29,10 @@ function intent(sources) {
 
 function model({ actions, components }) {
   const { newClick$, scrollPosition$ } = actions;
-  const scrollButtonVdom$ = components.scrollButton.DOM;
+  const { scrollButton, mainContent } = components;
   return {
-    scrollButtonVdom$,
+    scrollButtonVdom$: scrollButton.DOM,
+    mainContentVdom$: mainContent,
     scrollPosition$,
     scrollDownClick$: newClick$
       .map(() => scrollPosition$.take(1))
@@ -41,22 +42,10 @@ function model({ actions, components }) {
   };
 }
 
-function view({ scrollPosition$, scrollButtonVdom$ }) {
+function view({ mainContentVdom$, scrollPosition$, scrollButtonVdom$ }) {
   return xs
-    .combine(scrollPosition$, scrollButtonVdom$)
-    .map(vals => {
-      let markup;
-      try {
-        markup = getMarkup(vals);
-      } catch (e) {
-        console.log(e);
-        markup = div('yolocon');
-      } finally {
-        console.log('markup', markup);
-        return markup;
-      }
-    })
-    .startWith(div('Loading ...'));
+    .combine(mainContentVdom$, scrollPosition$, scrollButtonVdom$)
+    .map(getMarkup);
 }
 
 export default function(sources) {

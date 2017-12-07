@@ -9,12 +9,13 @@ import SlidesPanel from '../../iron/slides-panel';
 const INITIAL_STATE = {
   count: 0,
   scrollPos: 0,
+  masterLayout: {
+    count: 0,
+  },
 };
 
 function intent(sources) {
-  const masterLayout = isolateExplicit(MasterLayout, 'masterLayout', sources, {
-    content: div('helloo'),
-  });
+  const masterLayout = isolateExplicit(MasterLayout, 'masterLayout', sources);
   return {
     actions: {
       state$: sources.ONION.state$,
