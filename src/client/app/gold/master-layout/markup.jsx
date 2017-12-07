@@ -6,20 +6,21 @@ export default function([mainContent, scrollPosition, scrollButton]) {
     <div className="mainContainer">
       <header>
         <hgroup>
-          <h1>Heading 1</h1>
-          <h2>Heading 2</h2>
+          <h1>Hello</h1>
+          <h2>SubHeader</h2>
         </hgroup>
       </header>
       <nav>
         <ul>
           <li>
-            <a href="/somewhere">Thiswhere</a>
+            <a href="/somewhere">Somewhere</a>
           </li>
           <li>
             <a href="/elsewhere">Elsewhere</a>
           </li>
         </ul>
       </nav>
+      <p>Hello</p>
       {mainContent}
       <aside>
         <section>aside</section>

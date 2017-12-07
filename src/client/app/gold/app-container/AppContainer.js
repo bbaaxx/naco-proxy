@@ -11,8 +11,8 @@ const INITIAL_STATE = {
   scrollPos: 0,
   masterLayout: 0,
   urlInput: {
-    placeholder: 'Please provide a URL',
-    className: 'urlInput',
+    placeholder: 'Please provide a URasdfasdfL',
+    className: 'mainInput',
     inputValue: null,
   },
 };
