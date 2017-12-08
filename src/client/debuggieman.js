@@ -5,7 +5,7 @@ import {
   functoringStuff,
 } from './app/redstone/sandie-box/clogTests';
 
-export default async function doTheHookyPooky() {
+export default async function() {
   console.warn('$$ composingStuff');
   composingStuff(20);
   console.warn('$$ functoringStuff');

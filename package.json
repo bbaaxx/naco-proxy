@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "NODE_ENV=dev npm run test",
+    "test": "NODE_ENV=development npm run test",
     "dev": "nodemon index.js --watch config --watch src/server",
     "debug": "DEBUG=naco-proxy nodemon --inspect index.js"
   },
@@ -24,6 +24,7 @@
   ],
   "author": "Eduardo M (bbaaxx)",
   "license": "MIT",
+  "repository": "https://github.com/bbaaxx/naco-proxy.git",
   "dependencies": {
     "@cycle/dom": "^20.1.0",
     "@cycle/http": "^14.8.0",
