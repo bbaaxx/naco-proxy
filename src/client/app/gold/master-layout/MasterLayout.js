@@ -2,7 +2,7 @@
 import xs from 'xstream';
 import { isolateExplicit } from '../../redstone/helpers/cycle-components';
 import { div } from '@cycle/dom';
-import RsmButton from '../../wood/rsm-button';
+import RsmButton from '../../wood/cy-button';
 import getMarkup from './markup';
 
 function getScrollButton(sources, cid = 'scrollButton') {

@@ -1,5 +1,4 @@
 /** @jsx html */
-// @flow-
 import { html } from 'snabbdom-jsx';
 
 export default function(sources) {

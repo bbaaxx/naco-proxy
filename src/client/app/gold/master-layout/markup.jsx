@@ -10,6 +10,7 @@ export default function([mainContent, scrollPosition, scrollButton]) {
           <h2>SubHeader</h2>
         </hgroup>
       </header>
+      <wcmdl-button>Yoloman</wcmdl-button>
       <nav>
         <ul>
           <li>
