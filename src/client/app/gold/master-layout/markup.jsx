@@ -6,7 +6,7 @@ export default function([mainContent, scrollPosition, scrollButton]) {
     <div className="mainContainer">
       <header>
         <hgroup>
-          <h1>Hello</h1>
+          <h1>Header</h1>
           <h2>SubHeader</h2>
         </hgroup>
       </header>
@@ -20,7 +20,6 @@ export default function([mainContent, scrollPosition, scrollButton]) {
           </li>
         </ul>
       </nav>
-      <p>Hello</p>
       {mainContent}
       <aside>
         <section>aside</section>
