@@ -10,7 +10,7 @@ export default function(sources) {
     'upstream-channel',
   );
 
-  const props$ = sources.props;
+  const { props$ } = sources;
 
   const vdom$ = props$
     .map(props => {

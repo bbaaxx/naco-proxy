@@ -11,9 +11,8 @@ const INITIAL_STATE = {
   scrollPos: 0,
   masterLayout: 0,
   urlInput: {
-    placeholder: 'Please provide a URasdfasdfL',
+    placeholder: 'Please provide a URL',
     className: 'mainInput',
-    inputValue: null,
   },
 };
 
@@ -39,11 +38,19 @@ function model({ actions, components }) {
     ...prev,
     scrollPos,
   }));
+  const urlInputReducer$ = urlInput.ONION;
 
   const addOneReducer$ = xs
     .periodic(1000)
     .mapTo(prev => ({ ...prev, count: prev.count + 1 }));
-  const reducers$ = xs.merge(initialReducer$, addOneReducer$, scrollReducer$);
+
+  const reducers$ = xs.merge(
+    initialReducer$,
+    addOneReducer$,
+    scrollReducer$,
+    urlInputReducer$,
+  );
+
   return {
     state$,
     reducers$,

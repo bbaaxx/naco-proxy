@@ -11,7 +11,6 @@ import registerCustomElements from './registerCustomElements';
 import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
 window.addEventListener('WebComponentsReady', registerCustomElements);
-registerCustomElements();
 
 export default function App(selector) {
   const scrollTarget = document.getElementsByTagName('html')[0];

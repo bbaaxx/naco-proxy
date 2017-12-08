@@ -22,7 +22,7 @@ function intent(sources) {
     },
     components: {
       scrollButton,
-      mainContent: sources.props.map(props => props.content).flatten(),
+      mainContent: sources.props$.map(props => props.content).flatten(),
     },
   };
 }
@@ -45,7 +45,6 @@ function model({ actions, components }) {
 function view({ mainContentVdom$, scrollPosition$, scrollButtonVdom$ }) {
   return xs
     .combine(mainContentVdom$, scrollPosition$, scrollButtonVdom$)
-    .debug(val => console.log(val))
     .map(getMarkup);
 }
 
