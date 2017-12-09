@@ -63,6 +63,7 @@
     "snabbdom": "^0.7.0",
     "snabbdom-pragma": "^2.6.0",
     "socket.io": "^2.0.4",
+    "typestyle": "^1.5.1",
     "union-type": "^0.4.0",
     "xstream": "^11.0.0"
   },

@@ -1,12 +1,11 @@
-/** @jsx Snabbdom.createElement */
 // @flow
 import xs, { Stream } from 'xstream';
 import Snabbdom from 'snabbdom-pragma';
 
-const defaultValues = { inputValue: '' };
+const defaultValues = { value: '' };
 const defaultReducer = prev =>
-  typeof prev === 'undefined' ? defaultValues : { ...prev };
-const inputReducer = e => prev => ({ ...prev, inputValue: e.target.value });
+  typeof prev === 'undefined' ? defaultValues : prev;
+const inputReducer = e => prev => ({ ...prev, value: e.target.value });
 
 export default function(sources: {
   props$: Stream,

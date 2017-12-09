@@ -12,3 +12,6 @@ export function isolateExplicit(component, id = null, sources, props = {}) {
 export function isolateImplicit(component, sources, props = {}) {
   return isolate(component)({ ...sources, props$: xs.of(props) });
 }
+
+export const componentFactory = (component, sources) => (uId, props) =>
+  isolateExplicit(component, uId, sources, props);

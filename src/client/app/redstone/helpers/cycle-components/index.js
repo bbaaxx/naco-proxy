@@ -1,3 +1,4 @@
-import { isolateExplicit, isolateImplicit } from './isolateGenericComponent';
+import { isolateExplicit, isolateImplicit } from './isolators';
+import { componentFactory } from './factories';
 
-export { isolateExplicit, isolateImplicit }; // eslint-disable-line
+export { isolateExplicit, isolateImplicit, componentFactory }; // eslint-disable-line

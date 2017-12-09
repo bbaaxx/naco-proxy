@@ -1,13 +1,21 @@
-/** @jsx html */
+// @flow
+import { Stream } from 'xstream';
 import Snabbdom from 'snabbdom-pragma';
+/** Import */
+import { style } from 'typestyle';
 
-export default function(sources) {
+/** convert a style object to a CSS class name */
+const styleClass = style({ color: 'red' });
+
+export default function(sources: { DOM: Stream, props$: Stream }) {
+  const { props$ } = sources;
   const clicks$ = sources.DOM.select('button').events('click');
 
-  const { props$ } = sources;
-
   const vdom$ = props$.map(props => (
-    <button className={`cy-button ${props.className}`} value={props.parentData}>
+    <button
+      className={`cy-button ${styleClass} ${props.classNames || ''}`}
+      type={props.type || 'button'}
+    >
       {props.text}
     </button>
   ));

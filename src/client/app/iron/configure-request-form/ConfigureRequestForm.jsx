@@ -1,22 +1,24 @@
-/** @jsx Snabbdom.createElement */
 // @flow
 import xs, { Stream } from 'xstream';
 import Snabbdom from 'snabbdom-pragma';
-import { isolateExplicit } from '../../redstone/helpers/cycle-components';
+import { componentFactory } from '../../redstone/helpers/cycle-components';
+import styles from './styles.scss';
 
+import getMarkup from './markup';
 import CyInput from '../../wood/cy-input';
+import CyDropdown from '../../wood/cy-dropdown';
+import CyButton from '../../wood/cy-button';
+
+console.log(styles);
 
 const defaultValues = {
   mode: 'get-request',
 };
-const defaultReducer = prev =>
-  typeof prev === 'undefined'
-    ? { ...defaultValues }
-    : { ...defaultValues, ...prev };
-const modeSwitchReducer = mode => prev => ({ ...prev, mode });
-
-const cyInputMaker = sources => (uId, props) =>
-  isolateExplicit(CyInput, uId, sources, props);
+const defaultReducer$ = xs.of(
+  prev =>
+    typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev },
+);
+const methodSwitchReducer = mode => prev => ({ ...prev, mode });
 
 export default function(sources: {
   props$: Stream,
@@ -25,30 +27,49 @@ export default function(sources: {
 }) {
   const { props$ } = sources;
   const { state$ } = sources.ONION;
-  const makeInput = cyInputMaker(sources);
 
+  const makeButton = componentFactory(CyButton, sources);
+  const makeInput = componentFactory(CyInput, sources);
+  const makeDropdown = componentFactory(CyDropdown, sources);
+
+  const validateBtnSinks = makeButton('validateBtn', {
+    classNames: 'validateBtn',
+    text: 'validate',
+  });
   const urlInputSinks = makeInput('urlInput', {
     classNames: 'urlInput',
-    placeholder: 'Please provide a URL',
+    placeholder: 'Provide a URL',
+  });
+  const methodDropdownSinks = makeDropdown('methodDropdown', {
+    classNames: 'methodDropdown',
+    unselectedDefault: 'Select a method',
+    options: [
+      { value: 'get', text: 'GET' },
+      { value: 'post', text: 'POST' },
+      { value: 'put', text: 'PUT' },
+    ],
   });
 
-  const modeSwitchReducer$ = sources.DOM.select('.configureRequestForm')
-    .events('click')
-    .mapTo(modeSwitchReducer('yolo'));
+  const methodSwitchReducer$ = validateBtnSinks.clicks$.mapTo(
+    methodSwitchReducer('yolo'),
+  );
 
   const reducers$ = xs.merge(
-    xs.of(defaultReducer),
-    modeSwitchReducer$,
+    defaultReducer$,
+    methodSwitchReducer$,
     urlInputSinks.ONION,
+    methodDropdownSinks.ONION,
   );
 
   const vdom$ = xs
-    .combine(props$, state$, urlInputSinks.DOM)
-    .map(([props, state, urlInput]) => (
-      <div className={`configureRequestForm ${props.className || ''}`}>
-        {urlInput}
-      </div>
-    ));
+    .combine(
+      props$,
+      state$,
+      validateBtnSinks.DOM,
+      urlInputSinks.DOM,
+      methodDropdownSinks.DOM,
+    )
+    .map(getMarkup);
 
   return { DOM: vdom$, ONION: reducers$ };
 }

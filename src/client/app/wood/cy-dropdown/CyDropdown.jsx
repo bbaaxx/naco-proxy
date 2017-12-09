@@ -1,36 +1,38 @@
-/** @jsx html */
-import xs from 'xstream';
+// @flow
+import xs, { Stream } from 'xstream';
 import Snabbdom from 'snabbdom-pragma';
 
-const defaultValues = { className: '', placeholder: '', inputValue: '' };
+const defaultValues = { value: '' };
 const defaultReducer = prev =>
-  typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev };
-const selectReducer = e => prev => ({ ...prev, inputValue: e.target.value });
+  typeof prev === 'undefined' ? defaultValues : prev;
+const selectReducer = e => prev => ({ ...prev, value: e.target.value });
 
 const getOptsElement = opt => <option value={opt.value}>{opt.text}</option>;
 
-const optsMock = [
-  { text: 'option one', value: 'one' },
-  { text: 'option two', value: 'two' },
-];
-
-export default function(sources) {
+export default function(sources: {
+  props$: Stream,
+  DOM: Stream,
+  ONION: Stream,
+}) {
   const { props$ } = sources;
   const { state$ } = sources.ONION;
 
-  const selectReducer$ = sources.DOM.select('.cyInput')
+  const selectReducer$ = sources.DOM.select('.cyDropdown')
     .events('input')
     .map(selectReducer);
 
   const reducers$ = xs.merge(xs.of(defaultReducer), selectReducer$);
 
-  const vdom$ = xs
-    .combine(state$, props$)
-    .map(([state, props]) => (
-      <select className={`cyInput ${state.className || props.className}`}>
-        {optsMock.map(getOptsElement)}
-      </select>
-    ));
+  const vdom$ = xs.combine(state$, props$).map(([state, props]) => (
+    <select className={`cyDropdown ${props.className || ''}`}>
+      {props.unselectedDefault && (
+        <option value="" disabled selected>
+          {props.unselectedDefault}
+        </option>
+      )}
+      {props.options.map(getOptsElement)}
+    </select>
+  ));
 
   return { DOM: vdom$, ONION: reducers$ };
 }

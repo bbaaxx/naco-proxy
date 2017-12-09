@@ -32,6 +32,8 @@ export default function(
       <aside>{asideContent}</aside>
 
       {appConsole}
+      <hr />
+      <div>{JSON.stringify(state)}</div>
     </div>
   );
 }
