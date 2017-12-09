@@ -1,5 +1,4 @@
 /** @jsx html */
-// @flow-
 import { html } from 'snabbdom-jsx';
 
 export default function(sources) {
@@ -8,10 +7,7 @@ export default function(sources) {
   const { props$ } = sources;
 
   const vdom$ = props$.map(props => (
-    <button
-      className={`rsm-button ${props.className}`}
-      value={props.parentData}
-    >
+    <button className={`cy-button ${props.className}`} value={props.parentData}>
       {props.text}
     </button>
   ));

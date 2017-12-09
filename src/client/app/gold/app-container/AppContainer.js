@@ -1,91 +1,51 @@
-// @flow-
 import xs from 'xstream';
 import { div, p } from '@cycle/dom';
 import { isolateExplicit } from '../../redstone/helpers/cycle-components';
 
 import MasterLayout from '../master-layout';
-import CyInput from '../../wood/cy-input';
+import AppConsole from '../app-console';
 
-const INITIAL_STATE = {
-  count: 0,
-  scrollPos: 0,
-  masterLayout: 0,
-  urlInput: {
-    placeholder: 'Please provide a URL',
-    className: 'mainInput',
+const initialReducer$ = xs.of(() => ({
+  appConsole: {
+    timer: 0,
+    scrollPosition: 0,
   },
-};
+}));
 
-function intent(sources) {
-  const urlInput = isolateExplicit(CyInput, 'urlInput', sources);
-  const masterLayout = isolateExplicit(MasterLayout, 'masterLayout', sources, {
-    content: urlInput.DOM,
-  });
-  return {
-    actions: {
-      state$: sources.ONION.state$,
-      scroll$: sources.SCROLL,
+const getMasterLayout = sources =>
+  isolateExplicit(MasterLayout, 'masterLayout', sources, {
+    className: 'masterLayout',
+    content: {
+      mainContent: 'The main content',
+      asideContent: 'The aside content',
     },
-    components: { masterLayout, urlInput },
-  };
-}
-
-function model({ actions, components }) {
-  const { state$, scroll$ } = actions;
-  const { masterLayout, urlInput } = components;
-  const initialReducer$ = xs.of(() => INITIAL_STATE);
-  const scrollReducer$ = scroll$.map(scrollPos => prev => ({
-    ...prev,
-    scrollPos,
-  }));
-  const urlInputReducer$ = urlInput.ONION;
-
-  const addOneReducer$ = xs
-    .periodic(1000)
-    .mapTo(prev => ({ ...prev, count: prev.count + 1 }));
-
-  const reducers$ = xs.merge(
-    initialReducer$,
-    addOneReducer$,
-    scrollReducer$,
-    urlInputReducer$,
-  );
-
-  return {
-    state$,
-    reducers$,
-    components,
-    request$: masterLayout.HTTP,
-    log$: xs.merge(masterLayout.LOG, urlInput.LOG),
-    scroll$: masterLayout.SCROLL,
-  };
-}
-
-function view(state$, components) {
-  const { masterLayout } = components;
-  const mlVdom$ = masterLayout.DOM;
-  return xs
-    .combine(state$, mlVdom$)
-    .map(([{ count, scrollPos }, mlVdom]) =>
-      div('.app-container', [
-        div('.app-wrap', [mlVdom]),
-        div('.console-wrap', [
-          p(`Count is: ${count}`),
-          p(`SCROLL is at: ${scrollPos}`),
-        ]),
-      ]),
-    );
-}
+  });
+const getAppConsole = sources =>
+  isolateExplicit(AppConsole, 'appConsole', sources);
 
 export default function(sources) {
-  const { state$, scroll$, reducers$, log$, components } = model(
-    intent(sources),
-  );
+  const { state$ } = sources.ONION;
+  const scroll$ = sources.SCROLL;
+
+  const appConsoleSinks = getAppConsole(sources);
+  const appConsoleVdom$ = appConsoleSinks.DOM;
+  const appConsoleReducer$ = appConsoleSinks.ONION;
+
+  const masterLayoutVdom$ = getMasterLayout(sources).DOM;
+
+  const reducers$ = xs.merge(initialReducer$, appConsoleReducer$);
+
+  const vdom$ = xs
+    .combine(state$, masterLayoutVdom$, appConsoleVdom$)
+    .map(([{ timer, scrollPosition }, masterLayoutVdom, appConsoleVdom]) =>
+      div('.app-container', [masterLayoutVdom, appConsoleVdom]),
+    );
+
   return {
-    DOM: view(state$, components),
-    SCROLL: scroll$,
-    Log: log$,
-    // HTTP: request$,
+    DOM: vdom$,
+    // SCROLL: scrollSinks$,
+    // Log: logSinks$,
+    // HTTP: requestSinks$,
     ONION: reducers$,
   };
 }
