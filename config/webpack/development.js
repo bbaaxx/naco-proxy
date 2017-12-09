@@ -18,7 +18,7 @@ module.exports = merge(baseConfig, {
     styleLibs: ['client/styles/libs.scss', 'webpack-hot-middleware/client'],
     application: [
       'babel-polyfill',
-      __dirname + '/../../src/client/index.ts',
+      __dirname + '/../../src/client/index.js',
       'webpack-hot-middleware/client',
     ],
     styles: [

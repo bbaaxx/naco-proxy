@@ -4,7 +4,8 @@
         "sourceMap": true,
         "noImplicitAny": false,
         "module": "commonjs",
-        "target": "es5"
+        "target": "es5",
+        "jsx": "preserve"
     },
     "include": [
         "./src/**/*"
