@@ -1,5 +1,5 @@
-// @flow
 /** @jsx Snabbdom.createElement */
+// @flow
 import Snabbdom from 'snabbdom-pragma';
 
 export default function(

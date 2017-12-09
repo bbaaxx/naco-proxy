@@ -1,13 +1,18 @@
-/** @jsx html */
-import xs from 'xstream';
+/** @jsx Snabbdom.createElement */
+// @flow
+import xs, { Stream } from 'xstream';
 import Snabbdom from 'snabbdom-pragma';
 
-const defaultValues = { className: '', placeholder: '', inputValue: '' };
+const defaultValues = { inputValue: '' };
 const defaultReducer = prev =>
-  typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev };
+  typeof prev === 'undefined' ? defaultValues : { ...prev };
 const inputReducer = e => prev => ({ ...prev, inputValue: e.target.value });
 
-export default function(sources) {
+export default function(sources: {
+  props$: Stream,
+  DOM: Stream,
+  ONION: Stream,
+}) {
   const { props$ } = sources;
   const { state$ } = sources.ONION;
 
@@ -21,8 +26,8 @@ export default function(sources) {
     .combine(state$, props$)
     .map(([state, props]) => (
       <input
-        className={`cyInput ${state.className || props.className}`}
-        placeholder={state.placeholder || props.placeholder}
+        className={`cyInput ${props.classNames || ''}`}
+        placeholder={props.placeholder || ''}
       />
     ));
 

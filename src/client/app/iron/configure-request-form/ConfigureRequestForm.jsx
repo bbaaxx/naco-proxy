@@ -1,4 +1,6 @@
-import xs from 'xstream';
+/** @jsx Snabbdom.createElement */
+// @flow
+import xs, { Stream } from 'xstream';
 import Snabbdom from 'snabbdom-pragma';
 import { isolateExplicit } from '../../redstone/helpers/cycle-components';
 
@@ -11,24 +13,40 @@ const defaultReducer = prev =>
   typeof prev === 'undefined'
     ? { ...defaultValues }
     : { ...defaultValues, ...prev };
-
 const modeSwitchReducer = mode => prev => ({ ...prev, mode });
 
-export default function(sources) {
+const cyInputMaker = sources => (uId, props) =>
+  isolateExplicit(CyInput, uId, sources, props);
+
+export default function(sources: {
+  props$: Stream,
+  DOM: Stream,
+  ONION: Stream,
+}) {
   const { props$ } = sources;
   const { state$ } = sources.ONION;
+  const makeInput = cyInputMaker(sources);
+
+  const urlInputSinks = makeInput('urlInput', {
+    classNames: 'urlInput',
+    placeholder: 'Please provide a URL',
+  });
 
   const modeSwitchReducer$ = sources.DOM.select('.configureRequestForm')
     .events('click')
     .mapTo(modeSwitchReducer('yolo'));
 
-  const reducers$ = xs.merge(xs.of(defaultReducer), modeSwitchReducer$);
+  const reducers$ = xs.merge(
+    xs.of(defaultReducer),
+    modeSwitchReducer$,
+    urlInputSinks.ONION,
+  );
 
   const vdom$ = xs
-    .combine(props$, state$)
-    .map(([props, state]) => (
+    .combine(props$, state$, urlInputSinks.DOM)
+    .map(([props, state, urlInput]) => (
       <div className={`configureRequestForm ${props.className || ''}`}>
-        Configure Request Form in mode {state.mode}
+        {urlInput}
       </div>
     ));
 
