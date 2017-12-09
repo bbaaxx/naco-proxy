@@ -1,0 +1,16 @@
+[ignore]
+.*/node_modules/*
+
+[include]
+.*/src/*
+
+[libs]
+./flow-typed/global.js
+
+[options]
+module.name_mapper='.*\(.css\)' -> 'CSSModule'
+module.name_mapper='.*\(.sss\)' -> 'CSSModule'
+module.name_mapper='.*\(.scss\)' -> 'CSSModule'
+module.name_mapper='.*\(.sass\)' -> 'CSSModule'
+module.system=haste
+unsafe.enable_getters_and_setters=true

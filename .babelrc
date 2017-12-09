@@ -6,9 +6,11 @@
           "node": true
         }
       }
-    ]
+    ],
+    "flow"
   ],
   "plugins": [
+    "transform-flow-comments",
     "transform-object-rest-spread",
     "transform-class-properties",
     "transform-custom-element-classes",
@@ -16,7 +18,7 @@
       "globals": ["Array", "Error", "HTMLElement"]
     }],
     ["transform-react-jsx", {
-      "pragma": "html"
+      "pragma": "Snabbdom.createElement"
     }]
   ]
 }

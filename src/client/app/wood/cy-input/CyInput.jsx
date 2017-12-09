@@ -1,6 +1,6 @@
 /** @jsx html */
 import xs from 'xstream';
-import { html } from 'snabbdom-jsx';
+import Snabbdom from 'snabbdom-pragma';
 
 const defaultValues = { className: '', placeholder: '', inputValue: '' };
 const defaultReducer = prev =>

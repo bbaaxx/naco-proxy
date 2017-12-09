@@ -1,5 +1,5 @@
 /** @jsx html */
-import { html } from 'snabbdom-jsx';
+import Snabbdom from 'snabbdom-pragma';
 
 export default function(sources) {
   return {

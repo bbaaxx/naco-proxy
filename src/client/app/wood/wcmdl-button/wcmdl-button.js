@@ -6,6 +6,21 @@ import injectStyles from '../../redstone/helpers/custom-elements/injectStyles';
 import styles from './styles.scss';
 
 export default class WcmdlButton extends HTMLElement {
+  name: string;
+  icon: string;
+  accent: boolean;
+  colored: boolean;
+  fab: boolean;
+  mini: boolean;
+  primary: boolean;
+  raised: boolean;
+  ripple: boolean;
+
+  buttonElement: HTMLElement;
+  hammerManager: () => mixed;
+  attachShadow: ({ mode: ShadowRootMode }) => ShadowRoot;
+  shadowRoot: ShadowRoot | any;
+
   BOOLEAN_PROPERTIES = [
     'accent',
     'colored',
@@ -17,7 +32,7 @@ export default class WcmdlButton extends HTMLElement {
   ];
   STRING_PROPERTIES = ['name', 'icon'];
 
-  static get is() {
+  static get is(): string {
     return 'wcmdl-button';
   }
 
@@ -54,7 +69,7 @@ export default class WcmdlButton extends HTMLElement {
     this.hammerManager.off('tap');
   }
 
-  dispatch(evt) {
+  dispatch(evt: Event) {
     evt.preventDefault();
     this.buttonElement.dispatchEvent(
       new Event('wcmdl-button-clicked', { composed: true }),

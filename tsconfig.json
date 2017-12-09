@@ -1,13 +1,11 @@
 {
-    "compilerOptions": {
-        "outDir": "./build/",
-        "sourceMap": true,
-        "noImplicitAny": false,
-        "module": "commonjs",
-        "target": "es5",
-        "jsx": "preserve"
-    },
-    "include": [
-        "./src/**/*"
-    ]
+  "compilerOptions": {
+    "outDir": "./build/",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "target": "es5",
+    "jsx": "react",
+    "jsxFactory": "Snabbdom.createElement"
+  },
+  "include": ["./src/**/*"]
 }

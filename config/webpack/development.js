@@ -1,5 +1,6 @@
 const merge = require('webpack-merge');
 const webpack = require('webpack');
+const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin');
 
 const baseConfig = require('./base');
 
@@ -29,6 +30,7 @@ module.exports = merge(baseConfig, {
     ],
   },
   plugins: [
+    new FlowBabelWebpackPlugin(),
     new webpack.LoaderOptionsPlugin({
       debug: true,
     }),

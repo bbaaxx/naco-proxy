@@ -1,29 +1,35 @@
-/** @jsx html */
 import xs from 'xstream';
-import { html } from 'snabbdom-jsx';
+import Snabbdom from 'snabbdom-pragma';
+import { isolateExplicit } from '../../redstone/helpers/cycle-components';
 
-const defaultValues = { className: '', placeholder: '', inputValue: '' };
+import CyInput from '../../wood/cy-input';
+
+const defaultValues = {
+  mode: 'get-request',
+};
 const defaultReducer = prev =>
-  typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev };
-const selectReducer = e => prev => ({ ...prev, inputValue: e.target.value });
+  typeof prev === 'undefined'
+    ? { ...defaultValues }
+    : { ...defaultValues, ...prev };
+
+const modeSwitchReducer = mode => prev => ({ ...prev, mode });
 
 export default function(sources) {
   const { props$ } = sources;
   const { state$ } = sources.ONION;
 
-  const selectReducer$ = sources.DOM.select('.cyInput')
-    .events('input')
-    .map(selectReducer);
+  const modeSwitchReducer$ = sources.DOM.select('.configureRequestForm')
+    .events('click')
+    .mapTo(modeSwitchReducer('yolo'));
 
-  const reducers$ = xs.merge(xs.of(defaultReducer), selectReducer$);
+  const reducers$ = xs.merge(xs.of(defaultReducer), modeSwitchReducer$);
 
   const vdom$ = xs
-    .combine(state$, props$)
-    .map(([state, props]) => (
-      <input
-        className={`cyInput ${state.className || props.className}`}
-        placeholder={state.placeholder || props.placeholder}
-      />
+    .combine(props$, state$)
+    .map(([props, state]) => (
+      <div className={`configureRequestForm ${props.className || ''}`}>
+        Configure Request Form in mode {state.mode}
+      </div>
     ));
 
   return { DOM: vdom$, ONION: reducers$ };

@@ -1,7 +1,7 @@
 // @flow
 // import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
-export function clearRootElement(rootElement) {
+export function clearRootElement(rootElement: HTMLElement) {
   return () => {
     if (!document.body) throw new Error('Unexpectedly missing a <body> tag');
     document.body.removeChild(rootElement);

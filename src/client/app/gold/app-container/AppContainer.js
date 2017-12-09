@@ -1,25 +1,17 @@
 import xs from 'xstream';
-import { div, p } from '@cycle/dom';
+import { div, section } from '@cycle/dom';
 import { isolateExplicit } from '../../redstone/helpers/cycle-components';
 
-import MasterLayout from '../master-layout';
+import getMarkup from './markup';
 import AppConsole from '../app-console';
+import ConfigureRequestForm from '../../iron/configure-request-form';
 
-const initialReducer$ = xs.of(() => ({
-  appConsole: {
-    timer: 0,
-    scrollPosition: 0,
-  },
-}));
+// empty for now, should import app config from somewhere
+const initialReducer$ = xs.of(() => ({}));
 
-const getMasterLayout = sources =>
-  isolateExplicit(MasterLayout, 'masterLayout', sources, {
-    className: 'masterLayout',
-    content: {
-      mainContent: 'The main content',
-      asideContent: 'The aside content',
-    },
-  });
+const getMainContent = sources =>
+  isolateExplicit(ConfigureRequestForm, 'configureRequestForm', sources);
+
 const getAppConsole = sources =>
   isolateExplicit(AppConsole, 'appConsole', sources);
 
@@ -28,18 +20,25 @@ export default function(sources) {
   const scroll$ = sources.SCROLL;
 
   const appConsoleSinks = getAppConsole(sources);
-  const appConsoleVdom$ = appConsoleSinks.DOM;
-  const appConsoleReducer$ = appConsoleSinks.ONION;
+  const mainContentSinks = getMainContent(sources);
+  const asideContentSinks = {
+    DOM: xs.of(section('.asideContent', 'Dies asider content')),
+  };
 
-  const masterLayoutVdom$ = getMasterLayout(sources).DOM;
-
-  const reducers$ = xs.merge(initialReducer$, appConsoleReducer$);
+  const reducers$ = xs.merge(
+    initialReducer$,
+    appConsoleSinks.ONION,
+    mainContentSinks.ONION,
+  );
 
   const vdom$ = xs
-    .combine(state$, masterLayoutVdom$, appConsoleVdom$)
-    .map(([{ timer, scrollPosition }, masterLayoutVdom, appConsoleVdom]) =>
-      div('.app-container', [masterLayoutVdom, appConsoleVdom]),
-    );
+    .combine(
+      state$,
+      mainContentSinks.DOM,
+      asideContentSinks.DOM,
+      appConsoleSinks.DOM,
+    )
+    .map(getMarkup);
 
   return {
     DOM: vdom$,
