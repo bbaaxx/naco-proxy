@@ -1,4 +1,3 @@
-/** @jsx Snabbdom.createElement */
 // @flow
 import Snabbdom from 'snabbdom-pragma';
 
