@@ -1,4 +1,5 @@
-import xs from 'xstream';
+// @flow
+import xs, { Stream } from 'xstream';
 import { div, p } from '@cycle/dom';
 
 const initialReducer$ = xs.of(() => ({
@@ -15,7 +16,12 @@ const scrollReducer = scrollPosition => prev => ({
   scrollPosition,
 });
 
-export default function(sources) {
+export default function(sources: {
+  props$: Stream,
+  DOM: Stream,
+  SCROLL: Stream,
+  ONION: Stream,
+}) {
   const { state$ } = sources.ONION;
   const scroll$ = sources.SCROLL;
 
