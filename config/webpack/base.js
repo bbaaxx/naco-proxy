@@ -38,14 +38,14 @@ const baseConfig = {
 
   module: {
     rules: [
+      // shims
       {
-        // shims
         test: /\.shim\.js$/,
         use: ['imports-loader?this=>window'],
         exclude: PATHS.nodeModules,
       },
+      // eslint
       {
-        // eslint
         enforce: 'pre',
         test: /\.(js|jsx)$/,
         exclude: PATHS.nodeModules,
@@ -58,23 +58,24 @@ const baseConfig = {
           },
         ],
       },
+      // es6 and jsx
       {
-        // es6 and jsx
         test: /\.(js|jsx)$/,
         exclude: PATHS.nodeModules,
         use: [{ loader: 'babel-loader' }],
       },
+      // Ts
       {
         test: /\.tsx?$/,
         loader: 'awesome-typescript-loader',
       },
+      // mdl
       {
-        // mdl
         test: require.resolve('material-design-lite/material'),
         loader: 'exports-loader?componentHandler',
       },
+      // SASS Style libs imports
       {
-        // SASS Style libs imports
         test: /src\/client\/styles\/libs\.scss/,
         use: [
           { loader: 'style-loader' },
@@ -85,22 +86,43 @@ const baseConfig = {
         ],
         exclude: /node_modules/,
       },
+      // sass for components
       {
-        // sass
-        test: /\.(sass|scss)$/,
+        test: /\.component.(sass|scss)$/,
         use: [
+          // { loader: 'style-loader' },
           { loader: 'css-loader' },
           { loader: 'postcss-loader', options: { sourceMap: true } },
           { loader: 'resolve-url-loader', options: { sourceMap: true } },
           {
             loader: 'sass-loader',
-            options: { sourceMap: true, outputStyle: 'compressed' },
+            options: { sourceMap: true },
           },
         ],
         exclude: [/node_modules/, /src\/client\/styles\/libs\.scss/],
       },
+      // sass
       {
-        // sugarss
+        test: /\.(sass|scss)$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'postcss-loader', options: { sourceMap: true } },
+          { loader: 'resolve-url-loader', options: { sourceMap: true } },
+          {
+            loader: 'sass-loader',
+            options: { sourceMap: true },
+          },
+        ],
+        exclude: [
+          /node_modules/,
+          /src\/client\/styles\/libs\.scss/,
+          /.component./,
+        ],
+      },
+
+      // sugarss
+      {
         test: /\.sss$/,
         use: [
           { loader: 'style-loader' },
@@ -108,8 +130,8 @@ const baseConfig = {
           { loader: 'postcss-loader', options: { parser: 'sugarss' } },
         ],
       },
+      // cssnext
       {
-        // cssnext
         test: /\.css$/,
         use: [
           { loader: 'style-loader' },
@@ -117,8 +139,8 @@ const baseConfig = {
           { loader: 'postcss-loader' },
         ],
       },
+      // fonts
       {
-        // fonts
         test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
         use: ['file-loader?name=fonts/[name].[ext]'],
       },
@@ -135,7 +157,7 @@ const baseConfig = {
   },
 
   plugins: [
-    // new HardSourceWebpackPlugin(),
+    new HardSourceWebpackPlugin(),
     new HtmlWebpackPlugin(),
     new WebpackManifestPlugin(),
     new CheckerPlugin(),
@@ -145,13 +167,11 @@ const baseConfig = {
     new ServiceWorkerWebpackPlugin({
       entry: PATHS.serviceWorker,
     }),
-    // why can't I use arrows ?
-    function customPlugin() {
-      // must I reference this ?
-      this.plugin('done', () => {
-        console.log('Big red buttons everywhere');
-      });
-    },
+    // function customPlugin(yo) {
+    //   this.plugin('done', lo => {
+    //     console.log('Big red buttons everywhere', yo, lo);
+    //   });
+    // },
   ],
 };
 

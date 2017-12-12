@@ -1,0 +1,15 @@
+scss_files: 'src/**/*.scss'
+
+exclude: 'node_modules'
+
+linters:
+  BorderZero:
+    enabled: false
+
+  Indentation:
+    exclude:
+    severity: warning
+    width: 2
+
+  NameFormat:
+    enabled: false

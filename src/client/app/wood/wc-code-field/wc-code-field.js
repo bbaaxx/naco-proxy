@@ -4,8 +4,7 @@ import componentHandler from 'material-design-lite/material';
 
 import injectStyles from '../../redstone/helpers/custom-elements/injectStyles';
 import styles from './styles.component.scss';
-console.log(styles);
-export default class WcmdlButton extends HTMLElement {
+export default class WcCodeField extends HTMLElement {
   name: string;
   icon: string;
   accent: boolean;
@@ -33,7 +32,7 @@ export default class WcmdlButton extends HTMLElement {
   STRING_PROPERTIES = ['name', 'icon'];
 
   static get is(): string {
-    return 'wcmdl-button';
+    return 'wc-code-field';
   }
 
   constructor() {
