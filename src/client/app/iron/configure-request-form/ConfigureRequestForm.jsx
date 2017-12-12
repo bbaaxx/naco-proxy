@@ -8,6 +8,7 @@ import getMarkup from './markup';
 import CyInput from '../../wood/cy-input';
 import CyDropdown from '../../wood/cy-dropdown';
 import CyButton from '../../wood/cy-button';
+import CyCodeField from '../../wood/cy-code-field';
 
 console.log(styles);
 
@@ -29,6 +30,7 @@ export default function(sources: {
   const { state$ } = sources.ONION;
 
   const makeButton = componentFactory(CyButton, sources);
+  const makeCodeField = componentFactory(CyCodeField, sources);
   const makeInput = componentFactory(CyInput, sources);
   const makeDropdown = componentFactory(CyDropdown, sources);
 
@@ -39,6 +41,10 @@ export default function(sources: {
   const urlInputSinks = makeInput('urlInput', {
     classNames: 'urlInput',
     placeholder: 'Provide a URL',
+  });
+  const codeFieldSinks = makeCodeField('codeField', {
+    classNames: 'codeField',
+    placeholder: 'Code Field',
   });
   const methodDropdownSinks = makeDropdown('methodDropdown', {
     classNames: 'methodDropdown',
@@ -58,6 +64,7 @@ export default function(sources: {
     defaultReducer$,
     methodSwitchReducer$,
     urlInputSinks.ONION,
+    codeFieldSinks.ONION,
     methodDropdownSinks.ONION,
   );
 
@@ -67,6 +74,7 @@ export default function(sources: {
       state$,
       validateBtnSinks.DOM,
       urlInputSinks.DOM,
+      codeFieldSinks.DOM,
       methodDropdownSinks.DOM,
     )
     .map(getMarkup);

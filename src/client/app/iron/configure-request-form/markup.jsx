@@ -2,7 +2,7 @@
 import Snabbdom from 'snabbdom-pragma';
 
 export default function(
-  [props, state, validateBtn, urlInput, methodDropdown]: any[],
+  [props, state, validateBtn, urlInput, codeField, methodDropdown]: any[],
 ) {
   return (
     <div className={`configureRequestForm ${props.className || ''}`}>
@@ -13,6 +13,7 @@ export default function(
           {urlInput}
         </label>
         {validateBtn}
+        <div>{codeField}</div>
       </form>
     </div>
   );
