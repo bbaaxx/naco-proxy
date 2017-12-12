@@ -3,8 +3,11 @@ import xs, { Stream } from 'xstream';
 import { textarea } from '@cycle/dom';
 import Snabbdom from 'snabbdom-pragma';
 import CodeMirror from 'codemirror';
+
 import 'codemirror/mode/javascript/javascript';
-import './styles.scss';
+import styles from './styles.scss';
+
+// console.log('styles', styles);
 
 const defaultValues = { value: 'console.log();' };
 const defaultReducer = prev =>
@@ -24,21 +27,26 @@ export default function(sources: {
 
   const reducers$ = xs.merge(xs.of(defaultReducer), inputReducer$);
 
-  const vdom$ = xs.combine(state$, props$).map(([state, props]) =>
-    textarea(
-      '.cyCodeField',
-      {
-        attrs: { placeholder: props.placeholder },
-        hook: {
-          insert: vnode =>
-            CodeMirror.fromTextArea(vnode.elm, {
-              mode: 'javascript',
-            }),
+  const vdom$ = xs.combine(state$, props$).map(([state, props]) => (
+    <div>
+      <wc-code-field />
+      {textarea(
+        '.cyCodeField.CodeMirror',
+        {
+          attrs: { placeholder: props.placeholder },
+          hook: {
+            insert: vnode =>
+              CodeMirror.fromTextArea(vnode.elm, {
+                lineNumbers: true,
+                lineWrapping: true,
+                mode: 'javascript',
+              }),
+          },
         },
-      },
-      [state.value],
-    ),
-  );
+        [state.value],
+      )}
+    </div>
+  ));
 
   return { DOM: vdom$, ONION: reducers$ };
 }
