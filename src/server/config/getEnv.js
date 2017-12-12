@@ -1,10 +1,11 @@
+// @flow
 import dotenv from 'dotenv';
 
 if (dotenv && typeof dotenv.config === 'function') dotenv.config();
 
 const { env } = process;
 
-export function getRequiredVar(key) {
+export function getRequiredVar(key: string) {
   const value = env[key];
   if (value === void 0) {
     throw new Error(`I need a "${key}" env variable to work`);
@@ -13,9 +14,9 @@ export function getRequiredVar(key) {
   }
 }
 
-export function getVar(key) {
+export function getVar(key: string): { [key: string]: string } {
   return { [key]: env[key] };
 }
 
-export default (vars = []) =>
-  vars.map(getRequiredVar).reduce((acc, ev) => ({ ...acc, ...ev }), {...env});
+export default (vars: string[] = []) =>
+  vars.map(getRequiredVar).reduce((acc, ev) => ({ ...acc, ...ev }), { ...env });
