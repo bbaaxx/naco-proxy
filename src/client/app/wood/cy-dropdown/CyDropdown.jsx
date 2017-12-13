@@ -1,6 +1,7 @@
 // @flow
 import xs, { Stream } from 'xstream';
 import Snabbdom from 'snabbdom-pragma';
+import './styles.scss';
 
 const defaultValues = { value: '' };
 const defaultReducer = prev =>
