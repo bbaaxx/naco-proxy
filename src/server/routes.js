@@ -4,6 +4,11 @@ import { Context } from 'koa';
 
 export default {
   'GET /mocker/:mockId?': {
+    middleWare: async (ctx: Context, next: () => mixed) => {
+      console.log('mockout');
+      await next();
+      console.log('mockin');
+    },
     handler: async (ctx: Context, next: () => mixed) => {
       // check the DB for a match
       await next();
