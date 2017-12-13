@@ -1,4 +1,4 @@
 // @flow-
-import CyButton from './CyButton.tsx';
+import CyButton from './CyButton';
 
 export default CyButton;

@@ -23,12 +23,10 @@ const configureRoutes = router => {
     if (!routes[routeKey].hasOwnProperty('handler')) {
       throw new TypeError(`Route '${routeKey}' has to have a handler-method`);
     }
-
     const middleWare = routes[routeKey].hasOwnProperty('middleware')
       ? routes[routeKey].middleware
       : [];
     const { handler } = routes[routeKey];
-
     return router.createRoute(routeKey, [...middleWare, handler]);
   });
 };
@@ -39,9 +37,7 @@ const configureRoutes = router => {
  */
 export default () => {
   const router = new Router(routerOpts).loadMethods();
-
   // TODO: Add easy grouping through routes.js
   router.addRoutes(configureRoutes(router));
-
   return router;
 };

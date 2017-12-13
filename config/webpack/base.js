@@ -2,9 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackManifestPlugin = require('webpack-manifest-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const { CheckerPlugin } = require('awesome-typescript-loader');
 
 const getPath = to => path.join(path.resolve(__dirname, '../../'), to);
 
@@ -17,17 +15,7 @@ const PATHS = {
   serviceWorker: getPath('/src/client/sw.js'),
 };
 
-const EXTS = [
-  '.ts',
-  '.tsx',
-  '.js',
-  '.jsx',
-  '.json',
-  '.scss',
-  '.sass',
-  '.sss',
-  '.css',
-];
+const EXTS = ['.js', '.jsx', '.json', '.scss', '.sass', '.sss', '.css'];
 
 const baseConfig = {
   output: {
@@ -63,11 +51,6 @@ const baseConfig = {
         test: /\.(js|jsx)$/,
         exclude: PATHS.nodeModules,
         use: [{ loader: 'babel-loader' }],
-      },
-      // Ts
-      {
-        test: /\.tsx?$/,
-        loader: 'awesome-typescript-loader',
       },
       // mdl
       {
@@ -157,10 +140,8 @@ const baseConfig = {
   },
 
   plugins: [
-    new HardSourceWebpackPlugin(),
     new HtmlWebpackPlugin(),
     new WebpackManifestPlugin(),
-    new CheckerPlugin(),
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
     }),
