@@ -8,6 +8,7 @@ import CyInput from '../../wood/cy-input';
 import CyDropdown from '../../wood/cy-dropdown';
 import CyButton from '../../wood/cy-button';
 import CyCodeField from '../../wood/cy-code-field';
+import RequestParamsInput from '../request-params-input';
 
 const defaultValues = {
   mode: 'get-request',
@@ -30,6 +31,7 @@ export default function(sources: {
   const makeCodeField = componentFactory(CyCodeField, sources);
   const makeInput = componentFactory(CyInput, sources);
   const makeDropdown = componentFactory(CyDropdown, sources);
+  const makeParamsInput = componentFactory(RequestParamsInput, sources);
 
   const validateBtnSinks = makeButton('validateBtn', {
     classNames: 'validateBtn',
@@ -65,6 +67,9 @@ export default function(sources: {
     classNames: 'descInput tableInput',
     placeholder: 'Description',
   });
+  const requestParamsInputSinks = makeParamsInput('descInput', {
+    classNames: 'rpi',
+  });
 
   const methodSwitchReducer$ = validateBtnSinks.clicks$.mapTo(
     methodSwitchReducer('yolo'),
@@ -79,6 +84,7 @@ export default function(sources: {
     keyInputSinks.ONION,
     valInputSinks.ONION,
     descInputSinks.ONION,
+    requestParamsInputSinks.ONION,
   );
 
   const vdom$ = xs
@@ -92,6 +98,7 @@ export default function(sources: {
       keyInputSinks.DOM,
       valInputSinks.DOM,
       descInputSinks.DOM,
+      requestParamsInputSinks.DOM,
     )
     .map(getMarkup);
 

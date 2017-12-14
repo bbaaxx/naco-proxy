@@ -14,6 +14,7 @@ export default (
     keyInput,
     valInput,
     descInput,
+    requestParmsInput,
   ]: any[],
 ) => (
   <div className={`configureRequestForm ${props.className}`}>
@@ -24,23 +25,8 @@ export default (
         {urlInput}
       </label>
       <div className={`table-responsive`}>
-        <label>Parameters</label>
-        <table className={`table`}>
-          <thead>
-            <tr>
-              <th>Key</th>
-              <th>Value</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{keyInput}</td>
-              <td>{valInput}</td>
-              <td>{descInput}</td>
-            </tr>
-          </tbody>
-        </table>
+        <label>Parameters Comp</label>
+        {requestParmsInput}
       </div>
       <div>{codeField}</div>
       <div>
