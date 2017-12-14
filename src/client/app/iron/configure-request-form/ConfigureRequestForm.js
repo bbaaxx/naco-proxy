@@ -35,7 +35,11 @@ export default function(sources: {
 
   const validateBtnSinks = makeButton('validateBtn', {
     classNames: 'validateBtn',
-    text: 'validate',
+    text: 'Validate',
+  });
+  const sendBtnSinks = makeButton('sendBtn', {
+    classNames: 'validateBtn',
+    text: 'Send',
   });
   const urlInputSinks = makeInput('urlInput', {
     classNames: 'urlInput inputLarge',
@@ -77,6 +81,7 @@ export default function(sources: {
       props$,
       state$,
       validateBtnSinks.DOM,
+      sendBtnSinks.DOM,
       urlInputSinks.DOM,
       codeFieldSinks.DOM,
       methodDropdownSinks.DOM,

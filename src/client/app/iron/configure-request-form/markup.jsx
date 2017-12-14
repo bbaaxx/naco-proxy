@@ -8,6 +8,7 @@ export default (
     props: { className: string },
     state: { mode: string },
     validateBtn,
+    sendBtn,
     urlInput,
     codeField,
     methodDropdown,
@@ -28,7 +29,7 @@ export default (
       <div>{codeField}</div>
       <div>
         {validateBtn}
-        {validateBtn}
+        {sendBtn}
       </div>
     </form>
   </div>
