@@ -11,6 +11,9 @@ export default (
     urlInput,
     codeField,
     methodDropdown,
+    keyInput,
+    valInput,
+    descInput,
   ]: any[],
 ) => (
   <div className={`configureRequestForm ${props.className}`}>
@@ -20,8 +23,26 @@ export default (
         Target URI:
         {urlInput}
       </label>
-      {validateBtn}
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{keyInput}</td>
+              <td>{valInput}</td>
+              <td>{descInput}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div>{codeField}</div>
+      {validateBtn}
     </form>
   </div>
 );

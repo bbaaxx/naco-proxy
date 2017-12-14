@@ -53,6 +53,19 @@ export default function(sources: {
     ],
   });
 
+  const keyInputSinks = makeInput('keyInput', {
+    classNames: 'keyInput',
+    placeholder: 'Key (id)',
+  });
+  const valInputSinks = makeInput('valInput', {
+    classNames: 'valInput',
+    placeholder: 'Value',
+  });
+  const descInputSinks = makeInput('descInput', {
+    classNames: 'descInput',
+    placeholder: 'Description',
+  });
+
   const methodSwitchReducer$ = validateBtnSinks.clicks$.mapTo(
     methodSwitchReducer('yolo'),
   );
@@ -63,6 +76,9 @@ export default function(sources: {
     urlInputSinks.ONION,
     codeFieldSinks.ONION,
     methodDropdownSinks.ONION,
+    keyInputSinks.ONION,
+    valInputSinks.ONION,
+    descInputSinks.ONION,
   );
 
   const vdom$ = xs
@@ -73,6 +89,9 @@ export default function(sources: {
       urlInputSinks.DOM,
       codeFieldSinks.DOM,
       methodDropdownSinks.DOM,
+      keyInputSinks.DOM,
+      valInputSinks.DOM,
+      descInputSinks.DOM,
     )
     .map(getMarkup);
 
