@@ -17,7 +17,7 @@ export default (
 ) => (
   <div className={`configureRequestForm ${props.className}`}>
     <form className={`form-control`} noValidate>
-      <div>
+      <div className={`meth-uri`}>
         {methodDropdown}
         {urlInput}
       </div>
@@ -25,8 +25,8 @@ export default (
         <label>Parameters (maybe move this to the RPI comp)</label>
         {requestParmsInput}
       </div>
-      <div>{codeField}</div>
-      <div>
+      <div className={`codeField`}>{codeField}</div>
+      <div className={`buttons`}>
         {validateBtn}
         {sendBtn}
       </div>

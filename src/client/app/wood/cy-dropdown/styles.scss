@@ -1,15 +1,15 @@
 .cyDropdown{
-	color: #222;
-	background-color: #ddd;
-	border: none;
-	height: 43px;
-	border-radius: 3px;
+	color: black;
+	background-color: white;
+	border: 2px solid black;
+	font-weight: bold;
+	height: 45px;
+	border-radius: 5px;
 	margin-right: 1%;
+	width: 20%;
 }
 
 .cyDropdown option{
-	background-color: #eee;
-	color: #222;
 	font-size: 1.1em;
 	line-height: 500px;
 }

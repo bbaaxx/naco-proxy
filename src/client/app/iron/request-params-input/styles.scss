@@ -4,7 +4,7 @@
 }
 
 .table thead{
-	background-color: #385372;
+	background-color: #678bb2;
 	color: white;
 }
 
@@ -17,11 +17,15 @@
 }
 
 .table-responsive{
-	width: 100%;
+	width: 90%;
+	padding: 20px;
 	max-height: 400px;
 	overflow: auto;
-	background-color: #eee;
-	border-radius: 3px;
+	background-color: white;
+	border: 2px solid black;
+	border-radius: 5px;
+	margin: 10px auto;
+	transform: translateX(-2px);
 }
 
 .table-responsive label{
