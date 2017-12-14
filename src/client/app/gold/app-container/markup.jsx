@@ -15,7 +15,7 @@ export default function(
       </header>
 
       <nav>
-        <ul>
+        <ul className="navLinks">
           <li>
             <wcmdl-button>Somewhere</wcmdl-button>
           </li>

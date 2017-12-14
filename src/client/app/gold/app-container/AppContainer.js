@@ -5,6 +5,7 @@ import { isolateExplicit } from '../../redstone/helpers/cycle-components';
 import getMarkup from './markup';
 import AppConsole from '../app-console';
 import ConfigureRequestForm from '../../iron/configure-request-form';
+import styles from './styles.scss';
 
 // empty for now, should import app config from somewhere
 const initialReducer$ = xs.of(() => ({}));

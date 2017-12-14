@@ -6,7 +6,7 @@ export default function(
 ) {
   return (
     <div className={`configureRequestForm ${props.className || ''}`}>
-      <form noValidate>
+      <form className={`form-control`} noValidate>
         {methodDropdown}
         <label>
           Target URI:

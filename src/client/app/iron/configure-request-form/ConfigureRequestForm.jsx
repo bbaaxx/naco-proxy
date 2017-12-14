@@ -2,7 +2,7 @@
 import xs, { Stream } from 'xstream';
 import Snabbdom from 'snabbdom-pragma';
 import { componentFactory } from '../../redstone/helpers/cycle-components';
-import styles from './styles.css';
+import styles from './styles.scss';
 
 import getMarkup from './markup';
 import CyInput from '../../wood/cy-input';
@@ -39,7 +39,7 @@ export default function(sources: {
     text: 'validate',
   });
   const urlInputSinks = makeInput('urlInput', {
-    classNames: 'urlInput',
+    classNames: 'urlInput inputLarge',
     placeholder: 'Provide a URL',
   });
   const codeFieldSinks = makeCodeField('codeField', {

@@ -1,4 +1,13 @@
 .cyDropdown{
-	color: red;
-	background-color: tomato;
+	color: white;
+	background-color: orange;
+	border: none;
+	height: 40px;
+	border-radius: 3px;
+	margin: 10px;
+}
+
+.cyDropdown option{
+	background-color: #eee;
+	color: #222;
 }
