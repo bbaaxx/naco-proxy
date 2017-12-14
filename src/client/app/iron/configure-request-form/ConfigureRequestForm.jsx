@@ -44,7 +44,7 @@ export default function(sources: {
   });
   const codeFieldSinks = makeCodeField('codeField', {
     classNames: 'codeField',
-    placeholder: 'Code Field',
+    initialValue: '{"put": "your", "json response": "here"}',
   });
   const methodDropdownSinks = makeDropdown('methodDropdown', {
     classNames: 'methodDropdown',

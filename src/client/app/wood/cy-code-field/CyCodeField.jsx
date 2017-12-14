@@ -7,12 +7,11 @@ import CodeMirror from 'codemirror';
 import 'codemirror/mode/javascript/javascript';
 import styles from './styles.scss';
 
-// console.log('styles', styles);
-
-const defaultValues = { value: 'console.log();' };
+const defaultValues = { value: void 0 };
 const defaultReducer = prev =>
   typeof prev === 'undefined' ? defaultValues : prev;
-const inputReducer = e => prev => ({ ...prev, value: e.target.value });
+const inputReducer = e => prev => ({ ...prev, value: e.detail.getValue() });
+
 export default function(sources: {
   props$: Stream,
   DOM: Stream,
@@ -22,28 +21,34 @@ export default function(sources: {
   const { state$ } = sources.ONION;
 
   const inputReducer$ = sources.DOM.select('.cyCodeField')
-    .events('input')
+    .events('cy-code-field-change')
     .map(inputReducer);
 
   const reducers$ = xs.merge(xs.of(defaultReducer), inputReducer$);
 
+  const codeMirrorHook = vnode =>
+    CodeMirror.fromTextArea(vnode.elm, {
+      lineNumbers: true,
+      lineWrapping: true,
+      mode: 'javascript',
+    }).on('change', chg =>
+      vnode.elm.dispatchEvent(
+        new CustomEvent('cy-code-field-change', {
+          detail: chg,
+          bubbles: true,
+        }),
+      ),
+    );
+
   const vdom$ = xs.combine(state$, props$).map(([state, props]) => (
     <div>
-      <wc-code-field />
       {textarea(
-        '.cyCodeField.CodeMirror',
+        '.cyCodeField',
         {
           attrs: { placeholder: props.placeholder },
-          hook: {
-            insert: vnode =>
-              CodeMirror.fromTextArea(vnode.elm, {
-                lineNumbers: true,
-                lineWrapping: true,
-                mode: 'javascript',
-              }),
-          },
+          hook: { insert: codeMirrorHook },
         },
-        [state.value],
+        [state.value || props.initialValue || ''],
       )}
     </div>
   ));
