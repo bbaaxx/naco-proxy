@@ -1,11 +1,14 @@
 .cy-button {
-	color: white; 
 	border: 0px;
-	background-color: #385372;
 	margin: 10px;
-	border-radius: 3px;
 	width: auto;
-	padding: 5px 50px;
+	padding: 5px 20px;
+}
+
+.mainButton{
+	color: white; 
+	background-color: #385372;
+	border-radius: 3px;
 	height: 40px;
 	-webkit-transition: transform 2s; /* Safari */
     transition: all 300ms;
@@ -13,18 +16,19 @@
     font-size: 1.05em;
 }
 
-.cy-button:hover{
+.mainButton:hover{
 	box-shadow: 3px 3px 3px #666;
 	transform: translate(-3px, -2px);
 }
 
 .navButton{
-	display: inline-block;
 	margin: 0px;
-	padding: 0px;
-	border-bottom: 2px solid transparent;
+	background-color: transparent;
+	font-size: 1.05em;
+	line-height: 30px;
+	cursor: pointer;
 }
 
 .navButton:hover, navButton:active{
-	border-bottom: 2px solid #385372;
+	color: #385372;
 }

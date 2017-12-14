@@ -33,11 +33,11 @@ export default function(sources: {
   const makeParamsInput = componentFactory(RequestParamsInput, sources);
 
   const validateBtnSinks = makeButton('validateBtn', {
-    classNames: 'validateBtn',
+    classNames: 'validateBtn mainButton',
     text: 'Validate',
   });
   const sendBtnSinks = makeButton('sendBtn', {
-    classNames: 'validateBtn',
+    classNames: 'sendBtn mainButton',
     text: 'Send',
   });
   const urlInputSinks = makeInput('urlInput', {
