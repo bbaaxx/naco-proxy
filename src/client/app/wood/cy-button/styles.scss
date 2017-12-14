@@ -2,7 +2,7 @@
 	border: 0px;
 	margin: 10px;
 	width: auto;
-	padding: 5px 50px;
+	padding: 5px 20px;
 }
 
 .mainButton{
@@ -22,8 +22,10 @@
 }
 
 .navButton{
+	margin: 0px;
 	background-color: transparent;
 	font-size: 1.05em;
+	line-height: 30px;
 	cursor: pointer;
 }
 
