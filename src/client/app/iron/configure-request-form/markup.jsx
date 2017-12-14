@@ -11,9 +11,6 @@ export default (
     urlInput,
     codeField,
     methodDropdown,
-    keyInput,
-    valInput,
-    descInput,
     requestParmsInput,
   ]: any[],
 ) => (

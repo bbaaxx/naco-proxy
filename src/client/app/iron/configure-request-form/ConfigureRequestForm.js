@@ -55,18 +55,6 @@ export default function(sources: {
     ],
   });
 
-  const keyInputSinks = makeInput('keyInput', {
-    classNames: 'keyInput tableInput',
-    placeholder: 'Key (id)',
-  });
-  const valInputSinks = makeInput('valInput', {
-    classNames: 'valInput tableInput',
-    placeholder: 'Value',
-  });
-  const descInputSinks = makeInput('descInput', {
-    classNames: 'descInput tableInput',
-    placeholder: 'Description',
-  });
   const requestParamsInputSinks = makeParamsInput('descInput', {
     classNames: 'rpi',
   });
@@ -81,9 +69,6 @@ export default function(sources: {
     urlInputSinks.ONION,
     codeFieldSinks.ONION,
     methodDropdownSinks.ONION,
-    keyInputSinks.ONION,
-    valInputSinks.ONION,
-    descInputSinks.ONION,
     requestParamsInputSinks.ONION,
   );
 
@@ -95,9 +80,6 @@ export default function(sources: {
       urlInputSinks.DOM,
       codeFieldSinks.DOM,
       methodDropdownSinks.DOM,
-      keyInputSinks.DOM,
-      valInputSinks.DOM,
-      descInputSinks.DOM,
       requestParamsInputSinks.DOM,
     )
     .map(getMarkup);
