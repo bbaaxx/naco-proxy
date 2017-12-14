@@ -1,7 +1,6 @@
 import WcmdlButton from './wood/wcmdl-button';
-import WcCodeField from './wood/wc-code-field';
 
-const allElements = [WcmdlButton, WcCodeField];
+const allElements = [WcmdlButton];
 
 export default function registerCustomElements() {
   allElements.forEach(element => {

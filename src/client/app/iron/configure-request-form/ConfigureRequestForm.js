@@ -1,6 +1,5 @@
 // @flow
 import xs, { Stream } from 'xstream';
-import Snabbdom from 'snabbdom-pragma';
 import { componentFactory } from '../../redstone/helpers/cycle-components';
 import styles from './styles.scss';
 
