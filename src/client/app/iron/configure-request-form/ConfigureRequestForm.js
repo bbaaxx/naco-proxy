@@ -42,7 +42,7 @@ export default function(sources: {
   });
   const urlInputSinks = makeInput('urlInput', {
     classNames: 'urlInput inputLarge',
-    placeholder: 'Provide a URL',
+    placeholder: 'Provide a URL (Target URI)',
   });
   const codeFieldSinks = makeCodeField('codeField', {
     classNames: 'codeField',

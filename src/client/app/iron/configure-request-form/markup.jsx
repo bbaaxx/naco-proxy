@@ -17,11 +17,10 @@ export default (
 ) => (
   <div className={`configureRequestForm ${props.className}`}>
     <form className={`form-control`} noValidate>
-      {methodDropdown}
-      <label>
-        Target URI:
+      <div>
+        {methodDropdown}
         {urlInput}
-      </label>
+      </div>
       <div className={`table-responsive`}>
         <label>Parameters (maybe move this to the RPI comp)</label>
         {requestParmsInput}

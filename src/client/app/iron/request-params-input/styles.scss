@@ -10,6 +10,7 @@
 
 .tableInput{
 	width: 100%;
+	min-width: 140px;
 	margin: 0px;
 	padding: 0px;
 	height: 30px;
@@ -21,12 +22,9 @@
 	overflow: auto;
 	background-color: #eee;
 	border-radius: 3px;
-	padding: 10px;
 }
 
 .table-responsive label{
-	display: block;
-	text-align: center;
 	color: #666;
 	margin: 10px 0px;
 }

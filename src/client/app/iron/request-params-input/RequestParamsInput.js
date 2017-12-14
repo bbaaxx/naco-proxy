@@ -27,6 +27,7 @@ export default function(sources: {
   const { state$ } = sources.ONION;
 
   const makeInput = componentFactory(CyInput, sources);
+  const makeButton = componentFactory(CyButton, sources);
 
   const keyInputSinks = makeInput('keyInput', {
     classNames: 'keyInput tableInput',
@@ -39,6 +40,10 @@ export default function(sources: {
   const descInputSinks = makeInput('descInput', {
     classNames: 'descInput tableInput',
     placeholder: 'Description',
+  });
+  const delButtonSinks = makeButton('delButton', {
+    classNames: 'delButton',
+    text: 'Delete',
   });
 
   const reducers$ = xs.merge(
@@ -55,6 +60,7 @@ export default function(sources: {
       keyInputSinks.DOM,
       valueInputSinks.DOM,
       descInputSinks.DOM,
+      delButtonSinks.DOM,
     )
     .map(getMarkup);
 
