@@ -4,7 +4,7 @@
 	font-family: Arial;
 }
 
-.masterLayout h1,h2{
+.masterLayout h1, .masterLayout h2 {
 	margin: 0px;
 }
 
@@ -14,14 +14,19 @@
 	color: #ddd;
 }
 
-header{
+.headLil {
+	font-size:	0.4em;
+	margin-bottom: 0.6em;
+}
+
+.appContainerHeader {
 	background-color: #385372;
 	color: white;
 	text-align: center;
 	padding: 15px;
 }
 
-nav{
+.topNavMenuContainer {
 	background-color: #eee;
 	color: white;
 	text-align: center;
@@ -44,4 +49,3 @@ nav{
 .navLinks li:hover, li:active{
 	border-bottom: 2px solid #385372;
 }
-

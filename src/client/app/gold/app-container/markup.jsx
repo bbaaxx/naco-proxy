@@ -6,14 +6,19 @@ export default function(
 ) {
   return (
     <div className="masterLayout">
-      <header>
+      <header className="appContainerHeader">
         <hgroup>
-          <h1>NAco</h1>
+          <h1>
+            N<span className="headLil">GOB</span>A<span className="headLil">
+              utomatically
+            </span>C<span className="headLil">onfigurable</span>O<span className="headLil">
+              verrider
+            </span>
+          </h1>
           <h2>Mockomatic Proxy</h2>
         </hgroup>
       </header>
-
-      {topNavMenu}
+      <div className="topNavMenuContainer">{topNavMenu}</div>
       {mainContent}
       {asideContent}
 

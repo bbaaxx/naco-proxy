@@ -28,17 +28,11 @@ export default function(sources: {
 
   const makeInput = componentFactory(CyInput, sources);
 
-  // const makeButton = componentFactory(CyButton, sources);
-  // const validateBtnSinks = makeButton('validateBtn', {
-  //   classNames: 'validateBtn',
-  //   text: 'validate',
-  // });
-
   const keyInputSinks = makeInput('keyInput', {
     classNames: 'keyInput tableInput',
     placeholder: 'Key (id)',
   });
-  const valInputSinks = makeInput('valInput', {
+  const valueInputSinks = makeInput('valInput', {
     classNames: 'valInput tableInput',
     placeholder: 'Value',
   });
@@ -50,7 +44,7 @@ export default function(sources: {
   const reducers$ = xs.merge(
     defaultReducer$,
     keyInputSinks.ONION,
-    valInputSinks.ONION,
+    valueInputSinks.ONION,
     descInputSinks.ONION,
   );
 
@@ -59,7 +53,7 @@ export default function(sources: {
       props$,
       state$,
       keyInputSinks.DOM,
-      valInputSinks.DOM,
+      valueInputSinks.DOM,
       descInputSinks.DOM,
     )
     .map(getMarkup);

@@ -24,6 +24,10 @@ export default function(sources: {
   const { props$ } = sources;
 
   const makeButton = componentFactory(CyButton, sources);
+  const allRequestsButton = makeButton('allRequests', {
+    classNames: 'allRequests navButton',
+    text: 'all requests',
+  });
   const newRequestButton = makeButton('newReqButton', {
     classNames: 'newReqButton navButton',
     text: 'new request',
@@ -36,7 +40,12 @@ export default function(sources: {
   const reducers$ = xs.merge(defaultReducer$);
 
   const vdom$ = xs
-    .combine(props$, newRequestButton.DOM, newCollectionButton.DOM)
+    .combine(
+      props$,
+      allRequestsButton.DOM,
+      newRequestButton.DOM,
+      newCollectionButton.DOM,
+    )
     .map(getMarkup);
 
   return { DOM: vdom$, ONION: reducers$ };
