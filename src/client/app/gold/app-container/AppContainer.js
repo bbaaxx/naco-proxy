@@ -1,9 +1,6 @@
 import xs from 'xstream';
-import { div, section } from '@cycle/dom';
-import {
-  isolateExplicit,
-  componentFactory,
-} from '../../redstone/helpers/cycle-components';
+import { aside } from '@cycle/dom';
+import { componentFactory } from '../../redstone/helpers/cycle-components';
 import getMarkup from './markup';
 import AppConsole from '../app-console';
 import ConfigureRequestForm from '../../iron/configure-request-form';
@@ -14,25 +11,20 @@ import styles from './styles.scss';
 // empty for now, should import app config from somewhere
 const initialReducer$ = xs.of(() => ({}));
 
-const getMainContent = sources =>
-  isolateExplicit(ConfigureRequestForm, 'configureRequestForm', sources);
-const getAppConsole = sources =>
-  isolateExplicit(AppConsole, 'appConsole', sources);
-const getTopNavMenu = sources =>
-  isolateExplicit(TopNavMenu, 'topNavMenu', sources, { classNames: 'yol' });
-
 export default function(sources) {
   const { state$ } = sources.ONION;
   const scroll$ = sources.SCROLL;
 
-  const appConsoleSinks = getAppConsole(sources);
-  const mainContentSinks = getMainContent(sources);
-  const topNavMenu = componentFactory(TopNavMenu, sources)('topNavMenu', {
-    classNames: 'yol',
+  const appConsoleSinks = componentFactory(AppConsole, sources)('appConsole');
+  const mainContentSinks = componentFactory(ConfigureRequestForm, sources)(
+    'configureRequestForm',
+  );
+  const topNavMenuSinks = componentFactory(TopNavMenu, sources)('topNavMenu', {
+    classNames: 'topNavMenu',
   });
 
   const asideContentSinks = {
-    DOM: xs.of(section('.asideContent', 'Aside content (not implemented)')),
+    DOM: xs.of(aside('.asideContent', 'Aside content (not implemented)')),
   };
 
   const reducers$ = xs.merge(
@@ -47,7 +39,7 @@ export default function(sources) {
       mainContentSinks.DOM,
       asideContentSinks.DOM,
       appConsoleSinks.DOM,
-      topNavMenu.DOM,
+      topNavMenuSinks.DOM,
     )
     .map(getMarkup);
 

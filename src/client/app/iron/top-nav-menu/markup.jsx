@@ -5,7 +5,7 @@ import { VNode } from '@cycle/dom';
 export default (
   [props: { className: string }, newRequestButton, newCollectionButton]: any[],
 ) => (
-  <div className={`requestParmsInput ${props.className}`}>
+  <div className={`requestParmsInput ${props.classNames}`}>
     <nav>
       <ul className="navLinks">
         <li>{newRequestButton}</li>
