@@ -25,11 +25,11 @@ export default function(sources: {
 
   const makeButton = componentFactory(CyButton, sources);
   const newRequestButton = makeButton('newReqButton', {
-    classNames: 'newReqButton',
+    classNames: 'newReqButton navButton',
     text: 'new request',
   });
   const newCollectionButton = makeButton('newCollectionButton', {
-    classNames: 'newCollectionButton',
+    classNames: 'newCollectionButton navButton',
     text: 'new collection',
   });
 
