@@ -2,7 +2,13 @@
 import Snabbdom from 'snabbdom-pragma';
 
 export default function(
-  [state, mainContent, asideContent, appConsole]: [any, any, any, any],
+  [state, mainContent, asideContent, appConsole, topNavMenu]: [
+    any,
+    any,
+    any,
+    any,
+    any,
+  ],
 ) {
   return (
     <div className="masterLayout">
@@ -13,18 +19,7 @@ export default function(
         </hgroup>
       </header>
 
-      <nav>
-        <ul className="navLinks">
-          <li>
-            <wcmdl-button>New request</wcmdl-button>
-          </li>
-          <li>
-            <wcmdl-button ripple colored>
-              New Collection
-            </wcmdl-button>
-          </li>
-        </ul>
-      </nav>
+      {topNavMenu}
 
       <section>{mainContent}</section>
 
