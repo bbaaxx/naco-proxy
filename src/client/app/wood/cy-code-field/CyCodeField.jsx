@@ -7,9 +7,8 @@ import CodeMirror from 'codemirror';
 import 'codemirror/mode/javascript/javascript';
 import styles from './styles.scss';
 
-const defaultValues = { value: void 0 };
 const defaultReducer = prev =>
-  typeof prev === 'undefined' ? defaultValues : prev;
+  typeof prev === 'undefined' ? { value: '' } : prev;
 const inputReducer = e => prev => ({ ...prev, value: e.detail.getValue() });
 
 export default function(sources: {

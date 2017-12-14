@@ -23,7 +23,7 @@ export default (
         {urlInput}
       </label>
       <div className={`table-responsive`}>
-        <label>Parameters</label>
+        <label>Parameters (maybe move this to the RPI comp)</label>
         {requestParmsInput}
       </div>
       <div>{codeField}</div>
