@@ -31,6 +31,7 @@ export default function(sources: {
       lineNumbers: true,
       lineWrapping: true,
       mode: 'javascript',
+      theme: 'solarized',
     }).on('change', chg =>
       vnode.elm.dispatchEvent(
         new CustomEvent('cy-code-field-change', {

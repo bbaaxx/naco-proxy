@@ -4,7 +4,7 @@ import componentHandler from 'material-design-lite/material';
 
 import injectStyles from '../../redstone/helpers/custom-elements/injectStyles';
 import styles from './styles.component.scss';
-console.log(styles);
+
 export default class WcmdlButton extends HTMLElement {
   name: string;
   icon: string;

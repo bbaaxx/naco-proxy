@@ -10,8 +10,6 @@ import CyDropdown from '../../wood/cy-dropdown';
 import CyButton from '../../wood/cy-button';
 import CyCodeField from '../../wood/cy-code-field';
 
-console.log(styles);
-
 const defaultValues = {
   mode: 'get-request',
 };

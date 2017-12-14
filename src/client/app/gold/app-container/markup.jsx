@@ -1,4 +1,3 @@
-/** @jsx Snabbdom.createElement */
 // @flow
 import Snabbdom from 'snabbdom-pragma';
 
@@ -9,19 +8,19 @@ export default function(
     <div className="masterLayout">
       <header>
         <hgroup>
-          <h1>Header</h1>
-          <h2>SubHeader</h2>
+          <h1>NAco</h1>
+          <h2>Mockomatic Proxy</h2>
         </hgroup>
       </header>
 
       <nav>
         <ul className="navLinks">
           <li>
-            <wcmdl-button>Somewhere</wcmdl-button>
+            <wcmdl-button>New request</wcmdl-button>
           </li>
           <li>
             <wcmdl-button ripple colored>
-              Elsewhere
+              New Collection
             </wcmdl-button>
           </li>
         </ul>
@@ -31,8 +30,8 @@ export default function(
 
       <aside>{asideContent}</aside>
 
-      {appConsole}
       <hr />
+      {appConsole}
       <div>{JSON.stringify(state)}</div>
     </div>
   );
