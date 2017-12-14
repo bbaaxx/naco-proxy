@@ -1,15 +1,21 @@
 .cy-button {
 	color: white; 
 	border: 0px;
-	background-color: orange;
+	background-color: #385372;
 	margin: 10px;
 	border-radius: 3px;
-	width: 80px;
+	width: auto;
+	padding: 5px 50px;
 	height: 40px;
+	-webkit-transition: transform 2s; /* Safari */
+    transition: all 300ms;
+    box-shadow: 0px 0px 0px #666;
+    font-size: 1.05em;
 }
 
 .cy-button:hover{
-	box-shadow: 3px 3px 3px #888;
+	box-shadow: 3px 3px 3px #666;
+	transform: translate(-3px, -2px);
 }
 
 .navButton{
