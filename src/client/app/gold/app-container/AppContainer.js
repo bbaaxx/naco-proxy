@@ -23,7 +23,7 @@ export default function(sources) {
   const appConsoleSinks = getAppConsole(sources);
   const mainContentSinks = getMainContent(sources);
   const asideContentSinks = {
-    DOM: xs.of(section('.asideContent', 'Dies asider content')),
+    DOM: xs.of(section('.asideContent', 'Aside content (not implemented)')),
   };
 
   const reducers$ = xs.merge(

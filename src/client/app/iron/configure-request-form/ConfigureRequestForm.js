@@ -55,7 +55,7 @@ export default function(sources: {
     ],
   });
 
-  const requestParamsInputSinks = makeParamsInput('descInput', {
+  const requestParamsInputSinks = makeParamsInput('requestParamsInput', {
     classNames: 'rpi',
   });
 
