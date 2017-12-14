@@ -1,0 +1,27 @@
+.masterLayout{
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial;
+}
+
+header{
+	background-color: #121F44;
+	color: white;
+	text-align: center;
+	padding: 5px;
+}
+
+nav{
+	background-color: #4b5d8e;
+	color: white;
+	text-align: center;
+	padding: 5px;
+}
+
+.navLinks{
+	list-style: none;
+}
+
+.navLinks li{
+	display: inline-block;
+}
