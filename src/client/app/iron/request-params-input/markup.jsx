@@ -6,7 +6,7 @@ export default (
   [props: { className: string }, state, keyInput, valInput, descInput]: any[],
 ) => (
   <div className={`requestParmsInput ${props.className}`}>
-    <table>
+    <table className={`table`}>
       <thead>
         <tr>
           <th>Key</th>

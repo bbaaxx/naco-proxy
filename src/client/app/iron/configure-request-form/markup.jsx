@@ -25,7 +25,7 @@ export default (
         {urlInput}
       </label>
       <div className={`table-responsive`}>
-        <label>Parameters Comp</label>
+        <label>Parameters</label>
         {requestParmsInput}
       </div>
       <div>{codeField}</div>

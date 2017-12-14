@@ -55,6 +55,7 @@ export default function(sources: {
     ],
   });
 
+  /* Table Inputs */
   const keyInputSinks = makeInput('keyInput', {
     classNames: 'keyInput tableInput',
     placeholder: 'Key (id)',
