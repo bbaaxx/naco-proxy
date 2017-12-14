@@ -1,7 +1,8 @@
 // @flow
 import Snabbdom from 'snabbdom-pragma';
+
 import { VNode } from '@cycle/dom';
-console.log(VNode);
+
 export default (
   [
     props: { className: string },

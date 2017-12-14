@@ -4,15 +4,25 @@
 	font-family: Arial;
 }
 
+.masterLayout h1,h2{
+	margin: 0px;
+}
+
+.masterLayout h2{
+	font-size: 0.9em;
+	font-style: italic;
+	color: #ddd;
+}
+
 header{
 	background-color: #121F44;
 	color: white;
 	text-align: center;
-	padding: 5px;
+	padding: 15px;
 }
 
 nav{
-	background-color: #4b5d8e;
+	background-color: #eee;
 	color: white;
 	text-align: center;
 	padding: 5px;
@@ -20,8 +30,18 @@ nav{
 
 .navLinks{
 	list-style: none;
+	margin: 0px;
+	padding: 0px;
 }
 
 .navLinks li{
 	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	border-bottom: 2px solid transparent;
 }
+
+.navLinks li:hover, li:active{
+	border-bottom: 2px solid #666;
+}
+
