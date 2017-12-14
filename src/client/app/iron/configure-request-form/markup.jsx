@@ -23,8 +23,9 @@ export default (
         Target URI:
         {urlInput}
       </label>
-      <div>
-        <table>
+      <div className={`table-responsive`}>
+        <label>Parameters</label>
+        <table className={`table`}>
           <thead>
             <tr>
               <th>Key</th>
@@ -42,7 +43,10 @@ export default (
         </table>
       </div>
       <div>{codeField}</div>
-      {validateBtn}
+      <div>
+        {validateBtn}
+        {validateBtn}
+      </div>
     </form>
   </div>
 );

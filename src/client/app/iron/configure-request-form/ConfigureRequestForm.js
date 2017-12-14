@@ -54,15 +54,15 @@ export default function(sources: {
   });
 
   const keyInputSinks = makeInput('keyInput', {
-    classNames: 'keyInput',
+    classNames: 'keyInput tableInput',
     placeholder: 'Key (id)',
   });
   const valInputSinks = makeInput('valInput', {
-    classNames: 'valInput',
+    classNames: 'valInput tableInput',
     placeholder: 'Value',
   });
   const descInputSinks = makeInput('descInput', {
-    classNames: 'descInput',
+    classNames: 'descInput tableInput',
     placeholder: 'Description',
   });
 
