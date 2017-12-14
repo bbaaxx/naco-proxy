@@ -11,3 +11,14 @@
 .cy-button:hover{
 	box-shadow: 3px 3px 3px #888;
 }
+
+.navButton{
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	border-bottom: 2px solid transparent;
+}
+
+.navButton:hover, navButton:active{
+	border-bottom: 2px solid #385372;
+}
