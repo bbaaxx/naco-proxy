@@ -15,6 +15,18 @@ const defaultValues = {
     classNames: 'delButton',
     text: 'Delete',
   },
+  keyInput: {
+    classNames: 'keyInput tableInput',
+    placeholder: 'Key (id)',
+  },
+  valInput: {
+    classNames: 'valInput tableInput',
+    placeholder: 'Value',
+  },
+  descInput: {
+    classNames: 'descInput tableInput',
+    placeholder: 'Description',
+  },
 };
 const defaultReducer$ = xs.of(
   prev =>
@@ -33,18 +45,9 @@ export default function(sources: {
   const makeInput = componentFactory(CyInput, sources);
   const makeButton = componentFactory(CyButton, sources);
 
-  const keyInputSinks = makeInput('keyInput', {
-    classNames: 'keyInput tableInput',
-    placeholder: 'Key (id)',
-  });
-  const valueInputSinks = makeInput('valInput', {
-    classNames: 'valInput tableInput',
-    placeholder: 'Value',
-  });
-  const descInputSinks = makeInput('descInput', {
-    classNames: 'descInput tableInput',
-    placeholder: 'Description',
-  });
+  const keyInputSinks = makeInput('keyInput');
+  const valueInputSinks = makeInput('valInput');
+  const descInputSinks = makeInput('descInput');
   const delButtonSinks = makeButton('delButton');
 
   const reducers$ = xs.merge(

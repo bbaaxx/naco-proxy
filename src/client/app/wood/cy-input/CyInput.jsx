@@ -8,12 +8,7 @@ const defaultReducer = prev =>
   typeof prev === 'undefined' ? defaultValues : prev;
 const inputReducer = e => prev => ({ ...prev, value: e.target.value });
 
-export default function(sources: {
-  props$: Stream,
-  DOM: Stream,
-  onion: Stream,
-}) {
-  const { props$ } = sources;
+export default function(sources: { DOM: Stream, onion: Stream }) {
   const { state$ } = sources.onion;
 
   const inputReducer$ = sources.DOM.select('.cyInput')
@@ -22,14 +17,12 @@ export default function(sources: {
 
   const reducers$ = xs.merge(xs.of(defaultReducer), inputReducer$);
 
-  const vdom$ = xs
-    .combine(state$, props$)
-    .map(([state, props]) => (
-      <input
-        className={`cyInput ${props.classNames || ''}`}
-        placeholder={props.placeholder || ''}
-      />
-    ));
+  const vdom$ = state$.map(state => (
+    <input
+      className={`cyInput ${state.classNames || ''}`}
+      placeholder={state.placeholder || ''}
+    />
+  ));
 
   return { DOM: vdom$, onion: reducers$ };
 }

@@ -30,7 +30,7 @@ const initialValues = {
   },
   methodDropdown: {
     classNames: 'methodDropdown',
-    unselectedDefault: 'Select a method',
+    unselectedDefault: 'Method',
     options: [
       { value: 'get', text: 'GET' },
       { value: 'post', text: 'POST' },
@@ -64,17 +64,10 @@ export default function(sources: {
 
   const validateBtnSinks = makeButton('validateBtn');
   const sendBtnSinks = makeButton('sendBtn');
-
-  const urlInputSinks = makeInput('urlInput', initialValues.urlInput);
-  const codeFieldSinks = makeCodeField('codeField', initialValues.codeField);
-  const methodDropdownSinks = makeDropdown(
-    'methodDropdown',
-    initialValues.methodDropdown,
-  );
-  const requestParamsInputSinks = makeParamsInput(
-    'requestParamsInput',
-    initialValues.requestParamsInput,
-  );
+  const urlInputSinks = makeInput('urlInput');
+  const codeFieldSinks = makeCodeField('codeField');
+  const methodDropdownSinks = makeDropdown('methodDropdown');
+  const requestParamsInputSinks = makeParamsInput('requestParamsInput');
 
   const methodSwitchReducer$ = validateBtnSinks.clicks$.mapTo(
     methodSwitchReducer('yolo'),

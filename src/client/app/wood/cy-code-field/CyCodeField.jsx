@@ -11,12 +11,7 @@ const defaultReducer = prev =>
   typeof prev === 'undefined' ? { value: '' } : prev;
 const inputReducer = e => prev => ({ ...prev, value: e.detail.getValue() });
 
-export default function(sources: {
-  props$: Stream,
-  DOM: Stream,
-  onion: Stream,
-}) {
-  const { props$ } = sources;
+export default function(sources: { DOM: Stream, onion: Stream }) {
   const { state$ } = sources.onion;
 
   const inputReducer$ = sources.DOM.select('.cyCodeField')
@@ -40,15 +35,14 @@ export default function(sources: {
       ),
     );
 
-  const vdom$ = xs.combine(state$, props$).map(([state, props]) => (
+  const vdom$ = state$.map(state => (
     <div>
       {textarea(
         '.cyCodeField',
         {
-          attrs: { placeholder: props.placeholder },
           hook: { insert: codeMirrorHook },
         },
-        [state.value || props.initialValue || ''],
+        [state.value || state.initialValue],
       )}
     </div>
   ));

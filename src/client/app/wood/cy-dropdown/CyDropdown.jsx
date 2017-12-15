@@ -3,35 +3,37 @@ import xs, { Stream } from 'xstream';
 import Snabbdom from 'snabbdom-pragma';
 import './styles.scss';
 
-const defaultValues = { value: '' };
-const defaultReducer = prev =>
-  typeof prev === 'undefined' ? defaultValues : prev;
+const defaultValues = {
+  value: '',
+  classNames: '',
+  unselectedDefault: void 0,
+  options: [],
+};
+const defaultReducer$ = xs.of(
+  prev => (typeof prev === 'undefined' ? defaultValues : prev),
+);
 const selectReducer = e => prev => ({ ...prev, value: e.target.value });
 
 const getOptsElement = opt => <option value={opt.value}>{opt.text}</option>;
 
-export default function(sources: {
-  props$: Stream,
-  DOM: Stream,
-  onion: Stream,
-}) {
-  const { props$ } = sources;
+export default function(sources: { DOM: Stream, onion: Stream }) {
   const { state$ } = sources.onion;
 
   const selectReducer$ = sources.DOM.select('.cyDropdown')
     .events('input')
     .map(selectReducer);
 
-  const reducers$ = xs.merge(xs.of(defaultReducer), selectReducer$);
+  const reducers$ = xs.merge(defaultReducer$, selectReducer$);
 
-  const vdom$ = xs.combine(state$, props$).map(([state, props]) => (
-    <select className={`cyDropdown ${props.className || ''}`}>
-      {props.unselectedDefault && (
+  const vdom$ = state$.map(state => (
+    <select className={`cyDropdown ${state.className || ''}`}>
+      {state.unselectedDefault && (
         <option value="" disabled selected>
-          {props.unselectedDefault}
+          {typeof state.unselectedDefault !== 'undefined' &&
+            state.unselectedDefault}
         </option>
       )}
-      {props.options.map(getOptsElement)}
+      {state.options.map(getOptsElement)}
     </select>
   ));
 

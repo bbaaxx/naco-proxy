@@ -20,6 +20,7 @@ const defaultValues = {
     text: 'new collection',
   },
 };
+
 const defaultReducer$ = xs.of(
   prev =>
     typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev },
