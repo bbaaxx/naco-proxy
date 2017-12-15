@@ -23,6 +23,7 @@ export default function(
       {asideContent}
 
       <hr />
+      <wc-canvas />
       {appConsole}
       <div>{JSON.stringify(state)}</div>
     </div>
