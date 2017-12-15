@@ -19,7 +19,7 @@ const methodSwitchReducer = mode => prev => ({ ...prev, mode });
 export default function(sources: {
   props$: Stream,
   DOM: Stream,
-  ONION: Stream,
+  onion: Stream,
 }) {
   const { props$ } = sources;
 
@@ -48,5 +48,5 @@ export default function(sources: {
     )
     .map(getMarkup);
 
-  return { DOM: vdom$, ONION: reducers$ };
+  return { DOM: vdom$, onion: reducers$ };
 }

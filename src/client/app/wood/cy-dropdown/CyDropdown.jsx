@@ -13,10 +13,10 @@ const getOptsElement = opt => <option value={opt.value}>{opt.text}</option>;
 export default function(sources: {
   props$: Stream,
   DOM: Stream,
-  ONION: Stream,
+  onion: Stream,
 }) {
   const { props$ } = sources;
-  const { state$ } = sources.ONION;
+  const { state$ } = sources.onion;
 
   const selectReducer$ = sources.DOM.select('.cyDropdown')
     .events('input')
@@ -35,5 +35,5 @@ export default function(sources: {
     </select>
   ));
 
-  return { DOM: vdom$, ONION: reducers$ };
+  return { DOM: vdom$, onion: reducers$ };
 }

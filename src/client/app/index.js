@@ -25,7 +25,7 @@ export default function App(selector) {
   });
 
   return () => {
-    run(onionify(AppContainer, 'ONION'), makeDrivers());
+    run(onionify(AppContainer, 'onion'), makeDrivers());
   };
 }
 

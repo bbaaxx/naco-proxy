@@ -21,10 +21,10 @@ const methodSwitchReducer = mode => prev => ({ ...prev, mode });
 export default function(sources: {
   props$: Stream,
   DOM: Stream,
-  ONION: Stream,
+  onion: Stream,
 }) {
   const { props$ } = sources;
-  const { state$ } = sources.ONION;
+  const { state$ } = sources.onion;
 
   const makeButton = componentFactory(CyButton, sources);
   const makeCodeField = componentFactory(CyCodeField, sources);
@@ -69,10 +69,10 @@ export default function(sources: {
   const reducers$ = xs.merge(
     defaultReducer$,
     methodSwitchReducer$,
-    urlInputSinks.ONION,
-    codeFieldSinks.ONION,
-    methodDropdownSinks.ONION,
-    requestParamsInputSinks.ONION,
+    urlInputSinks.onion,
+    codeFieldSinks.onion,
+    methodDropdownSinks.onion,
+    requestParamsInputSinks.onion,
   );
 
   const vdom$ = xs
@@ -88,5 +88,5 @@ export default function(sources: {
     )
     .map(getMarkup);
 
-  return { DOM: vdom$, ONION: reducers$ };
+  return { DOM: vdom$, onion: reducers$ };
 }

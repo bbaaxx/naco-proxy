@@ -20,9 +20,9 @@ export default function(sources: {
   props$: Stream,
   DOM: Stream,
   SCROLL: Stream,
-  ONION: Stream,
+  onion: Stream,
 }) {
-  const { state$ } = sources.ONION;
+  const { state$ } = sources.onion;
   const scroll$ = sources.SCROLL;
 
   const reducers$ = xs.merge(
@@ -42,6 +42,6 @@ export default function(sources: {
     DOM: vdom$,
     // Log: log$,
     // HTTP: request$,
-    ONION: reducers$,
+    onion: reducers$,
   };
 }
