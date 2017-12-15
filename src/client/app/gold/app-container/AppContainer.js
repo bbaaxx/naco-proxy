@@ -12,7 +12,7 @@ import styles from './styles.scss';
 const initialReducer$ = xs.of(() => ({}));
 
 export default function(sources) {
-  const { state$ } = sources.ONION;
+  const { state$ } = sources.onion;
   const scroll$ = sources.SCROLL;
 
   const appConsoleSinks = componentFactory(AppConsole, sources)('appConsole');
@@ -29,8 +29,9 @@ export default function(sources) {
 
   const reducers$ = xs.merge(
     initialReducer$,
-    appConsoleSinks.ONION,
-    mainContentSinks.ONION,
+    appConsoleSinks.onion,
+    mainContentSinks.onion,
+    topNavMenuSinks.onion,
   );
 
   const vdom$ = xs
@@ -48,6 +49,6 @@ export default function(sources) {
     // SCROLL: scrollSinks$,
     // Log: logSinks$,
     // HTTP: requestSinks$,
-    ONION: reducers$,
+    onion: reducers$,
   };
 }

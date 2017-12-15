@@ -22,7 +22,8 @@ export default (
         {urlInput}
       </div>
       <div className={`table-responsive`}>
-        <label>Parameters (maybe move this to the RPI comp)</label>
+        {/* REVIEW: not sure if this should be a label */}
+        <label>Parameters</label>
         {requestParmsInput}
       </div>
       <div className={`codeField`}>{codeField}</div>

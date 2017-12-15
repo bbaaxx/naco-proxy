@@ -11,10 +11,10 @@ const inputReducer = e => prev => ({ ...prev, value: e.target.value });
 export default function(sources: {
   props$: Stream,
   DOM: Stream,
-  ONION: Stream,
+  onion: Stream,
 }) {
   const { props$ } = sources;
-  const { state$ } = sources.ONION;
+  const { state$ } = sources.onion;
 
   const inputReducer$ = sources.DOM.select('.cyInput')
     .events('input')
@@ -31,5 +31,5 @@ export default function(sources: {
       />
     ));
 
-  return { DOM: vdom$, ONION: reducers$ };
+  return { DOM: vdom$, onion: reducers$ };
 }

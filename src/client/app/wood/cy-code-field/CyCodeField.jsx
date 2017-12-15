@@ -14,10 +14,10 @@ const inputReducer = e => prev => ({ ...prev, value: e.detail.getValue() });
 export default function(sources: {
   props$: Stream,
   DOM: Stream,
-  ONION: Stream,
+  onion: Stream,
 }) {
   const { props$ } = sources;
-  const { state$ } = sources.ONION;
+  const { state$ } = sources.onion;
 
   const inputReducer$ = sources.DOM.select('.cyCodeField')
     .events('cy-code-field-change')
@@ -53,5 +53,5 @@ export default function(sources: {
     </div>
   ));
 
-  return { DOM: vdom$, ONION: reducers$ };
+  return { DOM: vdom$, onion: reducers$ };
 }

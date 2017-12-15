@@ -11,44 +11,24 @@ import RequestParamsInput from '../request-params-input';
 
 import getMarkup from './markup';
 
-const defaultValues = {};
-const defaultReducer$ = xs.of(
-  prev =>
-    typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev },
-);
-const methodSwitchReducer = mode => prev => ({ ...prev, mode });
-
-export default function(sources: {
-  props$: Stream,
-  DOM: Stream,
-  ONION: Stream,
-}) {
-  const { props$ } = sources;
-  const { state$ } = sources.ONION;
-
-  const makeButton = componentFactory(CyButton, sources);
-  const makeCodeField = componentFactory(CyCodeField, sources);
-  const makeInput = componentFactory(CyInput, sources);
-  const makeDropdown = componentFactory(CyDropdown, sources);
-  const makeParamsInput = componentFactory(RequestParamsInput, sources);
-
-  const validateBtnSinks = makeButton('validateBtn', {
-    classNames: 'validateBtn mainButton',
-    text: 'Validate',
-  });
-  const sendBtnSinks = makeButton('sendBtn', {
+const initialValues = {
+  sendBtn: {
     classNames: 'sendBtn mainButton',
     text: 'Send',
-  });
-  const urlInputSinks = makeInput('urlInput', {
+  },
+  validateBtn: {
+    classNames: 'validateBtn mainButton',
+    text: 'Validate',
+  },
+  urlInput: {
     classNames: 'urlInput inputLarge',
     placeholder: 'Provide a URL (Target URI)',
-  });
-  const codeFieldSinks = makeCodeField('codeField', {
+  },
+  codeField: {
     classNames: 'codeField',
     initialValue: '{"put": "your", "json response": "here"}',
-  });
-  const methodDropdownSinks = makeDropdown('methodDropdown', {
+  },
+  methodDropdown: {
     classNames: 'methodDropdown',
     unselectedDefault: 'Select a method',
     options: [
@@ -56,11 +36,45 @@ export default function(sources: {
       { value: 'post', text: 'POST' },
       { value: 'put', text: 'PUT' },
     ],
-  });
-
-  const requestParamsInputSinks = makeParamsInput('requestParamsInput', {
+  },
+  requestParamsInput: {
     classNames: 'rpi',
-  });
+  },
+};
+
+const defaultReducer$ = xs.of(
+  prev =>
+    typeof prev === 'undefined' ? initialValues : { ...initialValues, ...prev },
+);
+const methodSwitchReducer = mode => prev => ({ ...prev, mode });
+
+export default function(sources: {
+  props$: Stream,
+  DOM: Stream,
+  onion: Stream,
+}) {
+  const { props$ } = sources;
+  const { state$ } = sources.onion;
+
+  const makeButton = componentFactory(CyButton, sources);
+  const makeCodeField = componentFactory(CyCodeField, sources);
+  const makeInput = componentFactory(CyInput, sources);
+  const makeDropdown = componentFactory(CyDropdown, sources);
+  const makeParamsInput = componentFactory(RequestParamsInput, sources);
+
+  const validateBtnSinks = makeButton('validateBtn');
+  const sendBtnSinks = makeButton('sendBtn');
+
+  const urlInputSinks = makeInput('urlInput', initialValues.urlInput);
+  const codeFieldSinks = makeCodeField('codeField', initialValues.codeField);
+  const methodDropdownSinks = makeDropdown(
+    'methodDropdown',
+    initialValues.methodDropdown,
+  );
+  const requestParamsInputSinks = makeParamsInput(
+    'requestParamsInput',
+    initialValues.requestParamsInput,
+  );
 
   const methodSwitchReducer$ = validateBtnSinks.clicks$.mapTo(
     methodSwitchReducer('yolo'),
@@ -69,10 +83,10 @@ export default function(sources: {
   const reducers$ = xs.merge(
     defaultReducer$,
     methodSwitchReducer$,
-    urlInputSinks.ONION,
-    codeFieldSinks.ONION,
-    methodDropdownSinks.ONION,
-    requestParamsInputSinks.ONION,
+    urlInputSinks.onion,
+    codeFieldSinks.onion,
+    methodDropdownSinks.onion,
+    requestParamsInputSinks.onion,
   );
 
   const vdom$ = xs
@@ -88,5 +102,5 @@ export default function(sources: {
     )
     .map(getMarkup);
 
-  return { DOM: vdom$, ONION: reducers$ };
+  return { DOM: vdom$, onion: reducers$ };
 }

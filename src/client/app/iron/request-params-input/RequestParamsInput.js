@@ -11,6 +11,10 @@ import CyCodeField from '../../wood/cy-code-field';
 
 const defaultValues = {
   mode: 'get-request',
+  delButton: {
+    classNames: 'delButton',
+    text: 'Delete',
+  },
 };
 const defaultReducer$ = xs.of(
   prev =>
@@ -21,10 +25,10 @@ const methodSwitchReducer = mode => prev => ({ ...prev, mode });
 export default function(sources: {
   props$: Stream,
   DOM: Stream,
-  ONION: Stream,
+  onion: Stream,
 }) {
   const { props$ } = sources;
-  const { state$ } = sources.ONION;
+  const { state$ } = sources.onion;
 
   const makeInput = componentFactory(CyInput, sources);
   const makeButton = componentFactory(CyButton, sources);
@@ -41,16 +45,13 @@ export default function(sources: {
     classNames: 'descInput tableInput',
     placeholder: 'Description',
   });
-  const delButtonSinks = makeButton('delButton', {
-    classNames: 'delButton',
-    text: 'Delete',
-  });
+  const delButtonSinks = makeButton('delButton');
 
   const reducers$ = xs.merge(
     defaultReducer$,
-    keyInputSinks.ONION,
-    valueInputSinks.ONION,
-    descInputSinks.ONION,
+    keyInputSinks.onion,
+    valueInputSinks.onion,
+    descInputSinks.onion,
   );
 
   const vdom$ = xs
@@ -64,5 +65,5 @@ export default function(sources: {
     )
     .map(getMarkup);
 
-  return { DOM: vdom$, ONION: reducers$ };
+  return { DOM: vdom$, onion: reducers$ };
 }
