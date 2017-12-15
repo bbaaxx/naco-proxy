@@ -17,5 +17,14 @@ export default class WcCanvas extends HTMLElement {
     this.canvasElement = document.createElement('canvas');
     this.shadowRoot.appendChild(injectStyles(styles));
     this.shadowRoot.appendChild(this.canvasElement);
+    this.canvasLogic(this.canvasElement);
   }
+
+  canvasLogic = (canvas: Object) => {
+    console.log('Holi pozoli ', canvas);
+    const ctx = canvas.getContext('2d');
+    ctx.fillRect(10, 10, 100, 100);
+    ctx.clearRect(15, 15, 100, 100);
+    ctx.strokeRect(20, 20, 100, 100);
+  };
 }
