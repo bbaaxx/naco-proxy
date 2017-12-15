@@ -11,6 +11,10 @@ import CyCodeField from '../../wood/cy-code-field';
 
 const defaultValues = {
   mode: 'get-request',
+  delButton: {
+    classNames: 'delButton',
+    text: 'Delete',
+  },
 };
 const defaultReducer$ = xs.of(
   prev =>
@@ -41,10 +45,7 @@ export default function(sources: {
     classNames: 'descInput tableInput',
     placeholder: 'Description',
   });
-  const delButtonSinks = makeButton('delButton', {
-    classNames: 'delButton',
-    text: 'Delete',
-  });
+  const delButtonSinks = makeButton('delButton');
 
   const reducers$ = xs.merge(
     defaultReducer$,

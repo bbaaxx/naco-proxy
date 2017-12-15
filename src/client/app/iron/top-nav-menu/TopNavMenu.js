@@ -7,14 +7,23 @@ import getMarkup from './markup';
 import CyButton from '../../wood/cy-button';
 
 const defaultValues = {
-  newReqButton: '',
-  newCollectionButton: '',
+  allRequestsButton: {
+    classNames: 'allRequestsButton navButton',
+    text: 'all requests',
+  },
+  newRequestButton: {
+    classNames: 'newRequestButton navButton',
+    text: 'new request',
+  },
+  newCollectionButton: {
+    classNames: 'newCollectionButton navButton',
+    text: 'new collection',
+  },
 };
 const defaultReducer$ = xs.of(
   prev =>
     typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev },
 );
-const methodSwitchReducer = mode => prev => ({ ...prev, mode });
 
 export default function(sources: {
   props$: Stream,
@@ -24,18 +33,10 @@ export default function(sources: {
   const { props$ } = sources;
 
   const makeButton = componentFactory(CyButton, sources);
-  const allRequestsButton = makeButton('allRequests', {
-    classNames: 'allRequests navButton',
-    text: 'all requests',
-  });
-  const newRequestButton = makeButton('newReqButton', {
-    classNames: 'newReqButton navButton',
-    text: 'new request',
-  });
-  const newCollectionButton = makeButton('newCollectionButton', {
-    classNames: 'newCollectionButton navButton',
-    text: 'new collection',
-  });
+
+  const allRequestsButton = makeButton('allRequestsButton');
+  const newRequestButton = makeButton('newRequestButton');
+  const newCollectionButton = makeButton('newCollectionButton');
 
   const reducers$ = xs.merge(defaultReducer$);
 

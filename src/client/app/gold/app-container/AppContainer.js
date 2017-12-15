@@ -31,6 +31,7 @@ export default function(sources) {
     initialReducer$,
     appConsoleSinks.onion,
     mainContentSinks.onion,
+    topNavMenuSinks.onion,
   );
 
   const vdom$ = xs

@@ -11,10 +11,40 @@ import RequestParamsInput from '../request-params-input';
 
 import getMarkup from './markup';
 
-const defaultValues = {};
+const initialValues = {
+  sendBtn: {
+    classNames: 'sendBtn mainButton',
+    text: 'Send',
+  },
+  validateBtn: {
+    classNames: 'validateBtn mainButton',
+    text: 'Validate',
+  },
+  urlInput: {
+    classNames: 'urlInput inputLarge',
+    placeholder: 'Provide a URL (Target URI)',
+  },
+  codeField: {
+    classNames: 'codeField',
+    initialValue: '{"put": "your", "json response": "here"}',
+  },
+  methodDropdown: {
+    classNames: 'methodDropdown',
+    unselectedDefault: 'Select a method',
+    options: [
+      { value: 'get', text: 'GET' },
+      { value: 'post', text: 'POST' },
+      { value: 'put', text: 'PUT' },
+    ],
+  },
+  requestParamsInput: {
+    classNames: 'rpi',
+  },
+};
+
 const defaultReducer$ = xs.of(
   prev =>
-    typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev },
+    typeof prev === 'undefined' ? initialValues : { ...initialValues, ...prev },
 );
 const methodSwitchReducer = mode => prev => ({ ...prev, mode });
 
@@ -32,35 +62,19 @@ export default function(sources: {
   const makeDropdown = componentFactory(CyDropdown, sources);
   const makeParamsInput = componentFactory(RequestParamsInput, sources);
 
-  const validateBtnSinks = makeButton('validateBtn', {
-    classNames: 'validateBtn mainButton',
-    text: 'Validate',
-  });
-  const sendBtnSinks = makeButton('sendBtn', {
-    classNames: 'sendBtn mainButton',
-    text: 'Send',
-  });
-  const urlInputSinks = makeInput('urlInput', {
-    classNames: 'urlInput inputLarge',
-    placeholder: 'Provide a URL (Target URI)',
-  });
-  const codeFieldSinks = makeCodeField('codeField', {
-    classNames: 'codeField',
-    initialValue: '{"put": "your", "json response": "here"}',
-  });
-  const methodDropdownSinks = makeDropdown('methodDropdown', {
-    classNames: 'methodDropdown',
-    unselectedDefault: 'Select a method',
-    options: [
-      { value: 'get', text: 'GET' },
-      { value: 'post', text: 'POST' },
-      { value: 'put', text: 'PUT' },
-    ],
-  });
+  const validateBtnSinks = makeButton('validateBtn');
+  const sendBtnSinks = makeButton('sendBtn');
 
-  const requestParamsInputSinks = makeParamsInput('requestParamsInput', {
-    classNames: 'rpi',
-  });
+  const urlInputSinks = makeInput('urlInput', initialValues.urlInput);
+  const codeFieldSinks = makeCodeField('codeField', initialValues.codeField);
+  const methodDropdownSinks = makeDropdown(
+    'methodDropdown',
+    initialValues.methodDropdown,
+  );
+  const requestParamsInputSinks = makeParamsInput(
+    'requestParamsInput',
+    initialValues.requestParamsInput,
+  );
 
   const methodSwitchReducer$ = validateBtnSinks.clicks$.mapTo(
     methodSwitchReducer('yolo'),

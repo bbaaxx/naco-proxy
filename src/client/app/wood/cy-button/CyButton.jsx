@@ -1,22 +1,39 @@
 // @flow
 import * as Snabbdom from 'snabbdom-pragma';
 import { DOMSource, VNode } from '@cycle/dom';
-import { Stream } from 'xstream';
+import xs, { Stream } from 'xstream';
 import './styles.scss';
 
-/** convert a style object to a CSS class name */
+const defaultValues = {
+  type: 'button',
+  text: 'button',
+  classNames: '',
+};
 
-export default function(sources: { DOM: Stream, props$: Stream }) {
-  const { props$ } = sources;
+const defaultReducer$ = xs.of(
+  prev =>
+    typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev },
+);
+
+export default function(sources: {
+  DOM: DOMSource,
+  onion: Stream<{
+    type?: string,
+    text: string,
+    classNames: string,
+  }>,
+}) {
+  const { state$ } = sources.onion;
+
   const clicks$ = sources.DOM.select('button').events('click');
-  const vdom$ = props$.map(props => (
-    <button
-      className={`cy-button ${props.classNames || ''}`}
-      type={props.type || 'button'}
-    >
-      {props.text}
+
+  const reducers$ = xs.merge(defaultReducer$);
+
+  const vdom$ = state$.map(state => (
+    <button className={`cy-button ${state.classNames}`} type={state.type}>
+      {state.text}
     </button>
   ));
 
-  return { DOM: vdom$, clicks$ };
+  return { DOM: vdom$, clicks$, onion: reducers$ };
 }
