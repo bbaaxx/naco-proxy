@@ -26,8 +26,8 @@ export default class WcCanvas extends HTMLElement {
       window.innerWidth,
       window.innerHeight,
       20,
-      666,
-      999,
+      '#666',
+      '#aaa',
     );
   }
 
@@ -36,8 +36,8 @@ export default class WcCanvas extends HTMLElement {
     width: number,
     height: number,
     square_len: number,
-    dark_color: number,
-    light_color: number,
+    dark_color: string,
+    light_color: string,
   ) => {
     const ctx = canvas.getContext('2d');
     // set canvas to window's dimentions
@@ -70,8 +70,8 @@ export default class WcCanvas extends HTMLElement {
     xShift: number,
     yShift: number,
     square_len: number,
-    dark_color: number,
-    light_color: number,
+    dark_color: string,
+    light_color: string,
   ) => {
     //debugger;
     //context.clearRect(0, 0, width, height);
