@@ -49,7 +49,7 @@ export default class WcCanvas extends HTMLElement {
     //context.clearRect(0, 0, width, height);
     console.log(context.constructor);
 
-    const res = 10; // bigger numbers yield smaller squares
+    const res = 20; // bigger numbers yield smaller squares
     const darkColor = '#eeeeee';
     const lightColor = '#ffffff';
     const length = width > height ? width / res : height / res;
