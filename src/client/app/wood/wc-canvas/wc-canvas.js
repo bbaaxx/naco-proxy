@@ -73,10 +73,10 @@ export default class WcCanvas extends HTMLElement {
       }
     }
 
-    raf(
+    /*raf(
       this.animate(context, raf, width, height, xShift + 0.01, yShift + 0.01),
     );
-    /*setTimeout(
+    setTimeout(
       this.animate(context, raf, width, height, xShift + 0.001, yShift + 0.001),
       30000,
     );*/
