@@ -1,18 +1,29 @@
-// @flow
 import injectStyles from '../../redstone/helpers/custom-elements/injectStyles';
 import styles from './styles.component.scss';
 
 export default class WcCanvas extends HTMLElement {
-  canvasElement: HTMLElement;
+  canvasElement: HTMLCanvasElement;
   shadowRoot: ShadowRoot | any;
+  squareLen: number;
+  darkColor: string;
+  lightColor: string;
   attachShadow: ({ mode: ShadowRootMode }) => ShadowRoot;
-
   static get is(): string {
     return 'wc-canvas';
   }
 
   constructor() {
     super();
+    ['squareLen', 'darkColor', 'lightColor'].forEach(
+      item =>
+        Object.defineProperty(this, item, {
+          get: () => this.hasAttribute(item) && this.getAttribute(item),
+          set: val =>
+            (val && this.setAttribute(item, val)) || this.removeAttribute(item),
+        }),
+      this,
+    );
+
     this.attachShadow({ mode: 'open' });
     this.canvasElement = document.createElement('canvas');
     this.shadowRoot.appendChild(injectStyles(styles));
@@ -21,43 +32,10 @@ export default class WcCanvas extends HTMLElement {
 
   // This method id called once the component is connected to the DOM
   connectedCallback() {
-    Object.defineProperty(
-      this,
-      width,
-      height,
-      square_len,
-      dark_color,
-      light_color,
-      {
-        get: () => this.hasAttribute(width) && this.getAttribute(width),
-        set: val =>
-          (val && this.setAttribute(width, val)) || this.removeAttribute(width),
-        get: () => this.hasAttribute(height) && this.getAttribute(height),
-        set: val =>
-          (val && this.setAttribute(height, val)) ||
-          this.removeAttribute(height),
-        get: () =>
-          this.hasAttribute(square_len) && this.getAttribute(square_len),
-        set: val =>
-          (val && this.setAttribute(square_len, val)) ||
-          this.removeAttribute(square_len),
-        get: () =>
-          this.hasAttribute(dark_color) && this.getAttribute(dark_color),
-        set: val =>
-          (val && this.setAttribute(dark_color, val)) ||
-          this.removeAttribute(dark_color),
-        get: () =>
-          this.hasAttribute(light_color) && this.getAttribute(light_color),
-        set: val =>
-          (val && this.setAttribute(light_color, val)) ||
-          this.removeAttribute(light_color),
-      },
-    );
-
     const ctx = this.canvasElement.getContext('2d');
     // set canvas to window's dimentions
-    ctx.canvas.width = this.width;
-    ctx.canvas.height = this.height;
+    ctx.canvas.width = this.canvasElement.width;
+    ctx.canvas.height = this.canvasElement.height;
     var requestAnimationFrame =
       window.requestAnimationFrame ||
       window.mozRequestAnimationFrame ||
@@ -67,16 +45,22 @@ export default class WcCanvas extends HTMLElement {
     this.animate(
       ctx,
       requestAnimationFrame,
-      this.width, //window.innerWidth
-      this.height, //window.innerHeight
+      this.canvasElement.width, //window.innerWidth
+      this.canvasElement.height, //window.innerHeight
       0,
       0,
-      this.square_len, //20
-      this.dark_color, //'#666'
-      this.light_color, //'#aaa'
+      this.squareLen, //20
+      this.darkColor, //'#666'
+      this.lightColor, //'#aaa'
     );
   }
-
+  _upgradeProperty(prop: any) {
+    if (this.hasOwnProperty(prop)) {
+      let value = this[prop];
+      delete this[prop];
+      this[prop] = value;
+    }
+  }
   animate = (
     context: any,
     raf: any,
