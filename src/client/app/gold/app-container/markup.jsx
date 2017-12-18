@@ -21,7 +21,12 @@ export default function(
       {mainContent}
       {asideContent}
       <hr />
-      <wc-canvas />
+      <wc-canvas
+        className="fullBg"
+        dark_color="#eee"
+        light_color="#fff"
+        square_len="20"
+      />
       {appConsole}
       <div>{JSON.stringify(state)}</div>
     </div>

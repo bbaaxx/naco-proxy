@@ -17,13 +17,28 @@ export default class WcCanvas extends HTMLElement {
     this.canvasElement = document.createElement('canvas');
     this.shadowRoot.appendChild(injectStyles(styles));
     this.shadowRoot.appendChild(this.canvasElement);
-    this.canvasLogic(this.canvasElement);
   }
 
-  canvasLogic = (canvas: Object) => {
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    // get drawing context
+  // This method id called once the component is connected to the DOM
+  connectedCallback() {
+    this.canvasLogic(
+      this.canvasElement,
+      window.innerWidth,
+      window.innerHeight,
+      20,
+      666,
+      999,
+    );
+  }
+
+  canvasLogic = (
+    canvas: Object,
+    width: number,
+    height: number,
+    square_len: number,
+    dark_color: number,
+    light_color: number,
+  ) => {
     const ctx = canvas.getContext('2d');
     // set canvas to window's dimentions
     ctx.canvas.width = width;
@@ -34,7 +49,17 @@ export default class WcCanvas extends HTMLElement {
       window.webkitRequestAnimationFrame ||
       window.msRequestAnimationFrame;
 
-    this.animate(ctx, requestAnimationFrame, width, height, 0, 0);
+    this.animate(
+      ctx,
+      requestAnimationFrame,
+      width,
+      height,
+      0,
+      0,
+      square_len,
+      dark_color,
+      light_color,
+    );
   };
 
   animate = (
@@ -44,30 +69,30 @@ export default class WcCanvas extends HTMLElement {
     height: number,
     xShift: number,
     yShift: number,
+    square_len: number,
+    dark_color: number,
+    light_color: number,
   ) => {
     //debugger;
     //context.clearRect(0, 0, width, height);
     console.log(context.constructor);
 
-    const res = 20; // bigger numbers yield smaller squares
-    const darkColor = '#eeeeee';
-    const lightColor = '#ffffff';
-    const length = width > height ? width / res : height / res;
-    for (let x = 0; x < res; x++) {
-      for (let y = 0; y < res; y++) {
+    const length = width > height ? width / square_len : height / square_len;
+    for (let x = 0; x < square_len; x++) {
+      for (let y = 0; y < square_len; y++) {
         let nx = x * length;
         let ny = y * length;
         if (x % 2 == 0 && y % 2 == 0) {
-          context.fillStyle = darkColor;
+          context.fillStyle = dark_color;
         }
         if (x % 2 == 0 && y % 2 == 1) {
-          context.fillStyle = lightColor;
+          context.fillStyle = light_color;
         }
         if (x % 2 == 1 && y % 2 == 0) {
-          context.fillStyle = lightColor;
+          context.fillStyle = light_color;
         }
         if (x % 2 == 1 && y % 2 == 1) {
-          context.fillStyle = darkColor;
+          context.fillStyle = dark_color;
         }
         context.fillRect(nx + xShift, ny + yShift, length, length);
       }

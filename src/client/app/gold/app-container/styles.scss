@@ -50,3 +50,12 @@ $main-subh: #2f3472;
   padding: 15px;
   text-align: center;
 }
+
+.fullBg{
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: -1;
+}
