@@ -1,37 +1,52 @@
-.masterLayout{
-	margin: 0px;
-	padding: 0px;
-	font-family: Arial;
-}
+/// implements _theme
+@import '../../../styles/theme';
 
-.masterLayout h1, .masterLayout h2 {
-	text-align: left;
-	width: 80%;
-	padding: 0px;
-	margin: auto;
-	transform: translateX(-10px);
-}
+$main-black: #000;
+$main-white: #fff;
+$main-red: #f00;
+$main-subh: #2f3472;
 
-.masterLayout h1{
-	font-size: 40px;
-}
+.masterLayout {
+  font-family: Arial;
+  margin: 0;
+  padding: 0;
 
-.masterLayout h2{
-	font-size: 15px;
-	font-style: italic;
-	line-height: 20px;
-	color: #2f3472;
+  h1,
+  h2 {
+    margin: auto;
+    padding: 0;
+    text-align: left;
+    transform: translateX(-10px);
+    width: 80%;
+  }
+
+  h1 {
+    font-size: 40px;
+  }
+
+  h2 {
+    color: unquote('rgb(#{$color-secondary})');
+    font-size: 15px;
+    font-style: italic;
+    line-height: 20px;
+  }
 }
 
 .headLil {
-	font-size:	0.4em;
-	margin-bottom: 0.6em;
+  color: unquote('rgb(#{$color-secondary})');
+  display: inline-block;
+  font-size: 0.5em;
+  margin-bottom: 0.5em;
+
+  &::first-letter {
+    color: unquote('rgb(#{$color-primary})');
+    font-size: 2em;
+  }
 }
 
 .appContainerHeader {
-	background-color: white;
-	color: black;
-	text-align: center;
-	padding: 15px;
+  background-color: $main-white;
+  color: $main-black;
+  padding: 15px;
+  text-align: center;
 }
-

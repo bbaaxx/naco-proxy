@@ -11,8 +11,7 @@ const defaultValues = {
 };
 
 const defaultReducer$ = xs.of(
-  prev =>
-    typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev },
+  prev => (typeof prev === 'undefined' ? defaultValues : prev),
 );
 
 export default function(sources: {
@@ -30,7 +29,10 @@ export default function(sources: {
   const reducers$ = xs.merge(defaultReducer$);
 
   const vdom$ = state$.map(state => (
-    <button className={`cy-button ${state.classNames}`} type={state.type}>
+    <button
+      className={`cy-button ${state.classNames}`}
+      type={state.type || 'button'}
+    >
       {state.text}
     </button>
   ));

@@ -1,6 +1,12 @@
 scss_files: 'src/**/*.scss'
-
+options:
+  formatter: stylish
 exclude: 'node_modules'
+rules:
+  class-name-format:
+    convention: camelcase
+  leading-zero:
+    include: true
 
 linters:
   BorderZero:
@@ -10,6 +16,3 @@ linters:
     exclude:
     severity: warning
     width: 2
-
-  NameFormat:
-    enabled: false

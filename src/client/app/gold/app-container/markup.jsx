@@ -9,11 +9,10 @@ export default function(
       <header className="appContainerHeader">
         <hgroup>
           <h1>
-            N<span className="headLil">GOB</span>A<span className="headLil">
-              utomatically
-            </span>C<span className="headLil">onfigurable</span>O<span className="headLil">
-              verrider
-            </span>
+            <span className="headLil">NGOB</span>
+            <span className="headLil">Automatically</span>
+            <span className="headLil">Configurable</span>
+            <span className="headLil">Overrider</span>
           </h1>
           <h2>Mockomatic Proxy</h2>
         </hgroup>
@@ -21,7 +20,6 @@ export default function(
       <div className="topNavMenuContainer">{topNavMenu}</div>
       {mainContent}
       {asideContent}
-
       <hr />
       <wc-canvas />
       {appConsole}

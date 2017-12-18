@@ -7,7 +7,8 @@ $performance_font: 'Helvetica', 'Arial', sans-serif !default;
 
 $trim-color-classes: true !default;
 
-$color-primary: $palette-orange-500 !default;
+$color-primary: $palette-purple-700 !default;
+$color-secondary: $palette-deep-orange-400 !default;
 $color-primary-dark: $palette-orange-700 !default;
 $color-accent: $palette-red-A200;
 
@@ -15,8 +16,9 @@ $color-primary-contrast: $color-dark-contrast !default;
 $color-accent-contrast: $color-dark-contrast !default;
 
 
+@import '~material-design-lite/src/variables';
 
-///////////////////////////////// Please forgive me foture me
+///////////////////////////////// Please forgive me future me
 
 body {
   background-color: #fdffff;
@@ -33,6 +35,5 @@ body {
   z-index: 9999;
   &:hover {
     opacity: .2;
-    z-index: auto;
   }
 }
