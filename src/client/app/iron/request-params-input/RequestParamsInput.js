@@ -12,7 +12,7 @@ import CyCodeField from '../../wood/cy-code-field';
 const defaultValues = {
   mode: 'get-request',
   delButton: {
-    classNames: 'delButton',
+    classNames: 'delButton tableButton',
     text: 'Delete',
   },
   keyInput: {
