@@ -26,7 +26,7 @@ const initialValues = {
   },
   codeField: {
     classNames: 'codeField',
-    initialValue: '{"put": "your", "json response": "here"}',
+    value: '{"put": "your", "json response": "here"}',
   },
   methodDropdown: {
     classNames: 'methodDropdown',
@@ -69,6 +69,11 @@ export default function(sources: {
   const methodDropdownSinks = makeDropdown('methodDropdown');
   const requestParamsInputSinks = makeParamsInput('requestParamsInput');
 
+  let request$ = xs.of({
+    url: 'http://localhost:3838/version', // GET method by default
+    category: 'apiVersion',
+  });
+
   const methodSwitchReducer$ = validateBtnSinks.clicks$.mapTo(
     methodSwitchReducer('yolo'),
   );
@@ -95,5 +100,5 @@ export default function(sources: {
     )
     .map(getMarkup);
 
-  return { DOM: vdom$, onion: reducers$ };
+  return { DOM: vdom$, HTTP: request$, onion: reducers$ };
 }

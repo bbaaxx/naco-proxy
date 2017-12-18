@@ -37,13 +37,9 @@ export default function(sources: { DOM: Stream, onion: Stream }) {
 
   const vdom$ = state$.map(state => (
     <div>
-      {textarea(
-        '.cyCodeField',
-        {
-          hook: { insert: codeMirrorHook },
-        },
-        [state.value || state.initialValue],
-      )}
+      {textarea('.cyCodeField', { hook: { insert: codeMirrorHook } }, [
+        state.value || '',
+      ])}
     </div>
   ));
 
