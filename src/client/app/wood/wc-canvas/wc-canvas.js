@@ -3,26 +3,44 @@ import styles from './styles.component.scss';
 
 export default class WcCanvas extends HTMLElement {
   canvasElement: HTMLCanvasElement;
+  canvasContext: CanvasRenderingContext2D;
   shadowRoot: ShadowRoot | any;
   squareLen: number;
   darkColor: string;
+  heigth: number;
+  width: number;
   lightColor: string;
   attachShadow: ({ mode: ShadowRootMode }) => ShadowRoot;
+
   static get is(): string {
     return 'wc-canvas';
   }
 
   constructor() {
     super();
-    ['squareLen', 'darkColor', 'lightColor'].forEach(
+    [
+      { attr: 'square-len', prop: 'squareLen' },
+      { attr: 'dark-color', prop: 'darkColor' },
+      { attr: 'light-color', prop: 'lightColor' },
+      { attr: 'heigth', prop: 'heigth' },
+      { attr: 'width', prop: 'width' },
+    ].forEach(
       item =>
-        Object.defineProperty(this, item, {
-          get: () => this.hasAttribute(item) && this.getAttribute(item),
+        Object.defineProperty(this, item.prop, {
+          get: () =>
+            this.hasAttribute(item.attr) && this.getAttribute(item.attr),
           set: val =>
-            (val && this.setAttribute(item, val)) || this.removeAttribute(item),
+            (val && this.setAttribute(item.attr, val)) ||
+            this.removeAttribute(item.attr),
         }),
       this,
     );
+
+    this.raf =
+      window.requestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.msRequestAnimationFrame;
 
     this.attachShadow({ mode: 'open' });
     this.canvasElement = document.createElement('canvas');
@@ -32,28 +50,21 @@ export default class WcCanvas extends HTMLElement {
 
   // This method id called once the component is connected to the DOM
   connectedCallback() {
-    const ctx = this.canvasElement.getContext('2d');
-    // set canvas to window's dimentions
-    ctx.canvas.width = this.canvasElement.width;
-    ctx.canvas.height = this.canvasElement.height;
-    var requestAnimationFrame =
+    this.canvasContext = this.canvasElement.getContext('2d');
+
+    // REVIEW: set canvas to window's dimentions
+    this.canvasContext.canvas.width = window.innerWidth;
+    this.canvasContext.canvas.height = window.innerHeight;
+
+    const requestAnimationFrame =
       window.requestAnimationFrame ||
       window.mozRequestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
       window.msRequestAnimationFrame;
 
-    this.animate(
-      ctx,
-      requestAnimationFrame,
-      this.canvasElement.width, //window.innerWidth
-      this.canvasElement.height, //window.innerHeight
-      0,
-      0,
-      this.squareLen, //20
-      this.darkColor, //'#666'
-      this.lightColor, //'#aaa'
-    );
+    this.animate(0, 0);
   }
+
   _upgradeProperty(prop: any) {
     if (this.hasOwnProperty(prop)) {
       let value = this[prop];
@@ -61,48 +72,32 @@ export default class WcCanvas extends HTMLElement {
       this[prop] = value;
     }
   }
-  animate = (
-    context: any,
-    raf: any,
-    width: number,
-    height: number,
-    xShift: number,
-    yShift: number,
-    square_len: number,
-    dark_color: string,
-    light_color: string,
-  ) => {
-    //debugger;
-    //context.clearRect(0, 0, width, height);
-    console.log(context.constructor);
 
-    const length = width > height ? width / square_len : height / square_len;
-    for (let x = 0; x < square_len; x++) {
-      for (let y = 0; y < square_len; y++) {
+  animate = (xShift: number, yShift: number) => {
+    const { width, height } = this.canvasElement;
+    const length =
+      width > height ? width / this.squareLen : height / this.squareLen;
+    for (let x = 0; x < this.squareLen; x++) {
+      for (let y = 0; y < this.squareLen; y++) {
         let nx = x * length;
         let ny = y * length;
         if (x % 2 == 0 && y % 2 == 0) {
-          context.fillStyle = dark_color;
+          this.canvasContext.fillStyle = this.darkColor;
         }
         if (x % 2 == 0 && y % 2 == 1) {
-          context.fillStyle = light_color;
+          this.canvasContext.fillStyle = this.lightColor;
         }
         if (x % 2 == 1 && y % 2 == 0) {
-          context.fillStyle = light_color;
+          this.canvasContext.fillStyle = this.lightColor;
         }
         if (x % 2 == 1 && y % 2 == 1) {
-          context.fillStyle = dark_color;
+          this.canvasContext.fillStyle = this.darkColor;
         }
-        context.fillRect(nx + xShift, ny + yShift, length, length);
+        this.canvasContext.fillRect(nx + xShift, ny + yShift, length, length);
       }
     }
 
-    /*raf(
-      this.animate(context, raf, width, height, xShift + 0.01, yShift + 0.01),
-    );
-    setTimeout(
-      this.animate(context, raf, width, height, xShift + 0.001, yShift + 0.001),
-      30000,
-    );*/
+    // this.raf(this.animate(xShift + 0.01, yShift + 0.01));
+    // setTimeout(this.animate(xShift + 0.001, yShift + 0.001), 30000);
   };
 }

@@ -23,9 +23,11 @@ export default function(
       <hr />
       <wc-canvas
         className="fullBg"
-        dark_color="#eee"
-        light_color="#fff"
-        square_len="20"
+        attrs={{
+          'dark-color': '#eee',
+          'light-color': '#fff',
+          'square-len': '20',
+        }}
       />
       {appConsole}
       <div>{JSON.stringify(state)}</div>

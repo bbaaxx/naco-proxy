@@ -3,7 +3,11 @@
 @import '~material-design-lite/src/button/button';
 
 :host {
+  display: inline-block;
+}
 
+:host([hidden]) {
+  display: none;
 }
 
 .wcmdl-button {
