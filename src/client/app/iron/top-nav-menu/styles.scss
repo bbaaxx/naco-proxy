@@ -1,10 +1,21 @@
-.topNavMenuContainer {
+.topNavMenuContainer{
 	background-color: #d1baff;
 	color: white;
 	text-align: center;
-	width: 80%;
 	margin: auto;
 	border-radius: 5px;
+}
+
+@media only screen and (min-width: 600px) {
+    .topNavMenuContainer{
+        width: 90%;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    .topNavMenuContainer{
+        width: 80%;
+    }
 }
 
 .navLinks{

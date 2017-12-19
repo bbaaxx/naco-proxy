@@ -1,9 +1,19 @@
 .form-control{
 	background-color: #b9ffa8;
 	border-radius: 10px;
-	width: 80%;
 	margin: auto;
 	margin-top: 10px;
+}
+
+@media only screen and (min-width: 600px) {
+    .form-control{
+        width: 90%;
+    }
+}
+@media only screen and (min-width: 800px) {
+    .form-control{
+        width: 80%;
+    }
 }
 
 .meth-uri{
