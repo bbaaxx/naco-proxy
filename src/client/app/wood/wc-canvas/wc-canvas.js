@@ -36,7 +36,7 @@ export default class WcCanvas extends HTMLElement {
       this,
     );
 
-    this.raf =
+    this.requestAnimationFrame =
       window.requestAnimationFrame ||
       window.mozRequestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
@@ -55,13 +55,6 @@ export default class WcCanvas extends HTMLElement {
     // REVIEW: set canvas to window's dimentions
     this.canvasContext.canvas.width = window.innerWidth;
     this.canvasContext.canvas.height = window.innerHeight;
-
-    const requestAnimationFrame =
-      window.requestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.msRequestAnimationFrame;
-
     this.animate(0, 0);
   }
 
@@ -97,7 +90,7 @@ export default class WcCanvas extends HTMLElement {
       }
     }
 
-    // this.raf(this.animate(xShift + 0.01, yShift + 0.01));
+    // this.requestAnimationFrame(this.animate(xShift + 0.01, yShift + 0.01));
     // setTimeout(this.animate(xShift + 0.001, yShift + 0.001), 30000);
   };
 }

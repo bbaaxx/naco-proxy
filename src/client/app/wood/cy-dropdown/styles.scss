@@ -6,10 +6,16 @@
 	height: 45px;
 	border-radius: 5px;
 	margin-right: 1%;
-	width: 20%;
+	width: 100%;
 }
 
 .cyDropdown option{
 	font-size: 1.1em;
 	line-height: 500px;
+}
+
+@media only screen and (min-width: 450px) {
+    .cyDropdown{
+        width: 20%;
+    }
 }

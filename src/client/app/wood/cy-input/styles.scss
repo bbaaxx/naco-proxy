@@ -10,5 +10,13 @@
 	font-weight: bold;
 	border-radius: 5px;
 	height: 40px;
-    width: 78%;
+  width: 99%;
+	margin-top: 5px;
+}
+
+@media only screen and (min-width: 450px) {
+    .inputLarge{
+        width: 78%;
+				margin-top: 0px;
+    }
 }
