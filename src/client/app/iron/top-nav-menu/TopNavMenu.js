@@ -1,29 +1,39 @@
 // @flow
 import xs, { Stream } from 'xstream';
-import { componentFactory } from '../../redstone/helpers/cycle-components';
+import { li } from '@cycle/dom';
+import {
+  componentFactory,
+  isolateExplicit,
+} from '../../redstone/helpers/cycle-components';
 import styles from './styles.scss';
 
 import getMarkup from './markup';
 import CyButton from '../../wood/cy-button';
 
+import { makeCollection } from 'cycle-onionify';
+
 const defaultValues = {
-  allRequestsButton: {
-    classNames: 'allRequestsButton navButton',
-    text: 'all requests',
-  },
-  newRequestButton: {
-    classNames: 'newRequestButton navButton',
-    text: 'new request',
-  },
-  newCollectionButton: {
-    classNames: 'newCollectionButton navButton',
-    text: 'new collection',
-  },
+  menuItems: [
+    {
+      compId: 'allRequestsButton',
+      classNames: 'allRequestsButton navButton',
+      text: 'all requests',
+    },
+    {
+      compId: 'newRequestButton',
+      classNames: 'newRequestButton navButton',
+      text: 'new request',
+    },
+    {
+      compId: 'newCollectionButton',
+      classNames: 'newCollectionButton navButton',
+      text: 'new collection',
+    },
+  ],
 };
 
 const defaultReducer$ = xs.of(
-  prev =>
-    typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev },
+  prev => (typeof prev === 'undefined' ? defaultValues : prev),
 );
 
 export default function(sources: {
@@ -35,20 +45,25 @@ export default function(sources: {
 
   const makeButton = componentFactory(CyButton, sources);
 
-  const allRequestsButton = makeButton('allRequestsButton');
-  const newRequestButton = makeButton('newRequestButton');
-  const newCollectionButton = makeButton('newCollectionButton');
+  const Menu = makeCollection({
+    item: CyButton,
+    itemKey: childSt => childSt.compId, // or, e.g., childState.key
+    itemScope: key => key,
+    collectSinks: instances => {
+      return {
+        onion: instances.pickMerge('onion'),
+        DOM: instances.pickCombine('DOM'),
+      };
+    },
+  });
+
+  const menuSinks = isolateExplicit(Menu, 'menuItems', sources);
+
+  // menuSinks.DOM.addListener({ next: stf => console.log('stf', stf) });
 
   const reducers$ = xs.merge(defaultReducer$);
 
-  const vdom$ = xs
-    .combine(
-      props$,
-      allRequestsButton.DOM,
-      newRequestButton.DOM,
-      newCollectionButton.DOM,
-    )
-    .map(getMarkup);
+  const vdom$ = xs.combine(props$, menuSinks.DOM).map(getMarkup);
 
   return { DOM: vdom$, onion: reducers$ };
 }

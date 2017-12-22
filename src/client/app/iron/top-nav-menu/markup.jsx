@@ -2,19 +2,8 @@
 import Snabbdom from 'snabbdom-pragma';
 import { VNode } from '@cycle/dom';
 
-export default (
-  [
-    props: { className: string },
-    allRequestsButton,
-    newRequestButton,
-    newCollectionButton,
-  ]: any[],
-) => (
+export default ([props: { className: string }, menuDom]: any[]) => (
   <nav className={`requestParmsInput ${props.classNames}`}>
-    <ul className="navLinks">
-      <li>{allRequestsButton}</li>
-      <li>{newRequestButton}</li>
-      <li>{newCollectionButton}</li>
-    </ul>
+    <ul className="navLinks">{menuDom.map(ele => <li>{ele}</li>)}</ul>
   </nav>
 );
