@@ -9,7 +9,28 @@ import TopNavMenu from '../../iron/top-nav-menu';
 import styles from './styles.scss';
 
 // empty for now, should import app config from somewhere
-const initialReducer$ = xs.of(() => ({}));
+const initialReducer$ = xs.of(() => ({
+  topNavMenu: {
+    classNames: 'topNavMenu',
+    menuItems: [
+      {
+        compId: 'allRequestsButton',
+        classNames: 'allRequestsButton navButton',
+        text: 'collections',
+      },
+      {
+        compId: 'newRequestButton',
+        classNames: 'newRequestButton navButton',
+        text: 'new request',
+      },
+      {
+        compId: 'newCollectionButton',
+        classNames: 'newCollectionButton navButton',
+        text: 'new collection',
+      },
+    ],
+  },
+}));
 
 export default function(sources) {
   const { state$ } = sources.onion;
@@ -19,9 +40,7 @@ export default function(sources) {
   const mainContentSinks = componentFactory(ConfigureRequestForm, sources)(
     'configureRequestForm',
   );
-  const topNavMenuSinks = componentFactory(TopNavMenu, sources)('topNavMenu', {
-    classNames: 'topNavMenu',
-  });
+  const topNavMenuSinks = componentFactory(TopNavMenu, sources)('topNavMenu');
 
   const asideContentSinks = {
     DOM: xs.of(aside('.asideContent', 'Aside content (not implemented)')),

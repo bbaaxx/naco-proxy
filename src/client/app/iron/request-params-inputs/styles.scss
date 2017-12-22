@@ -1,0 +1,36 @@
+.table{
+	width: 96%;
+	height: 100%;
+	margin: 16px;
+}
+
+.table thead{
+	background-color: #678bb2;
+	color: white;
+}
+
+.tableInput{
+	width: 100%;
+	min-width: 140px;
+	margin: 0px;
+	padding: 0px;
+	height: 30px;
+}
+
+.table-responsive{
+	width: 95%;
+	//padding: 20px;
+	//max-height: 400px;
+	overflow: auto;
+	background-color: white;
+	border: 2px solid black;
+	border-radius: 5px;
+	margin: 10px auto;
+	//transform: translateX(-2px);
+}
+
+.table-responsive label{
+	display: block;
+	color: #666;
+	margin: 10px 16px;
+}

@@ -7,7 +7,7 @@ import CyInput from '../../wood/cy-input';
 import CyDropdown from '../../wood/cy-dropdown';
 import CyButton from '../../wood/cy-button';
 import CyCodeField from '../../wood/cy-code-field';
-import RequestParamsInput from '../request-params-input';
+import RequestParamsInput from '../request-params-form';
 
 import getMarkup from './markup';
 
@@ -37,9 +37,6 @@ const initialValues = {
       { value: 'put', text: 'PUT' },
     ],
   },
-  requestParamsInput: {
-    classNames: 'rpi',
-  },
 };
 
 const defaultReducer$ = xs.of(
@@ -67,7 +64,7 @@ export default function(sources: {
   const urlInputSinks = makeInput('urlInput');
   const codeFieldSinks = makeCodeField('codeField');
   const methodDropdownSinks = makeDropdown('methodDropdown');
-  const requestParamsInputSinks = makeParamsInput('requestParamsInput');
+  const requestParamsFormSinks = makeParamsInput('requestParamsForm');
 
   let request$ = xs.of({
     url: 'http://localhost:3838/version', // GET method by default
@@ -84,7 +81,7 @@ export default function(sources: {
     urlInputSinks.onion,
     codeFieldSinks.onion,
     methodDropdownSinks.onion,
-    requestParamsInputSinks.onion,
+    requestParamsFormSinks.onion,
   );
 
   const vdom$ = xs
@@ -96,7 +93,7 @@ export default function(sources: {
       urlInputSinks.DOM,
       codeFieldSinks.DOM,
       methodDropdownSinks.DOM,
-      requestParamsInputSinks.DOM,
+      requestParamsFormSinks.DOM,
     )
     .map(getMarkup);
 

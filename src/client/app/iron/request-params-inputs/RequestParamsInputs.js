@@ -1,7 +1,10 @@
 // @flow
 import xs, { Stream } from 'xstream';
-import { componentFactory } from '../../redstone/helpers/cycle-components';
-import styles from './styles.scss';
+import { makeCollection } from 'cycle-onionify';
+import {
+  componentFactory,
+  isolateExplicit,
+} from '../../redstone/helpers/cycle-components';
 
 import getMarkup from './markup';
 import CyInput from '../../wood/cy-input';
@@ -9,62 +12,58 @@ import CyDropdown from '../../wood/cy-dropdown';
 import CyButton from '../../wood/cy-button';
 import CyCodeField from '../../wood/cy-code-field';
 
+import styles from './styles.scss';
+
 const defaultValues = {
-  mode: 'get-request',
-  delButton: {
-    classNames: 'delButton tableButton',
-    text: 'Delete',
-  },
   keyInput: {
     classNames: 'keyInput tableInput',
     placeholder: 'Key (id)',
   },
-  valInput: {
+  valueInput: {
     classNames: 'valInput tableInput',
     placeholder: 'Value',
   },
-  descInput: {
+  deleteButton: {
+    classNames: 'delButton tableButton',
+    text: 'Delete',
+  },
+  descriptionInput: {
     classNames: 'descInput tableInput',
     placeholder: 'Description',
   },
 };
-const defaultReducer$ = xs.of(
-  prev =>
-    typeof prev === 'undefined' ? defaultValues : { ...defaultValues, ...prev },
-);
-const methodSwitchReducer = mode => prev => ({ ...prev, mode });
 
-export default function(sources: {
-  props$: Stream,
-  DOM: Stream,
-  onion: Stream,
-}) {
-  const { props$ } = sources;
+const defaultReducer$ = xs.of(prev => {
+  console.log(typeof prev === 'undefined');
+  return typeof prev === 'undefined' ? { ...defaultValues } : prev;
+});
+
+export default function(sources: { DOM: Stream, onion: Stream }) {
   const { state$ } = sources.onion;
 
   const makeInput = componentFactory(CyInput, sources);
   const makeButton = componentFactory(CyButton, sources);
 
   const keyInputSinks = makeInput('keyInput');
-  const valueInputSinks = makeInput('valInput');
-  const descInputSinks = makeInput('descInput');
-  const delButtonSinks = makeButton('delButton');
+  const valueInputSinks = makeInput('valueInput');
+  const deleteButtonSinks = makeButton('deleteButton');
+  const descriptionInputSinks = makeInput('descriptionInput');
 
   const reducers$ = xs.merge(
     defaultReducer$,
     keyInputSinks.onion,
     valueInputSinks.onion,
-    descInputSinks.onion,
+    deleteButtonSinks.onion,
+    descriptionInputSinks.onion,
   );
 
   const vdom$ = xs
     .combine(
-      props$,
       state$,
       keyInputSinks.DOM,
       valueInputSinks.DOM,
-      descInputSinks.DOM,
-      delButtonSinks.DOM,
+      deleteButtonSinks.DOM,
+      descriptionInputSinks.DOM,
     )
     .map(getMarkup);
 
