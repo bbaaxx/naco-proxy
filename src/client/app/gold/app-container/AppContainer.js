@@ -36,7 +36,14 @@ export default function(sources) {
   const { state$ } = sources.onion;
   const scroll$ = sources.SCROLL;
 
-  const appConsoleSinks = componentFactory(AppConsole, sources)('appConsole');
+  const consoleLens = {
+    get: state => state,
+    set: (state, childState) => ({ ...state, ...childState }),
+  };
+
+  const appConsoleSinks = componentFactory(AppConsole, sources)({
+    onion: consoleLens,
+  });
   const mainContentSinks = componentFactory(ConfigureRequestForm, sources)(
     'configureRequestForm',
   );

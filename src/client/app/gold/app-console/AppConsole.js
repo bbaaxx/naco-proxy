@@ -2,6 +2,9 @@
 import xs, { Stream } from 'xstream';
 import { div, p } from '@cycle/dom';
 
+import { componentFactory } from '../../redstone/helpers/cycle-components';
+import CyCodeField from '../../wood/cy-code-field';
+
 const initialReducer$ = xs.of(() => ({
   timer: 0,
   scrollPosition: 0,
@@ -25,18 +28,31 @@ export default function(sources: {
   const { state$ } = sources.onion;
   const scroll$ = sources.SCROLL;
 
+  const stateObj = {
+    get: state => state,
+    set: (state, childState) => ({ ...state, view: { ...childState } }),
+  };
+
+  const cyCodeFieldSinks = componentFactory(CyCodeField, sources)({
+    onion: stateObj,
+  });
+
   const reducers$ = xs.merge(
     initialReducer$,
     timerReducer$,
+    cyCodeFieldSinks.onion,
     scroll$.map(scrollReducer),
   );
 
-  const vdom$ = state$.map(({ timer, scrollPosition }) =>
-    div('.console-wrap', [
-      p(`Been here for: ~ ${timer} seconds`),
-      p(`Scroll position is: ${scrollPosition}`),
-    ]),
-  );
+  const vdom$ = xs
+    .combine(state$, cyCodeFieldSinks.DOM)
+    .map(([{ timer, scrollPosition }, codeField]) =>
+      div('.console-wrap', [
+        p(`Been here for: ~ ${timer} seconds`),
+        p(`Scroll position is: ${scrollPosition}`),
+        { codeField },
+      ]),
+    );
 
   return {
     DOM: vdom$,

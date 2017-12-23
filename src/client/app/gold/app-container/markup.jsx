@@ -30,7 +30,6 @@ export default function(
         }}
       />
       {appConsole}
-      <div>{JSON.stringify(state)}</div>
     </div>
   );
 }
