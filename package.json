@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "test": "NODE_ENV=development npm run test",
-    "dev": "nodemon index.js --watch config --watch src/server",
-    "debug": "DEBUG=naco-proxy nodemon --inspect index.js"
+    "dev": "nodemon index.js --delay 80ms --watch config --watch src/server",
+    "inspect": "kill-port --port 9229 && node --inspect=0.0.0.0:9229 index.js",
+    "dev:inspect": "nodemon --delay 80ms --watch config --watch src/server --exec 'npm run inspect'"
   },
   "engines": {
     "node": "8.9.1"

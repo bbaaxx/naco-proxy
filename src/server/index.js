@@ -14,9 +14,9 @@ const server = app.listen(PORT, () => {
   try {
     addr = server.address();
     bindSocket(server);
-    message = `🚧 Koa server started at ${addr.address}:${addr.port} 🚧`;
+    message = `🚧 Server started at ${addr.address}:${addr.port} 🚧`;
   } catch (err) {
-    message = err;
+    message = err.message;
   } finally {
     console.log(message);
   }
