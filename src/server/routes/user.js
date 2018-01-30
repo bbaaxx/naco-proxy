@@ -1,55 +1,24 @@
 // @flow
 import { Context } from 'koa';
 import User from '../datamodel/User';
+import {
+  getAll,
+  getOneByKeyProp,
+  updateByKeyProp,
+  deleteById,
+} from '../handler/crudHandler';
 
 export default {
   'GET /users': {
-    handler: async (ctx: Context, next: () => mixed) => {
-      const allUsers = await User.find();
-      await next();
-      ctx.body = allUsers;
-    },
+    handler: getAll(User),
   },
-  'GET /users/:userId': {
-    handler: async (ctx: Context, next: () => mixed) => {
-      const { userId } = ctx.params;
-      let user = {};
-      try {
-        user = await User.findOne({ _id: userId });
-      } catch (e) {
-        console.log('Error handler missing for error: ', e);
-      }
-      await next();
-      ctx.body = user;
-    },
+  'GET /users/:_id': {
+    handler: getOneByKeyProp(User, '_id'),
   },
   'POST /users': {
-    handler: async (ctx: Context, next: () => mixed) => {
-      const newUserData = ctx.request.body;
-      let newUser = {};
-      try {
-        newUser = await User.findOneAndUpdate(
-          { email: newUserData.email },
-          newUserData,
-          { upsert: true },
-        );
-      } catch (e) {
-        console.log('Error handler missing for error: ', e);
-      }
-      await next();
-      ctx.body = ctx.body = { id: newUser._id };
-    },
+    handler: updateByKeyProp(User, 'email'),
   },
-  'DELETE /users/:userId': {
-    handler: async (ctx: Context, next: () => mixed) => {
-      const { userId } = ctx.params;
-      try {
-        await User.findOneAndDelete({ _id: userId });
-      } catch (e) {
-        console.log('Error handler missing for error: ', e);
-      }
-      await next();
-      ctx.body = { ok: true };
-    },
+  'DELETE /users/:_id': {
+    handler: deleteById(User),
   },
 };

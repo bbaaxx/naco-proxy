@@ -1,5 +1,5 @@
 // @flow
-import clientHandlers from '../handlers/clientHandler';
+import clientHandlers from '../handler/clientHandler';
 import jsonLintPath from '../middleware/jsonLintPath';
 
 export default {
