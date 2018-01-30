@@ -16,28 +16,18 @@ const requiredEnvVars = ['APP_ID', 'NODE_ENV', 'PORT'];
 
 export default function() {
   const _env = getEnv(requiredEnvVars);
-  const debug = _debug(_env.APP_ID || 'koa-app');
+  const debug = _debug(_env.APP_ID);
 
   const app = new Koa();
 
   const router = configureRouter();
+
   if (_env.NODE_ENV === 'development') app.use(logger('development'));
-  // Expose debug() and db to ctx
 
+  // Expose services (debug, db, ...) to ctx
   app.use(async (ctx, next) => {
-    ctx.db = await database;
     ctx.debug = debug;
-    await next();
-  });
-
-  app.use(async (ctx, next) => {
-    ctx.debug('Start the party');
-    await next();
-    ctx.debug('End of the party');
-  });
-
-  // Expose JSONAPISerializer to ctx
-  app.use(async (ctx, next) => {
+    ctx.db = await database;
     ctx.serializer = (type, opts) => new Serializer(type, opts);
     await next();
   });

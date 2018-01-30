@@ -1,6 +1,8 @@
 // @flow
 import { Context } from 'koa';
+
 import userRoutes from './user';
+import collectionRoutes from './collection';
 import adminRoutes from './admin';
 import webserverRoutes from './webServer';
 
@@ -8,11 +10,15 @@ import webserverRoutes from './webServer';
 // this is due to a design fuckup by the router implementation.
 const routes = Object.assign(
   {},
+
   // App routes
   userRoutes,
+  collectionRoutes,
+
   // Admin routes
   adminRoutes,
-  // webserver routes including /*
+
+  // webserver routes (includes /*)
   webserverRoutes,
 );
 

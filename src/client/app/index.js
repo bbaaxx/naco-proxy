@@ -1,9 +1,10 @@
 /** @jsx html */
 import { run } from '@cycle/run';
+import onionify from 'cycle-onionify';
+import { makeGunDriver } from 'cycle-gun';
 import { makeDOMDriver } from '@cycle/dom';
 import { makeHTTPDriver } from '@cycle/http';
-import { makeGunDriver } from 'cycle-gun';
-import onionify from 'cycle-onionify';
+
 import makeScrollDriver from './redstone/drivers';
 import AppContainer from './gold/app-container';
 
@@ -18,7 +19,7 @@ export default function App(selector) {
     DOM: makeDOMDriver(selector),
     HTTP: makeHTTPDriver(),
     SCROLL: makeScrollDriver({ duration: 400, element: scrollTarget }),
-    GUN: makeGunDriver({ root: 'root', peers: ['http://localhost:3838'] }),
+    // GUN: makeGunDriver({ root: 'root', peers: ['http://localhost:3838'] }),
     LOG: msg$ => {
       msg$.addListener({ next: msg => console.info(msg) });
     },

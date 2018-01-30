@@ -5,12 +5,12 @@ export default class User extends Document {
   constructor() {
     super();
 
+    this.nickname = String;
     this.email = {
       type: String,
       unique: true,
       required: true,
     };
-    this.nickname = String;
     this.password = {
       type: String,
       required: true,
