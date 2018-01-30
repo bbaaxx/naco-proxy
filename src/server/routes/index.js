@@ -21,5 +21,4 @@ const routes = Object.assign(
   // webserver routes (includes /*)
   webserverRoutes,
 );
-console.log(routes);
 export default routes;

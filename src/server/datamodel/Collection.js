@@ -8,7 +8,7 @@ export default class Collection extends Document {
 
     this.name = String;
     this.description = String;
-    this.collectionKey = {
+    this.key = {
       type: String,
       unique: true,
     };

@@ -10,6 +10,7 @@ export default {
       ctx.body = allCollections;
     },
   },
+
   'GET /collections/:collectionId': {
     handler: async (ctx: Context, next: () => mixed) => {
       const { collectionId } = ctx.params;
@@ -23,13 +24,14 @@ export default {
       ctx.body = collection;
     },
   },
+
   'POST /collections': {
     handler: async (ctx: Context, next: () => mixed) => {
       const newCollectionData = ctx.request.body;
       let newCollection = {};
       try {
         newCollection = await Collection.findOneAndUpdate(
-          { email: newCollectionData.email },
+          { key: newCollectionData.key },
           newCollectionData,
           { upsert: true },
         );
@@ -40,6 +42,7 @@ export default {
       ctx.body = ctx.body = { id: newCollection._id };
     },
   },
+
   'DELETE /collections/:collectionId': {
     handler: async (ctx: Context, next: () => mixed) => {
       const { collectionId } = ctx.params;
