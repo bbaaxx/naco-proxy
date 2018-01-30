@@ -1,0 +1,17 @@
+{
+  "responseBody":
+    "{\"data\":{\"email\":\"lic.giovanni.nicolas@gmail.com\",\"name\":\"NICOLAS MARIN GIOVANNI\",\"nickname\":\"GIOVANNI\",\"profile\":\"IF02\",\"loginUser\":\"ADMINF\",\"cellphone\":\"\",\"companyCell\":\"\",\"indEmployee\":true,\"birthDate\":\"1986-08-01\",\"clientNumberEnc\":\"gLxl4vDrUInIVnQsw4qlLw==\",\"deviceType\":\"S1\",\"hourLastAccess\":\"11:55 AM\",\"dateLastAccess\":\"2017-04-19\",\"indNominated\":\"\",\"profilePercentage\":80,\"hasFastOperations\":false,\"hasPeriodicOperations\":true}}",
+  "requestUrl": "https://ngob-services.herokuapp.com/dashboard/V00/userInfo",
+  "requestParams": [
+    {
+      "key": "superman",
+      "value": true,
+      "description": "Neither a bird nor a plane"
+    },
+    {
+      "key": "batman",
+      "value": "bat",
+      "description": "Where's mommy and daddy ?"
+    }
+  ]
+}
