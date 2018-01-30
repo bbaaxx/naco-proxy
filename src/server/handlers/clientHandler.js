@@ -11,7 +11,6 @@ const webpackCompiler = webpack(webpackConfigs.development);
 
 const webpackHandlers = {
   devMiddleware: devMiddleware(webpackCompiler, {
-    noInfo: true,
     overlay: true,
     publicPath: webpackConfigs.development.output.publicPath,
     stats: { colors: true },
