@@ -3,18 +3,16 @@ import Snabbdom from 'snabbdom-pragma';
 
 import { VNode } from '@cycle/dom';
 
-export default (
-  [
-    props: { className: string },
-    state: { mode: string },
-    validateBtn,
-    sendBtn,
-    urlInput,
-    codeField,
-    methodDropdown,
-    requestParmsInput,
-  ]: any[],
-) => (
+export default ([
+  props: { className: string },
+  state: { mode: string },
+  validateBtn,
+  sendBtn,
+  urlInput,
+  codeField,
+  methodDropdown,
+  requestParmsInput,
+]: any[]) => (
   <div className={`configureRequestForm ${props.className}`}>
     <form className={`form-control`} noValidate>
       <div className={`meth-uri`}>

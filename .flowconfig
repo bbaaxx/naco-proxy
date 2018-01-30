@@ -13,4 +13,3 @@ module.name_mapper='.*\(.sss\)' -> 'CSSModule'
 module.name_mapper='.*\(.scss\)' -> 'CSSModule'
 module.name_mapper='.*\(.sass\)' -> 'CSSModule'
 module.system=haste
-unsafe.enable_getters_and_setters=true

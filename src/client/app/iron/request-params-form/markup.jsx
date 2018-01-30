@@ -2,11 +2,10 @@
 import Snabbdom from 'snabbdom-pragma';
 import { VNode } from '@cycle/dom';
 
-export default (
-  [state: { className: string }, paramsList: VNode]: (
-    | { className: string }
-    | VNode)[],
-) => (
+export default ([state: { className: string }, paramsList: VNode]: (
+  | { className: string }
+  | VNode
+)[]) => (
   <div className={`requestParmsInput ${state.className}`}>
     <table className={`table`}>
       <thead>

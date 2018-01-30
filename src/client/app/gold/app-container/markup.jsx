@@ -1,9 +1,13 @@
 // @flow
 import Snabbdom from 'snabbdom-pragma';
 
-export default function(
-  [state, mainContent, asideContent, appConsole, topNavMenu]: any[],
-) {
+export default function([
+  state,
+  mainContent,
+  asideContent,
+  appConsole,
+  topNavMenu,
+]: any[]) {
   return (
     <div className="masterLayout">
       <header className="appContainerHeader">
