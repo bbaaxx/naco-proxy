@@ -10,6 +10,7 @@ import { Serializer } from 'jsonapi-serializer';
 
 import getEnv from './getEnv';
 import configureRouter from './router';
+import database from './database';
 
 const requiredEnvVars = ['APP_ID', 'NODE_ENV', 'PORT'];
 
@@ -21,9 +22,10 @@ export default function() {
 
   const router = configureRouter();
   if (_env.NODE_ENV === 'development') app.use(logger('development'));
+  // Expose debug() and db to ctx
 
-  // Expose debug() to ctx
   app.use(async (ctx, next) => {
+    ctx.db = await database;
     ctx.debug = debug;
     await next();
   });
