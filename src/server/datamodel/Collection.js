@@ -8,6 +8,10 @@ export default class Collection extends Document {
 
     this.name = String;
     this.description = String;
+    this.collectionKey = {
+      type: String,
+      unique: true,
+    };
 
     this.mocks = [Mock];
     this.user = User;
