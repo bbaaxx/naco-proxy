@@ -10,22 +10,26 @@ import {
 } from '../middleware/crudToState';
 
 import { dataPathToBody } from '../handler/crudHandler';
+import { stripSecret } from '../middleware/userToState';
+
+const dataPath = 'data';
+const preventSecrets = { populate: false };
 
 export default {
   'GET /users': {
-    middleware: [allEntries(User)],
-    handler: dataPathToBody(),
+    middleware: [allEntries(User, dataPath, preventSecrets)],
+    handler: dataPathToBody(dataPath),
   },
   'GET /user/:_id': {
-    middleware: [getById(User)],
-    handler: dataPathToBody(),
+    middleware: [getById(User, dataPath)],
+    handler: dataPathToBody(dataPath),
   },
   'POST /users': {
-    middleware: [createEntry(User)],
-    handler: dataPathToBody(),
+    middleware: [createEntry(User, dataPath), stripSecret],
+    handler: dataPathToBody(dataPath),
   },
   'DELETE /user/:_id': {
-    middleware: [deleteById(User)],
-    handler: dataPathToBody(),
+    middleware: [deleteById(User, dataPath)],
+    handler: dataPathToBody(dataPath),
   },
 };

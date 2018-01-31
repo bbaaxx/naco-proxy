@@ -1,5 +1,19 @@
-import { Document } from 'camo';
+import { Document, EmbeddedDocument } from 'camo';
+import bcrypt from 'bcrypt';
 import Collection from './Collection';
+
+class UserSecret extends Document {
+  constructor() {
+    super();
+    this.hash = {
+      type: String,
+    };
+  }
+
+  static collectionName() {
+    return 'usersecrets';
+  }
+}
 
 export default class User extends Document {
   constructor() {
@@ -11,11 +25,8 @@ export default class User extends Document {
       unique: true,
       required: true,
     };
-    // this.password = {
-    //   type: String,
-    //   required: true,
-    // };
-    this.secret = {};
+    this.password = String;
+    this.secret = UserSecret;
 
     this.collections = [Collection];
   }
@@ -24,6 +35,20 @@ export default class User extends Document {
     return 'users';
   }
 
-  preValidate() {}
-  preSave() {}
+  preSave() {
+    const userPassword = this.password;
+    const me = this;
+    this.password = void 0;
+    return bcrypt
+      .hash(userPassword, 5)
+      .then(hash => UserSecret.create({ hash }).save())
+      .then(secret => {
+        me.secret = secret;
+      });
+  }
+
+  preDelete() {
+    const userSecret = UserSecret.findOne(this.secret);
+    return userSecret.delete();
+  }
 }

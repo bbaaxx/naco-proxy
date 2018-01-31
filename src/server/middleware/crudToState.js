@@ -2,9 +2,14 @@
 import { Context } from 'koa';
 import { Document } from 'camo';
 
-export function allEntries(DataModel: Document, statePath: string = 'data') {
+export function queryCollection(
+  DataModel: Document,
+  query: any = {},
+  statePath: string = 'data',
+  options?: { populate?: boolean } = {},
+) {
   return async (ctx: Context, next: () => mixed) => {
-    ctx.state[statePath] = await DataModel.find();
+    ctx.state[statePath] = await DataModel.find(query, options);
     await next();
   };
 }
@@ -22,11 +27,15 @@ export function createEntry(DataModel: Document, statePath: string = 'data') {
 export function getByKeyProp(
   DataModel: Document,
   keyProp: string,
-  statePath: string = 'data',
+  statePath?: string = 'data',
+  options?: { populate?: boolean } = {},
 ) {
   return async (ctx: Context, next: () => mixed) => {
     const queryValue = ctx.params[keyProp];
-    ctx.state[statePath] = await DataModel.findOne({ [keyProp]: queryValue });
+    ctx.state[statePath] = await DataModel.findOne(
+      { [keyProp]: queryValue },
+      options,
+    );
     await next();
   };
 }
@@ -63,12 +72,32 @@ export function deleteByKeyProp(
 }
 
 // Sugar
-export function getById(DataModel: Document, statePath: string = 'data') {
-  return getByKeyProp(DataModel, '_id', statePath);
+export function allEntries(
+  DataModel: Document,
+  statePath: string = 'data',
+  options?: { populate?: boolean } = {},
+) {
+  return queryCollection(DataModel, {}, statePath, options);
 }
-export function updateById(DataModel: Document, statePath: string = 'data') {
-  return updateByKeyProp(DataModel, '_id', statePath);
+
+export function getById(
+  DataModel: Document,
+  statePath: string = 'data',
+  options?: any = {},
+) {
+  return getByKeyProp(DataModel, '_id', statePath, options);
 }
-export function deleteById(DataModel: Document, statePath: string = 'data') {
-  return deleteByKeyProp(DataModel, '_id', statePath);
+export function updateById(
+  DataModel: Document,
+  statePath: string = 'data',
+  options?: any = {},
+) {
+  return updateByKeyProp(DataModel, '_id', statePath, options);
+}
+export function deleteById(
+  DataModel: Document,
+  statePath: string = 'data',
+  options?: any = {},
+) {
+  return deleteByKeyProp(DataModel, '_id', statePath, options);
 }

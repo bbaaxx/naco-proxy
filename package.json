@@ -33,6 +33,7 @@
     "@cycle/run": "^4.1.0",
     "@webcomponents/webcomponentsjs": "^1.1.0",
     "babel-register": "^6.26.0",
+    "bcrypt": "^1.0.3",
     "camo": "^0.12.3",
     "co": "^4.6.0",
     "codemirror": "^5.34.0",
