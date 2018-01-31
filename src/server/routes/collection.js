@@ -1,5 +1,6 @@
 // @flow
 import { Context } from 'koa';
+import { generate as genKey } from 'shortid';
 
 import Collection from '../datamodel/Collection';
 import userToState from '../middleware/userToState';
@@ -14,6 +15,16 @@ import { dataPathToBody } from '../handler/crudHandler';
 
 import mockRoutes from './mock';
 
+const appendAccessKey = async (ctx, next) => {
+  ctx.request.body.accessKey = genKey();
+  await next();
+};
+
+const setUserId = async (ctx, next) => {
+  ctx.request.body.user = ctx.state.user._id;
+  await next();
+};
+
 export default {
   'GET /collections': {
     middleware: [userToState(), allEntries(Collection)],
@@ -24,7 +35,12 @@ export default {
     handler: dataPathToBody(),
   },
   'POST /collections': {
-    middleware: [userToState(), updateByKeyProp(Collection, 'accessKey')],
+    middleware: [
+      userToState(),
+      setUserId,
+      appendAccessKey,
+      updateByKeyProp(Collection, 'accessKey'),
+    ],
     handler: dataPathToBody(),
   },
   'DELETE /collection/:_id': {

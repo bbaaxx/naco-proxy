@@ -13,6 +13,9 @@ export default class Collection extends Document {
       unique: true,
     };
 
+    this.sourceUri = String;
+    this.proxy = Boolean;
+
     this.mocks = [Mock];
     this.user = User;
   }
