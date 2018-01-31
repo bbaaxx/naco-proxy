@@ -47,6 +47,16 @@ export default {
     middleware: [userToState(), deleteById(Collection)],
     handler: dataPathToBody(),
   },
+  'DELETE /collections': {
+    middleware: [
+      userToState(),
+      async (ctx, next) => {
+        ctx.state.data = await Collection.deleteMany({});
+        await next();
+      },
+    ],
+    handler: dataPathToBody(),
+  },
 
   // add child routes
   ...mockRoutes,

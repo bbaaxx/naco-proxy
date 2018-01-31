@@ -4,6 +4,7 @@ import { Context } from 'koa';
 import userRoutes from './user';
 import collectionRoutes from './collection';
 import adminRoutes from './admin';
+import mockerRoutes from './mocker';
 import webserverRoutes from './webServer';
 
 // Order is important as the webserverRoutes contain the default route
@@ -12,6 +13,7 @@ export default {
   // App routes
   ...userRoutes,
   ...collectionRoutes,
+  ...mockerRoutes,
 
   // Admin routes
   ...adminRoutes,
