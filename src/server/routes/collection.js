@@ -1,58 +1,37 @@
 // @flow
 import { Context } from 'koa';
+
 import Collection from '../datamodel/Collection';
+import userToState from '../middleware/userToState';
+import {
+  getById,
+  updateByKeyProp,
+  allEntries,
+  deleteById,
+} from '../middleware/crudToState';
+
+import { dataPathToBody } from '../handler/crudHandler';
+
+import mockRoutes from './mock';
 
 export default {
   'GET /collections': {
-    handler: async (ctx: Context, next: () => mixed) => {
-      const allCollections = await Collection.find();
-      await next();
-      ctx.body = allCollections;
-    },
+    middleware: [userToState(), allEntries(Collection)],
+    handler: dataPathToBody(),
   },
-
-  'GET /collections/:collectionId': {
-    handler: async (ctx: Context, next: () => mixed) => {
-      const { collectionId } = ctx.params;
-      let collection = {};
-      try {
-        collection = await Collection.findOne({ _id: collectionId });
-      } catch (e) {
-        console.log('Error handler missing for error: ', e);
-      }
-      await next();
-      ctx.body = collection;
-    },
+  'GET /collection/:_id': {
+    middleware: [userToState(), getById(Collection)],
+    handler: dataPathToBody(),
   },
-
   'POST /collections': {
-    handler: async (ctx: Context, next: () => mixed) => {
-      const newCollectionData = ctx.request.body;
-      let newCollection = {};
-      try {
-        newCollection = await Collection.findOneAndUpdate(
-          { key: newCollectionData.key },
-          newCollectionData,
-          { upsert: true },
-        );
-      } catch (e) {
-        console.log('Error handler missing for error: ', e);
-      }
-      await next();
-      ctx.body = ctx.body = { id: newCollection._id };
-    },
+    middleware: [userToState(), updateByKeyProp(Collection, 'accessKey')],
+    handler: dataPathToBody(),
+  },
+  'DELETE /collection/:_id': {
+    middleware: [userToState(), deleteById(Collection)],
+    handler: dataPathToBody(),
   },
 
-  'DELETE /collections/:collectionId': {
-    handler: async (ctx: Context, next: () => mixed) => {
-      const { collectionId } = ctx.params;
-      try {
-        await Collection.findOneAndDelete({ _id: collectionId });
-      } catch (e) {
-        console.log('Error handler missing for error: ', e);
-      }
-      await next();
-      ctx.body = { ok: true };
-    },
-  },
+  // add child routes
+  ...mockRoutes,
 };

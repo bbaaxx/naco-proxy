@@ -8,7 +8,7 @@ export default class Collection extends Document {
 
     this.name = String;
     this.description = String;
-    this.key = {
+    this.accessKey = {
       type: String,
       unique: true,
     };
@@ -20,4 +20,5 @@ export default class Collection extends Document {
   static collectionName() {
     return 'collections';
   }
+
 }

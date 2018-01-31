@@ -8,17 +8,14 @@ import webserverRoutes from './webServer';
 
 // Order is important as the webserverRoutes contain the default route
 // this is due to a design fuckup by the router implementation.
-const routes = Object.assign(
-  {},
-
+export default {
   // App routes
-  userRoutes,
-  collectionRoutes,
+  ...userRoutes,
+  ...collectionRoutes,
 
   // Admin routes
-  adminRoutes,
+  ...adminRoutes,
 
   // webserver routes (includes /*)
-  webserverRoutes,
-);
-export default routes;
+  ...webserverRoutes,
+};

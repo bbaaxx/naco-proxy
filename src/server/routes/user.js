@@ -1,24 +1,31 @@
 // @flow
 import { Context } from 'koa';
 import User from '../datamodel/User';
+
 import {
-  getAll,
-  getOneByKeyProp,
-  updateByKeyProp,
+  getById,
+  createEntry,
+  allEntries,
   deleteById,
-} from '../handler/crudHandler';
+} from '../middleware/crudToState';
+
+import { dataPathToBody } from '../handler/crudHandler';
 
 export default {
   'GET /users': {
-    handler: getAll(User),
+    middleware: [allEntries(User)],
+    handler: dataPathToBody(),
   },
-  'GET /users/:_id': {
-    handler: getOneByKeyProp(User, '_id'),
+  'GET /user/:_id': {
+    middleware: [getById(User)],
+    handler: dataPathToBody(),
   },
   'POST /users': {
-    handler: updateByKeyProp(User, 'email'),
+    middleware: [createEntry(User)],
+    handler: dataPathToBody(),
   },
-  'DELETE /users/:_id': {
-    handler: deleteById(User),
+  'DELETE /user/:_id': {
+    middleware: [deleteById(User)],
+    handler: dataPathToBody(),
   },
 };

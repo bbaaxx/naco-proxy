@@ -11,10 +11,11 @@ export default class User extends Document {
       unique: true,
       required: true,
     };
-    this.password = {
-      type: String,
-      required: true,
-    };
+    // this.password = {
+    //   type: String,
+    //   required: true,
+    // };
+    this.secret = {};
 
     this.collections = [Collection];
   }
@@ -22,4 +23,7 @@ export default class User extends Document {
   static collectionName() {
     return 'users';
   }
+
+  preValidate() {}
+  preSave() {}
 }

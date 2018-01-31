@@ -15,24 +15,18 @@ import database from './database';
 const requiredEnvVars = ['APP_ID', 'NODE_ENV', 'PORT'];
 
 export default function() {
-  const _env = getEnv(requiredEnvVars);
-  const debug = _debug(_env.APP_ID);
+  const _env: { APP_ID: string, NODE_ENV: string, PORT: number } = getEnv(
+    requiredEnvVars,
+  );
 
   const app = new Koa();
 
+  const debug = _debug(_env.APP_ID);
   const router = configureRouter();
 
   if (_env.NODE_ENV === 'development') app.use(logger('development'));
 
-  // Expose services (debug, db, ...) to ctx
-  app.use(async (ctx, next) => {
-    ctx.debug = debug;
-    ctx.db = await database;
-    ctx.serializer = (type, opts) => new Serializer(type, opts);
-    await next();
-  });
-
-  // @see https://github.com/koajs/json-error
+  // error handling, @see https://github.com/koajs/json-error
   app.use(
     jsonError({
       postFormat: (_, errorObj) =>
@@ -41,6 +35,14 @@ export default function() {
           : errorObj,
     }),
   );
+
+  // Expose services (debug, db, ...) to ctx
+  app.use(async (ctx, next) => {
+    ctx.debug = debug;
+    ctx.db = await database;
+    ctx.serializer = (type, opts) => new Serializer(type, opts);
+    await next();
+  });
 
   // Do CORS
   app.use(kcors());
