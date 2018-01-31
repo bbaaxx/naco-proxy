@@ -92,12 +92,12 @@ export function updateById(
   statePath: string = 'data',
   options?: any = {},
 ) {
-  return updateByKeyProp(DataModel, '_id', statePath, options);
+  return updateByKeyProp(DataModel, '_id', statePath);
 }
 export function deleteById(
   DataModel: Document,
   statePath: string = 'data',
   options?: any = {},
 ) {
-  return deleteByKeyProp(DataModel, '_id', statePath, options);
+  return deleteByKeyProp(DataModel, '_id', statePath);
 }
