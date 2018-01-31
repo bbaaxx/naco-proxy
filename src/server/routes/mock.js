@@ -1,5 +1,6 @@
 // @flow
 import { Context } from 'koa';
+import Collection from '../datamodel/Collection';
 import Mock from '../datamodel/Mock';
 
 import {
@@ -11,9 +12,15 @@ import {
 
 import { dataPathToBody } from '../handler/crudHandler';
 
+const getDataPath = (dataPath, keyProp = 'data') => async (ctx, next) => {
+  const data = ctx.state[keyProp][dataPath];
+  ctx.state[keyProp] = data;
+  await next();
+};
+
 export default {
-  'GET /collection/:collectionId/mocks': {
-    middleware: [allEntries(Mock)],
+  'GET /collection/:_id/mocks': {
+    middleware: [getById(Collection), getDataPath('mocks')],
     handler: dataPathToBody(),
   },
   'GET /collection/:collectionId/mock/:_id': {
