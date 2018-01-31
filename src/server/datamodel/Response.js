@@ -1,6 +1,6 @@
-import { Document } from 'camo';
+import { EmbeddedDocument } from 'camo';
 
-export default class Response extends Document {
+export default class Response extends EmbeddedDocument {
   constructor() {
     super();
 

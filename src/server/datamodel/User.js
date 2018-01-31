@@ -48,7 +48,14 @@ export default class User extends Document {
   }
 
   preDelete() {
-    const userSecret = UserSecret.findOne(this.secret);
-    return userSecret.delete();
+    let deletes = [this.secret.delete()];
+    this.collections.forEach(mock => {
+      deletes.push(
+        new Promise(resolve => {
+          resolve(mock.delete());
+        }),
+      );
+    });
+    return Promise.all(deletes);
   }
 }

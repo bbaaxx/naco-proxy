@@ -18,7 +18,6 @@ export function createEntry(DataModel: Document, statePath: string = 'data') {
   return async (ctx: Context, next: () => mixed) => {
     const newEntry = DataModel.create(ctx.request.body);
     const saveResult = await newEntry.save();
-    console.log('saveResult', saveResult);
     ctx.state[statePath] = saveResult;
     await next();
   };
@@ -64,9 +63,10 @@ export function deleteByKeyProp(
 ) {
   return async (ctx: Context, next: () => mixed) => {
     const queryValue = ctx.params[keyProp];
-    ctx.state[statePath] = await DataModel.findOneAndDelete({
+    const entryToDelete = await DataModel.findOne({
       [keyProp]: queryValue,
     });
+    ctx.state[statePath] = await entryToDelete.delete();
     await next();
   };
 }

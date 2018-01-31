@@ -21,4 +21,15 @@ export default class Collection extends Document {
     return 'collections';
   }
 
+  preDelete() {
+    let deletes = [];
+    this.mocks.forEach(mock => {
+      deletes.push(
+        new Promise(resolve => {
+          resolve(mock.delete());
+        }),
+      );
+    });
+    return Promise.all(deletes);
+  }
 }

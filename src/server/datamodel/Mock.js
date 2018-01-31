@@ -1,6 +1,7 @@
 import { Document } from 'camo';
 import Request from './Request';
 import Response from './Response';
+import Collection from './Collection';
 
 export default class Mock extends Document {
   constructor() {
@@ -9,10 +10,14 @@ export default class Mock extends Document {
     this.name = String;
     this.description = String;
 
-    this.uriPath = String;
+    this.uriPath = {
+      type: String,
+      unique: true,
+    };
 
-    this.requests = [Request];
-    this.responses = [Response];
+    this.response = Response;
+
+    this.collection = Collection;
   }
 
   static collectionName() {
