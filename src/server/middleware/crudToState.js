@@ -1,6 +1,7 @@
 // @flow
 import { Context } from 'koa';
 import { Document } from 'camo';
+import crud from '../helper/crud';
 
 export function queryCollection(
   DataModel: Document,
