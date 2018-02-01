@@ -3,12 +3,7 @@ import { Context } from 'koa';
 import Collection from '../datamodel/Collection';
 import Mock from '../datamodel/Mock';
 
-import {
-  getById,
-  updateByKeyProp,
-  allEntries,
-  deleteById,
-} from '../middleware/crudToState';
+import { getById, allEntries, deleteById } from '../middleware/crudToState';
 
 import { dataPathToBody } from '../handler/crudHandler';
 
@@ -29,19 +24,19 @@ const addMock = async (ctx, next) => {
 };
 
 export default {
-  'GET /collection/:_id/mocks': {
+  'GET /collections/:_id/mocks': {
     middleware: [getById(Collection), pickDataPath('mocks')],
     handler: dataPathToBody(),
   },
-  'GET /collection/:collectionId/mock/:_id': {
+  'GET /collections/:collectionId/mocks/:_id': {
     middleware: [getById(Mock)],
     handler: dataPathToBody(),
   },
-  'POST /collection/:_id/mocks': {
+  'POST /collections/:_id/mocks': {
     middleware: [getById(Collection), addMock],
     handler: dataPathToBody(),
   },
-  'DELETE /collection/:collectionId/mocks/:_id': {
+  'DELETE /collections/:collectionId/mocks/:_id': {
     middleware: [deleteById(Mock)],
     handler: dataPathToBody(),
   },
