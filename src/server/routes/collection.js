@@ -6,7 +6,7 @@ import Collection from '../datamodel/Collection';
 import userToState from '../middleware/userToState';
 import {
   getById,
-  updateByKeyProp,
+  createEntry,
   allEntries,
   deleteById,
 } from '../middleware/crudToState';
@@ -30,7 +30,7 @@ export default {
     middleware: [userToState(), allEntries(Collection)],
     handler: dataPathToBody(),
   },
-  'GET /collection/:_id': {
+  'GET /collections/:_id': {
     middleware: [userToState(), getById(Collection)],
     handler: dataPathToBody(),
   },
@@ -39,11 +39,11 @@ export default {
       userToState(),
       setUserId,
       appendAccessKey,
-      updateByKeyProp(Collection, 'accessKey'),
+      createEntry(Collection),
     ],
     handler: dataPathToBody(),
   },
-  'DELETE /collection/:_id': {
+  'DELETE /collections/:_id': {
     middleware: [userToState(), deleteById(Collection)],
     handler: dataPathToBody(),
   },
