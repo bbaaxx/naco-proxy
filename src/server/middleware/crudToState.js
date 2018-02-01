@@ -2,6 +2,7 @@
 import { Context } from 'koa';
 import { Document } from 'camo';
 import * as crud from '../helper/crud';
+import { pickPaths } from '../helper/state';
 
 export function createEntry(DataModel: Document, statePath: string = 'data') {
   return async (ctx: Context, next: () => Promise<any>) => {
@@ -70,11 +71,21 @@ export function deleteByKeyProp(
   };
 }
 
+export const pushChildToParent = (
+  childPath: string,
+  parentPath: string,
+  parentPropPath: string,
+) => async (ctx: Context, next: () => Promise<any>) => {
+  const [Child, Parent] = pickPaths(ctx, childPath, parentPath);
+  await crud.pushToParentProp(Child, Parent, parentPropPath);
+  await next();
+};
+
 // Sugar
 export function allEntries(
   DataModel: Document,
   statePath: string = 'data',
-  options?: { populate?: boolean } = {},
+  options?: any,
 ) {
   return queryCollection(DataModel, {}, statePath, options);
 }

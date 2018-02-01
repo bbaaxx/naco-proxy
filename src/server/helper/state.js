@@ -7,3 +7,5 @@ export const mapStateArrayProp = (prop, f) => async (ctx, next) => {
   }
   await next();
 };
+
+export const pickPaths = (ctx, ...paths) => paths.map(path => ctx.state[path]);

@@ -37,15 +37,17 @@ export default class User extends Document {
   }
 
   preSave() {
-    const userPassword = this.password;
     const me = this;
-    this.password = void 0;
-    return bcrypt
-      .hash(userPassword, 5)
-      .then(hash => UserSecret.create({ hash }).save())
-      .then(secret => {
-        me.secret = secret;
-      });
+    const userPassword = this.password;
+    if (userPassword) {
+      this.password = void 0;
+      return bcrypt
+        .hash(userPassword, 5)
+        .then(hash => UserSecret.create({ hash }).save())
+        .then(secret => {
+          me.secret = secret;
+        });
+    }
   }
 
   preDelete() {

@@ -61,3 +61,17 @@ export const deleteDocuments = async (
   const deletes = documents.map(document => document.delete());
   return await Promise.all(deletes);
 };
+
+// Utilities
+export const pushToParentProp = async (
+  Child: Document,
+  Parent: Document,
+  parentProp: string,
+) => {
+  if (Array.isArray(Parent[parentProp])) {
+    Parent[parentProp].push(Child._id);
+  } else {
+    Parent[parentProp] = Child._id;
+  }
+  return await Parent.save();
+};

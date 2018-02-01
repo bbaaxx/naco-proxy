@@ -24,7 +24,10 @@ export default {
 
   // R
   'GET /users': {
-    middleware: [allEntries(User, dataPath), stripSecretMiddleware],
+    middleware: [
+      allEntries(User, dataPath, { populate: false }),
+      stripSecretMiddleware,
+    ],
     handler: dataPathToBody(dataPath),
   },
   'GET /users/:_id': {

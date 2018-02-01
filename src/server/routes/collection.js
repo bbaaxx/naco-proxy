@@ -1,6 +1,7 @@
 // @flow
 import { Context } from 'koa';
 import { generate as genKey } from 'shortid';
+import { Document } from 'camo'; // remove this
 
 import Collection from '../datamodel/Collection';
 import userToState from '../middleware/userToState';
@@ -9,11 +10,15 @@ import {
   createEntry,
   allEntries,
   deleteById,
+  pushChildToParent,
 } from '../middleware/crudToState';
 
 import { dataPathToBody } from '../handler/crudHandler';
 
-import mockRoutes from './mock';
+import mocksRoutes from './mock';
+
+const collectionPath = 'collection';
+const userPath = 'user';
 
 const appendAccessKey = async (ctx, next) => {
   ctx.request.body.accessKey = genKey();
@@ -36,20 +41,20 @@ export default {
   },
   'POST /collections': {
     middleware: [
-      userToState(),
+      userToState(userPath),
       setUserId,
       appendAccessKey,
-      createEntry(Collection),
+      createEntry(Collection, collectionPath),
+      pushChildToParent(collectionPath, userPath, 'collections'),
     ],
-    handler: dataPathToBody(),
+    handler: dataPathToBody(collectionPath),
   },
   'DELETE /collections/:_id': {
-    middleware: [userToState(), deleteById(Collection)],
+    middleware: [deleteById(Collection)],
     handler: dataPathToBody(),
   },
-  'DELETE /collections': {
+  'DELETE /collections/wipe': {
     middleware: [
-      userToState(),
       async (ctx, next) => {
         ctx.state.data = await Collection.deleteMany({});
         await next();
@@ -59,5 +64,5 @@ export default {
   },
 
   // add child routes
-  ...mockRoutes,
+  ...mocksRoutes,
 };
