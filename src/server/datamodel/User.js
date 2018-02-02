@@ -1,5 +1,5 @@
 import { Document, EmbeddedDocument } from 'camo';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import Collection from './Collection';
 
 class UserSecret extends Document {
@@ -18,17 +18,14 @@ class UserSecret extends Document {
 export default class User extends Document {
   constructor() {
     super();
-
     this.nickname = String;
     this.email = {
       type: String,
       unique: true,
       required: true,
     };
-
     this.password = String;
     this.secret = UserSecret;
-
     this.collections = [Collection];
   }
 
@@ -52,9 +49,7 @@ export default class User extends Document {
 
   preDelete() {
     let cleanup = [];
-
     if (this.secret) cleanup.push(this.secret.delete());
-
     this.collections.forEach(mock => {
       cleanup.push(
         new Promise(resolve => {
