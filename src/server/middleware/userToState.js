@@ -1,6 +1,7 @@
 // @flow
 import { Context } from 'koa';
 import User from '../datamodel/User';
+import { issueUserToken } from '../helper/auth';
 
 export default (statePath: string = 'user') => async (
   ctx: Context,
@@ -36,4 +37,13 @@ export async function stripSecretMiddleware(
   if (ctx.state) arrayOrObj(ctx.state, stripSecrets);
   await next();
   if (ctx.body) arrayOrObj(ctx.body, stripSecrets);
+}
+
+export async function issueUserTokenMiddleware(
+  ctx: Context,
+  next: () => Promise<any>,
+) {
+  const token = issueUserToken({ _id: ctx.state.user._id });
+  await next();
+  ctx.body = { auth: true, token };
 }

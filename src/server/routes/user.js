@@ -10,8 +10,11 @@ import {
 } from '../middleware/crudToState';
 
 import { dataPathToBody } from '../handler/crudHandler';
+import {
+  stripSecretMiddleware,
+  issueUserTokenMiddleware,
+} from '../middleware/userToState';
 import { mapStateArrayProp } from '../helper/state';
-import { stripSecretMiddleware } from '../middleware/userToState';
 
 const dataPath = 'user';
 
@@ -19,6 +22,10 @@ export default {
   // C
   'POST /users': {
     middleware: [createEntry(User, dataPath), stripSecretMiddleware],
+    handler: dataPathToBody(dataPath),
+  },
+  'POST /register': {
+    middleware: [createEntry(User, dataPath), issueUserTokenMiddleware],
     handler: dataPathToBody(dataPath),
   },
 
@@ -31,7 +38,11 @@ export default {
     handler: dataPathToBody(dataPath),
   },
   'GET /users/:_id': {
-    middleware: [getById(User, dataPath), stripSecretMiddleware],
+    middleware: [
+      getById(User, dataPath),
+      issueUserTokenMiddleware,
+      stripSecretMiddleware,
+    ],
     handler: dataPathToBody(dataPath),
   },
 

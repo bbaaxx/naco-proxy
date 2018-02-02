@@ -18,5 +18,5 @@ export function getVar(key: string): { [key: string]: string } {
   return { [key]: env[key] };
 }
 
-export default (vars: string[] = []) =>
+export default (vars: string[] = []): any =>
   vars.map(getRequiredVar).reduce((acc, ev) => ({ ...acc, ...ev }), { ...env });
