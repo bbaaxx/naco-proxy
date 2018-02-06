@@ -57,6 +57,7 @@ export default class User extends Document {
         }),
       );
     });
+    this.collections = [];
     return Promise.all(cleanup);
   }
 }
