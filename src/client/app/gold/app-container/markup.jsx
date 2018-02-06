@@ -24,7 +24,6 @@ export default function([
       <div className="topNavMenuContainer">{topNavMenu}</div>
       {mainContent}
       {asideContent}
-      <hr />
       <wc-canvas
         className="fullBg"
         attrs={{
