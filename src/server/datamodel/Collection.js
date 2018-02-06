@@ -26,10 +26,11 @@ export default class Collection extends Document {
 
   preDelete() {
     let deletes = [];
-    this.mocks.forEach(mock => {
-      deletes.push(
+    this.mocks.forEach(entry => {
+      if (!entry || typeof entry.delete !== 'function') return;
+      cleanup.push(
         new Promise(resolve => {
-          resolve(mock.delete());
+          resolve(entry.delete());
         }),
       );
     });

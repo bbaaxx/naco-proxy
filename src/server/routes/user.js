@@ -2,48 +2,53 @@
 import { Context } from 'koa';
 import User from '../datamodel/User';
 
+import { dataPathToBody } from '../handler/crudHandler';
 import {
   getById,
   createEntry,
   allEntries,
   deleteById,
 } from '../middleware/crudToState';
-
-import { dataPathToBody } from '../handler/crudHandler';
 import {
   stripSecretMiddleware,
   issueUserTokenMiddleware,
+  pickCredentialsFromBody,
+  logUserIn,
 } from '../middleware/userToState';
 import { mapStateArrayProp } from '../helper/state';
 
-const dataPath = 'user';
+const statePath = 'user';
 
 export default {
   // C
   'POST /users': {
-    middleware: [createEntry(User, dataPath), stripSecretMiddleware],
-    handler: dataPathToBody(dataPath),
+    middleware: [createEntry(User, statePath), stripSecretMiddleware()],
+    handler: dataPathToBody(statePath),
   },
   'POST /register': {
-    middleware: [createEntry(User, dataPath), issueUserTokenMiddleware],
-    handler: dataPathToBody(dataPath),
+    middleware: [
+      createEntry(User, statePath),
+      issueUserTokenMiddleware(statePath),
+    ],
+    handler: dataPathToBody(statePath),
+  },
+  'POST /login': {
+    middleware: [
+      pickCredentialsFromBody(statePath),
+      logUserIn(statePath),
+      issueUserTokenMiddleware(statePath),
+    ],
+    handler: dataPathToBody(statePath),
   },
 
   // R
   'GET /users': {
-    middleware: [
-      allEntries(User, dataPath, { populate: false }),
-      stripSecretMiddleware,
-    ],
-    handler: dataPathToBody(dataPath),
+    middleware: [allEntries(User, statePath), stripSecretMiddleware()],
+    handler: dataPathToBody(statePath),
   },
   'GET /users/:_id': {
-    middleware: [
-      getById(User, dataPath),
-      issueUserTokenMiddleware,
-      stripSecretMiddleware,
-    ],
-    handler: dataPathToBody(dataPath),
+    middleware: [getById(User, statePath), stripSecretMiddleware()],
+    handler: dataPathToBody(statePath),
   },
 
   // U ?
@@ -51,7 +56,7 @@ export default {
 
   // D
   'DELETE /users/:_id': {
-    middleware: [deleteById(User, dataPath)],
-    handler: dataPathToBody(dataPath),
+    middleware: [deleteById(User, statePath)],
+    handler: dataPathToBody(statePath),
   },
 };
