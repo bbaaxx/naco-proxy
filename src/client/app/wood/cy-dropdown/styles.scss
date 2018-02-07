@@ -1,0 +1,21 @@
+.cyDropdown{
+	color: black;
+	background-color: white;
+	border: 2px solid black;
+	font-weight: bold;
+	height: 45px;
+	border-radius: 5px;
+	margin-right: 1%;
+	width: 100%;
+}
+
+.cyDropdown option{
+	font-size: 1.1em;
+	line-height: 500px;
+}
+
+@media only screen and (min-width: 450px) {
+    .cyDropdown{
+        width: 20%;
+    }
+}

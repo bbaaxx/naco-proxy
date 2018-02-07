@@ -1,10 +1,24 @@
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "node": true
+    [
+      "env", {
+        "targets": {
+          "node": true
+        }
       }
-    }]
+    ],
+    "flow"
   ],
-  "plugins": ["transform-object-rest-spread"]
+  "plugins": [
+    "transform-flow-comments",
+    "transform-object-rest-spread",
+    "transform-class-properties",
+    "transform-custom-element-classes",
+    "syntax-jsx", ["babel-plugin-transform-builtin-classes", {
+      "globals": ["Array", "Error", "HTMLElement"]
+    }],
+    ["transform-react-jsx", {
+      "pragma": "Snabbdom.createElement"
+    }]
+  ]
 }

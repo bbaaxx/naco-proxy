@@ -1,26 +1,24 @@
-import dotenv from 'dotenv';
-import configureApp from './config/app';
+// @flow
 import bindSocket from './sockets';
+import configureApp from './config/app';
+import { getVar } from './config/getEnv';
 
-if (dotenv && typeof dotenv.config === 'function') dotenv.config();
+const { PORT } = getVar('PORT');
+const { NODE_ENV } = getVar('NODE_ENV');
 
-const { FAVICON, PORT, NODE_ENV, APP_ID } = process.env;
+const app = configureApp();
 
-const app = configureApp({
-  favicon: FAVICON,
-  env: NODE_ENV,
-  appId: APP_ID,
-});
-
-const server = app.listen(PORT || 3000, () => {
+const server = app.listen(PORT, () => {
   let addr;
+  let message;
   try {
     addr = server.address();
     bindSocket(server);
+    message = `🚧 Server started at ${addr.address}:${addr.port} 🚧`;
   } catch (err) {
-    console.error(err);
+    message = err.message;
   } finally {
-    console.log(`🚧 Koa server started at ${addr.address}:${addr.port} 🚧`);
+    console.log(message);
   }
 });
 

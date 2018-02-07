@@ -1,5 +1,4 @@
 import Koa from 'koa';
-import path from 'path';
 import kcors from 'kcors';
 import _debug from 'debug';
 import logger from 'koa-logger';
@@ -11,44 +10,55 @@ import { Serializer } from 'jsonapi-serializer';
 
 import getEnv from './getEnv';
 import configureRouter from './router';
+import database from './database';
 
-const requiredEnvVars = ['APP_ID', 'FAVICON', 'NODE_ENV', 'PORT'];
+const requiredEnvVars = ['APP_ID', 'NODE_ENV', 'PORT'];
 
-export default function(options) {
-  const _env = getEnv(requiredEnvVars);
-  const debug = _debug(_env.APP_ID);
+export default function() {
+  const _env: { APP_ID: string, NODE_ENV: string, PORT: number } = getEnv(
+    requiredEnvVars,
+  );
+
   const app = new Koa();
 
+  const debug = _debug(_env.APP_ID);
   const router = configureRouter();
+
   if (_env.NODE_ENV === 'development') app.use(logger('development'));
 
-  // Expose debug() to ctx
-  app.use(async (ctx, next) => {
-    ctx.debug = debug;
-    await next();
-  });
-
-  // Expose JSONAPISerializer to ctx
-  app.use(async (ctx, next) => {
-    ctx.serializer = (type, opts) => new Serializer(type, opts);
-    await next();
-  });
-
-  // @see https://github.com/koajs/json-error
+  // error handling, @see https://github.com/koajs/json-error
   app.use(
     jsonError({
       postFormat: (_, errorObj) =>
         _env.NODE_ENV === 'production'
-          ? { ...errorObj, stack: 'stack is stripped off for production' }
+          ? { ...errorObj, stack: 'stripped off for production' }
           : errorObj,
     }),
   );
 
+  // Expose services (debug, db, ...) to ctx
+  app.use(async (ctx, next) => {
+    ctx.debug = debug;
+    ctx.db = await database;
+    ctx.serializer = (type, opts) => new Serializer(type, opts);
+    await next();
+  });
+
+  // Do CORS
   app.use(kcors());
-  app.use(helmet());
+
+  // Do safe headers
+  // app.use(helmet());
+
+  // Parse the body
   app.use(bodyParser());
-  app.use(favicon(_env.FAVICON));
-  app.use((ctx, next) => next());
+
+  // Serve a favicon if available
+  if (_env.FAVICON !== void 0) {
+    app.use(favicon(_env.FAVICON));
+  }
+
+  // route the routes
   app.use(router.middleware());
 
   return app;

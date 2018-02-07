@@ -1,0 +1,39 @@
+.form-control{
+	background-color: #b9ffa8;
+	border-radius: 10px;
+	margin: auto;
+	margin-top: 10px;
+}
+
+@media only screen and (min-width: 600px) {
+    .form-control{
+        width: 90%;
+    }
+}
+@media only screen and (min-width: 800px) {
+    .form-control{
+        width: 80%;
+    }
+}
+
+.meth-uri{
+	width: 96%;
+	padding-top: 25px;
+	margin: auto;
+}
+
+.codeField{
+	width: 95%;
+	border: 2px solid black;
+	border-radius: 5px;
+	padding-top: 25px;
+	margin: auto;
+}
+
+.buttons{
+	text-align: center;
+	width: auto;
+	//height: 80px;
+	padding: 25px 0px;
+	margin: auto;
+}

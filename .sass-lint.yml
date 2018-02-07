@@ -1,0 +1,18 @@
+scss_files: 'src/**/*.scss'
+options:
+  formatter: stylish
+exclude: 'node_modules'
+rules:
+  class-name-format:
+    convention: camelcase
+  leading-zero:
+    include: true
+
+linters:
+  BorderZero:
+    enabled: false
+
+  Indentation:
+    exclude:
+    severity: warning
+    width: 2

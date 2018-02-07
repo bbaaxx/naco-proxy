@@ -1,0 +1,39 @@
+// sass-lint:disable-all
+
+$preferred_font: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
+$performance_font: 'Helvetica', 'Arial', sans-serif !default;
+
+@import '~material-design-lite/src/color-definitions';
+
+$trim-color-classes: true !default;
+
+$color-primary: $palette-purple-700 !default;
+$color-secondary: $palette-deep-orange-400 !default;
+$color-primary-dark: $palette-orange-700 !default;
+$color-accent: $palette-red-A200;
+
+$color-primary-contrast: $color-dark-contrast !default;
+$color-accent-contrast: $color-dark-contrast !default;
+
+
+@import '~material-design-lite/src/variables';
+
+///////////////////////////////// Please forgive me future me
+
+body {
+  background-color: #fdffff;
+}
+
+.console-wrap {
+  position: fixed;
+  width: 100%;
+  padding: .5em;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.5);
+  color: #fff;
+  z-index: 9999;
+  &:hover {
+    opacity: .2;
+  }
+}

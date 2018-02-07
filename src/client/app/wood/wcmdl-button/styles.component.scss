@@ -1,0 +1,19 @@
+@import '../../../styles/theme';
+@import '~material-design-lite/src/ripple/ripple';
+@import '~material-design-lite/src/button/button';
+
+:host {
+  display: inline-block;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.wcmdl-button {
+  width: var(--wcmdl-button-width);
+  height: var(--wcmdl-button-height);
+  color: #666;
+  margin: 0px 20px;
+  padding: 0px;
+}

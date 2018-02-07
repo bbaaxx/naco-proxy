@@ -1,0 +1,75 @@
+@import '~roboto-fontface/css/roboto/sass/roboto-fontface';
+
+$font-dark: rgba(0, 0, 0, .54);
+$font-dark-invert: rgba(255, 255, 255, 1);
+$font-inactive: rgba(0, 0, 0, .26);
+$font-inactive-invert: rgba(255, 255, 255, .3);
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('~material-design-icons/iconfont/MaterialIcons-Regular.eot'),
+  local('Material Icons'), local('MaterialIcons-Regular'),
+  url('~material-design-icons/iconfont/MaterialIcons-Regular.woff2')
+  format('woff2'),
+  url('~material-design-icons/iconfont/MaterialIcons-Regular.woff')
+  format('woff'),
+  url('~material-design-icons/iconfont/MaterialIcons-Regular.ttf')
+  format('truetype');
+}
+
+.material-icons {
+  // -moz-font-smoothing: grayscale;
+  // -webkit-font-smoothing: antialiased;
+  direction: ltr;
+  display: inline-block;
+  font-family: 'Material Icons';
+  font-feature-settings: 'liga';
+  font-size: 24px;
+  font-style: normal;
+  font-weight: normal;
+  height: 1em;
+  letter-spacing: normal;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 1em;
+  word-wrap: normal;
+
+  .md-18 {
+    font-size: 18px;
+  }
+
+  .md-24 {
+    font-size: 24px;
+  }
+
+  .md-36 {
+    font-size: 36px;
+  }
+
+  .md-48 {
+    font-size: 48px;
+  }
+
+  .md-dark {
+    color: $font-dark;
+
+    .md-inactive {
+      color: $font-inactive;
+    }
+  }
+
+  // Rules for using icons as white on a dark background.
+  .md-light {
+    color: $font-dark-invert;
+
+    .md-inactive {
+      color: $font-inactive-invert;
+    }
+  }
+
+}

@@ -1,0 +1,22 @@
+.cyInput{
+	border: 1px solid #aaa;
+    background-color: white;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.inputLarge{
+	border: 2px solid black;
+	font-weight: bold;
+	border-radius: 5px;
+	height: 40px;
+  width: 99%;
+	margin-top: 5px;
+}
+
+@media only screen and (min-width: 450px) {
+    .inputLarge{
+        width: 78%;
+				margin-top: 0px;
+    }
+}
