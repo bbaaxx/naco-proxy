@@ -1,16 +1,16 @@
-FROM node:boron
+FROM node:9
 
 # install node
-RUN apt-get update && apt-get install -y -qq ocaml libelf-dev && apt-get clean
+RUN apt-get update && apt-get install -y -qq ocaml git curl libelf-dev && apt-get clean
 
 # Add our files
 WORKDIR /src
 ADD . .
 
 # Then install npm deps
-RUN yarn
+RUN npm install
 
 # Expose server port
-EXPOSE 3010
+EXPOSE 3838
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
