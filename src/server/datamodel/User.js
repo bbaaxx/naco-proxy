@@ -52,6 +52,7 @@ export default class User extends Document {
     if (this.secret) cleanup.push(this.secret.delete());
     this.collections.forEach(entry => {
       if (!entry || typeof entry.delete !== 'function') return;
+      console.log(entry);
       cleanup.push(
         new Promise(resolve => {
           resolve(entry.delete());

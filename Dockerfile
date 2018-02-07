@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:9
 
 # install node
 RUN apt-get update && apt-get install -y -qq ocaml git curl libelf-dev && apt-get clean
